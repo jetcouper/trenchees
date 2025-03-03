@@ -1,6 +1,7 @@
 import tkinter as tk
 #Ajout pour voir les abilities dans le répertoire
 import os
+import json
 import math
 
 class Vue():
@@ -27,12 +28,21 @@ class Tour():
         self.angle = angle
 
     
-    def init_tower(self, f='main'):
+    def set_abilities(self, f='main'):
         for file in os.listdir("abilities"):
             filename = os.path.splitext(file)
-            # if(filename[0] = f):
-                # print("fichier trouvé : ")
-                # pass
+            if(filename[0] == f):
+                print(f'fichier trouvé : '+filename[0])
+                with open(os.path.join("abilities", file), "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    self.damage = data["damage"]
+                    self.vitesse = data["vitesse"]
+                    self.cooldown_time = data["cooldown"]
+                    self.rayon = data["rayon"]
+                    self.type = data["type"]
+
+        
+        
         
         
     def tire(self, ennemis):

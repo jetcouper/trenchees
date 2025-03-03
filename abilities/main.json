@@ -1,10 +1,12 @@
 {
     "id": "main",
+    "type": "basic",
     "name" : "Tour de base",
     "description" : "Aptitude de base pour toutes les Tours",
     "parent" : null,
-    "degats" : 20,
+    "damage" : 20,
     "cooldown" : 300,
     "vitesse" : 5,
     "rayon" : 10
+
 }
