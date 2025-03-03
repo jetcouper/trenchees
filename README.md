@@ -29,9 +29,16 @@ This document outlines the coding standards for our Python project. Following th
 - Ensure your code is clean, readable, and well-documented.
 
 ## Branching Strategy
-- Each sprint item should be developed in its own branch.
-- Branch names should follow the pattern: `/feature/name-of-feature`
-  - Example: `/feature/user-authentication`
-- This helps maintain a clear workflow and simplifies code reviews and integration.
+- **Base Branch:** Always create new branches from the `dev` branch.
+- **Branch Naming:** Each sprint item should be developed in its own branch using the pattern: `/feature/name-of-feature`  
+  - *Example:* `/feature/user-authentication`
+- **Pull Requests:** When a feature is ready, open a pull request targeting the `dev` branch for integration.
+  - This ensures all new features are reviewed and tested before being merged into the development stream.
+
+## Best Practices
+- Follow the [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guide.
+- Keep functions and classes focused on a single task.
+- Use virtual environments to manage project dependencies.
+- Ensure your code is clean, readable, and well-documented.
 
 Happy coding!
