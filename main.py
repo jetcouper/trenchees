@@ -1,4 +1,6 @@
 import tkinter as tk
+#Ajout pour voir les abilities dans le répertoire
+import os
 
 class Vue():
     def __init__(self, controleur, largeur, hauteur):
@@ -18,14 +20,29 @@ class Tour():
     def __init__(self,posX, posY):
         self.x = posX
         self.y = posY
-        self.vitesse = 1
-        self.damage = 1
-        self.rayon = 10
-        self.cooldown = 100
+        self.vitesse = 0
+        self.damage = 0
+        self.rayon = 0
+        self.cooldown = 0
         self.angle = 0
+    
+    def init_tower(self, f='main'):
+        for file in os.listdir("abilities"):
+            filename = os.path.splitext(file)
+            # if(filename[0] = f):
+                # print("fichier trouvé : ")
+                # pass
+        
         
     def tirer(self):
-        self.angle = Modele.valider_tirs() ## Remplacer par le fonction qui tir dans la classe Projectile
+        self.angle = Modele.valider_tirs() ## Remplacer par le fonction qui tir dans la classe Modele
+    
+    def avaible_upgrade(self):
+        pass
+    
+    def upgrade(self):
+        pass
+        
 
 
 class Modele():
