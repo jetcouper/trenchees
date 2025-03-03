@@ -11,11 +11,30 @@ class Vue():
         self.cadrePrincipal.grid(column=0, row=0)
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="white")
         self.canevas.pack()
+        
+
+        
+class Tour():
+    def __init__(self,posX, posY):
+        self.x = posX
+        self.y = posY
+        self.vitesse = 1
+        self.damage = 1
+        self.rayon = 10
+        self.cooldown = 100
+        self.angle = 0
+        
+    def tirer(self):
+        self.angle = Modele.valider_tirs() ## Remplacer par le fonction qui tir dans la classe Projectile
+
 
 class Modele():
     def __init__(self, largeur, hauteur):
         self.largeur = largeur
         self.hauteur = hauteur
+        
+    def valider_tirs():
+        pass
 
 class Controleur():
     def __init__(self):     
