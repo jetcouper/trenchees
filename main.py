@@ -1,4 +1,6 @@
 import tkinter as tk
+#Ajout pour voir les abilities dans le répertoire
+import os
 import math
 
 class Vue():
@@ -14,35 +16,37 @@ class Vue():
         self.canevas.pack()
         
 class Tour():
-    def __init__(self,posX, posY):
+    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0):
         self.x = posX
         self.y = posY
-        self.vitesse = 1
-        self.damage = 1
-        self.rayon = 10
-        self.cooldown = 100
-        self.angle = 0
-        
-    def tirer(self):
-        self.angle = Modele.valider_tirs() ## Remplacer par le fonction qui tir dans la classe Projectile
-
-
-class Tour():
-    def __init__(self, x, y, vitesse, damage, rayon, cooldown_time, on_cooldown, angle):
-        self.x = x
-        self.y = y
         self.vitesse = vitesse
         self.damage = damage
         self.rayon = rayon
         self.cooldown_time = cooldown_time # 1 secondes
         self.on_cooldown = on_cooldown # false
         self.angle = angle
+
+    
+    def init_tower(self, f='main'):
+        for file in os.listdir("abilities"):
+            filename = os.path.splitext(file)
+            # if(filename[0] = f):
+                # print("fichier trouvé : ")
+                # pass
+        
         
     def tire(self, ennemis):
         for ennemi in ennemis:
             distance = math.sqrt(abs(ennemi.x - self.x) * abs(ennemi.x - self.x) + abs(ennemi.y - self.y) * abs(ennemi.y - self.y))
             if distance <= self.rayon:
                 print(distance)
+    
+    def avaible_upgrade(self):
+        pass
+    
+    def upgrade(self):
+        pass
+        
             
         
 class Ennemi():
@@ -65,7 +69,7 @@ class Modele():
         self.projectiles = []
         self.tours = []
         self.ennemis = []
-        e = Ennemi(20, 250)
+        e = Ennemi(20, 25)
         t = Tour(20, 20, 1, 5, 20, 5000, False, 0)
         self.tours.append(t)
         self.ennemis.append(e)
