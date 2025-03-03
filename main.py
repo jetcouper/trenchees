@@ -26,7 +26,6 @@ class Tour():
         self.on_cooldown = on_cooldown # false
         self.angle = angle
 
-    
     def init_tower(self, f='main'):
         for file in os.listdir("abilities"):
             filename = os.path.splitext(file)
@@ -36,10 +35,16 @@ class Tour():
         
         
     def tire(self, ennemis):
-        for ennemi in ennemis:
-            distance = math.sqrt(abs(ennemi.x - self.x) * abs(ennemi.x - self.x) + abs(ennemi.y - self.y) * abs(ennemi.y - self.y))
-            if distance <= self.rayon:
-                print(distance)
+        # passer ici le 
+        if not self.on_cooldown:
+            for ennemi in ennemis: # tire en fonction de qui est dans le rayon et le premier dans la liste
+                distance = math.sqrt(abs(ennemi.x - self.x) * abs(ennemi.x - self.x) + abs(ennemi.y - self.y) * abs(ennemi.y - self.y))
+                if distance <= self.rayon:
+                    self.on_cooldown = True
+                    return [ennemi, self]
+                else:
+                    return None
+            return None
     
     def avaible_upgrade(self):
         pass
@@ -55,12 +60,14 @@ class Ennemi():
         self.y = y
 
 class Projectiles():
-    def __init__(self, tour):
+    def __init__(self, tour, ennemi):
         self.x = tour.x
         self.y = tour.y
         self.vitesse = tour.vitesse
         self.damage = tour.damage
         self.angle = tour.angle
+        self.cible_x = ennemi.x
+        self.cible_y = ennemi.y
 
 class Modele():
     def __init__(self, largeur, hauteur):
@@ -69,15 +76,37 @@ class Modele():
         self.projectiles = []
         self.tours = []
         self.ennemis = []
-        e = Ennemi(20, 25)
-        t = Tour(20, 20, 1, 5, 20, 5000, False, 0)
+        e = Ennemi(150, 55)
+        e1 = Ennemi(50, 45)
+        t = Tour(20, 20, 0.1, 5, 300, 5000, False, 0)
         self.tours.append(t)
         self.ennemis.append(e)
-        
+        self.ennemis.append(e1)
+    
     def valider_tirs(self):
         for tour in self.tours:
-            tour.tire(self.ennemis)
+            tirs = tour.tire(self.ennemis) # le tirs contient lobject ennemi sur lequel il tir et la tour qui tir le projectile
+            if tirs:
+                self.creer_projectile(tirs)
+    
+    def creer_projectile(self, tirs):
+        p = Projectiles(tirs[1], tirs[0])
+        self.projectiles.append(p)
+        
+    def mouvement_projectiles(self):
+        for projectile in self.projectiles:
+            if projectile.cible_x >= projectile.x:
+                projectile.x += projectile.vitesse
+            else:
+                projectile.x -= projectile.vitesse
+                
+            if projectile.cible_y >= projectile.y:
+                projectile.y += projectile.vitesse
+            else:
+                projectile.y -= projectile.vitesse
             
+            # delete le projectile si y touch et gerer la logique de damage ici et tout
+            print(projectile.x, projectile.y) 
             
 
 class Controleur():
@@ -88,7 +117,9 @@ class Controleur():
         
     def loop_jeu(self):
         self.modele.valider_tirs()
+        self.modele.mouvement_projectiles()
         self.vue.root.after(16, self.loop_jeu) # 16 pour 60 fps
+
         
     
 if __name__ == "__main__":
