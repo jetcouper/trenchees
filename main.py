@@ -17,20 +17,9 @@ class Modele():
     def __init__(self, largeur, hauteur):
         self.largeur = largeur
         self.hauteur = hauteur
-        
-class Ennemi: #chemin
+        self.liste_ennemis = []
     
-    def __init__(self, id, x, y, life, vitesse, path, index_path):
-        self.id = id
-        self.x = x
-        self.y = y
-        self.vitesse = vitesse
-        self.life = life
-        self.path = path
-        self.index_path = index_path
-        
-        # tous les paramètres seront initialisés via le fichier json de la carte 
-        
+    
     def apparition_ennemi(self, id, liste_ennemis, nbEnnemis, departX, departY, path, index_path):
         
         # création d'une liste pour générer les ennemis 
@@ -39,7 +28,6 @@ class Ennemi: #chemin
         # création d'une liste pour sauvegarder les positions des ennemis sur la carte 
         
         self.id = id; 
-        self.liste_ennemis = []
         self.departX = departX
         self.departY = departY
         self.ennemi = ennemi #1 individuel
@@ -53,6 +41,7 @@ class Ennemi: #chemin
             ennemi = Ennemi(id, liste_ennemis, i, departX, departY, path, 0) #self, id, liste_ennemis, nbEnnemis, departX, departY, path, index_path
             self.liste_ennemis.append(ennemi)
             time.sleep(1)
+            print("ennemi " + i)
        
     
     def mouvementEnnemis (self, ennemi, liste_ennemis, positionX, positionY, path, index_path, fin_path):
@@ -67,28 +56,21 @@ class Ennemi: #chemin
             
         if index_path > fin_path: # mort ou disparition des ennemis 
             # le joueur perd une vie 
-            liste_ennemis.pop(ennemi)
+            self.liste_ennemis.remove(ennemi)
+            
+        
+class Ennemi: #chemin
     
-    
-    
-           
-            
-            
+    def __init__(self, id, x, y, life, vitesse, path, index_path):
+        self.id = id
+        self.x = x
+        self.y = y
+        self.vitesse = vitesse
+        self.life = life
+        self.path = path
+        self.index_path = index_path
         
-        
-        
-            
-            
-           
-            
-        
-        
-        
-    
-                
-            
-           
-    
+        # tous les paramètres seront initialisés via le fichier json de la carte 
     
          
         
@@ -98,6 +80,7 @@ class Controleur():
         self.modele = Modele(600,600)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
         self.loop_jeu()
+        self.modele.apparition_ennemi(self, 1, 10, 14, 0, 0, 15, 0) 
         
     def loop_jeu(self):
         self.vue.root.after(16, self.loop_jeu) # 16 pour 60 fps
