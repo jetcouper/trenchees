@@ -52,15 +52,13 @@ class Tour():
     def upgrade(self):
         pass
         
-            
-        
 class Ennemi():
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
 class Projectiles():
-    def __init__(self, tour, ennemi):
+    def __init__(self, ennemi, tour):
         self.x = tour.x
         self.y = tour.y
         self.vitesse = tour.vitesse
@@ -68,6 +66,8 @@ class Projectiles():
         self.angle = tour.angle
         self.cible_x = ennemi.x
         self.cible_y = ennemi.y
+        self.ennemi = ennemi
+        self.type = "basic" # temporairement hardcoder on attend le type par la tour normalement.
 
 class Modele():
     def __init__(self, largeur, hauteur):
@@ -76,6 +76,8 @@ class Modele():
         self.projectiles = []
         self.tours = []
         self.ennemis = []
+        
+        ### Test ici ###
         e = Ennemi(150, 55)
         e1 = Ennemi(50, 45)
         t = Tour(20, 20, 0.1, 5, 300, 5000, False, 0)
@@ -85,25 +87,42 @@ class Modele():
     
     def valider_tirs(self):
         for tour in self.tours:
-            tirs = tour.tire(self.ennemis) # le tirs contient lobject ennemi sur lequel il tir et la tour qui tir le projectile
+            # Le tirs contient lobject ennemi sur lequel il tir et la tour qui tir le projectile
+            tirs = tour.tire(self.ennemis) # [ennemi, tour] 
             if tirs:
                 self.creer_projectile(tirs)
     
     def creer_projectile(self, tirs):
-        p = Projectiles(tirs[1], tirs[0])
+        p = Projectiles(tirs[0], tirs[1]) # [ennemi, tour] 
         self.projectiles.append(p)
         
     def mouvement_projectiles(self):
         for projectile in self.projectiles:
-            if projectile.cible_x >= projectile.x:
-                projectile.x += projectile.vitesse
-            else:
-                projectile.x -= projectile.vitesse
+            ### Methode pour chaque type de projectile
+            
+            # Pour missile de base ?
+            if projectile.type == "basic":
+                if projectile.cible_x >= projectile.x:
+                    projectile.x += projectile.vitesse
+                else:
+                    projectile.x -= projectile.vitesse
+                    
+                if projectile.cible_y >= projectile.y:
+                    projectile.y += projectile.vitesse
+                else:
+                    projectile.y -= projectile.vitesse
                 
-            if projectile.cible_y >= projectile.y:
-                projectile.y += projectile.vitesse
-            else:
-                projectile.y -= projectile.vitesse
+            # Pour missile qui suit
+            # if projectile.type == "following":
+            # if projectile.ennemi.x >= projectile.x:
+            #     projectile.x += projectile.vitesse
+            # else:
+            #     projectile.x -= projectile.vitesse
+                
+            # if projectile.ennemi.y >= projectile.y:
+            #     projectile.y += projectile.vitesse
+            # else:
+            #     projectile.y -= projectile.vitesse
             
             # delete le projectile si y touch et gerer la logique de damage ici et tout
             print(projectile.x, projectile.y) 
@@ -111,7 +130,7 @@ class Modele():
 
 class Controleur():
     def __init__(self):     
-        self.modele = Modele(600,600)
+        self.modele = Modele(60,60)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
         self.loop_jeu()
         
@@ -119,8 +138,6 @@ class Controleur():
         self.modele.valider_tirs()
         self.modele.mouvement_projectiles()
         self.vue.root.after(16, self.loop_jeu) # 16 pour 60 fps
-
-        
     
 if __name__ == "__main__":
     c = Controleur()
