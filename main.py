@@ -1,5 +1,5 @@
 import tkinter as tk
-import time
+import math
 
 class Vue():
     def __init__(self, controleur, largeur, hauteur):
@@ -28,15 +28,27 @@ class Tour():
 
 
 class Tour():
-    def __init__(self, x, y, vitesse, damage, rayon, cooldown, angle):
+    def __init__(self, x, y, vitesse, damage, rayon, cooldown_time, on_cooldown, angle):
         self.x = x
         self.y = y
         self.vitesse = vitesse
         self.damage = damage
         self.rayon = rayon
-        self.cooldown = cooldown
+        self.cooldown_time = cooldown_time # 1 secondes
+        self.on_cooldown = on_cooldown # false
         self.angle = angle
         
+    def tire(self, ennemis):
+        for ennemi in ennemis:
+            distance = math.sqrt(abs(ennemi.x - self.x) * abs(ennemi.x - self.x) + abs(ennemi.y - self.y) * abs(ennemi.y - self.y))
+            if distance <= self.rayon:
+                print(distance)
+            
+        
+class Ennemi():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 class Projectiles():
     def __init__(self, tour):
@@ -51,10 +63,18 @@ class Modele():
         self.largeur = largeur
         self.hauteur = hauteur
         self.projectiles = []
-        self.t = Tour(20, 20, 1, 5, 20, 5000, 0)
+        self.tours = []
+        self.ennemis = []
+        e = Ennemi(20, 250)
+        t = Tour(20, 20, 1, 5, 20, 5000, False, 0)
+        self.tours.append(t)
+        self.ennemis.append(e)
         
-    def valider_tirs():
-        pass
+    def valider_tirs(self):
+        for tour in self.tours:
+            tour.tire(self.ennemis)
+            
+            
 
 class Controleur():
     def __init__(self):     
@@ -63,8 +83,7 @@ class Controleur():
         self.loop_jeu()
         
     def loop_jeu(self):
-        time.sleep(1)
-        print(self.modele.t)
+        self.modele.valider_tirs()
         self.vue.root.after(16, self.loop_jeu) # 16 pour 60 fps
         
     
