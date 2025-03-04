@@ -45,7 +45,7 @@ class Modele():
                        2:[[300,500],[800,500]]}
     
  
-    def apparition_ennemi(self, nbEnnemis):
+    def apparition_ennemis(self, nbEnnemis):
         
         # création d'une liste pour générer les ennemis 
         # ou importation de la liste via le fichier json 
@@ -64,8 +64,9 @@ class Modele():
     def supprimer_ennemis(self, ennemi): #pour mettre à jour la position des ennemis en fct de leur déplacement
         self.liste_ennemis.remove(ennemi)
                  
+
 class Ennemi: #chemin
-    
+
     def __init__(self, id, x, y, taille, life, vitesse, path, index_path):
         self.id = id
         self.x = x
@@ -75,9 +76,9 @@ class Ennemi: #chemin
         self.life = life
         self.path = path
         self.index_path = index_path
-        
+    
         # tous les paramètres seront initialisés via le fichier json de la carte 
-       
+    
     def deplacer(self):
         if self.index_path < len(self.path): #tant que le chemin n'est pas complété
             destination_X, destination_Y = self.path[self.index_path] #on note la prochaine destination à atteindre
@@ -97,7 +98,6 @@ class Ennemi: #chemin
         #     self.y += step_y
         #     if abs(self.x - target_x) < 1 and abs(self.y - target_y) < 1:
         #         self.index_path += 1  # L'ennemi a atteint le point suivant du chemin
-        
         
         
     # def mouvementEnnemis (self, ennemi, liste_ennemis, positionX, positionY, path, index_path, fin_path):
@@ -129,8 +129,12 @@ class Controleur():
     def __init__(self):     
         self.modele = Modele(600,600)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
-        self.modele.bouger_ennemi()
-        self.modele.ennemi()
+        self.vue.dessiner_ennemi()
+        self.modele.apparition_ennemis()
+        self.modele.deplacer_ennemis()
+        self.modele.supprimer_ennemis()
+
+        
         self.loop_jeu()
         
         
