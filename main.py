@@ -40,9 +40,7 @@ class Modele():
         self.largeur = largeur
         self.hauteur = hauteur
         self.liste_ennemis = []
-        self.path = {0:[[0,100],[300,100]],
-                       1:[[300,100],[300,500]],
-                       2:[[300,500],[800,500]]}
+        self.path = [(0,0), (100, 200), (200, 500)]
     
  
     def apparition_ennemis(self, nbEnnemis):
@@ -54,7 +52,7 @@ class Modele():
         
         for i in range(nbEnnemis): #initialiser la boucle et création des ennemis 
             
-            ennemi = Ennemi(i, 0, 0, 10, 25, 2, self.path, 0) 
+            ennemi = Ennemi(0, 0, 10, 25, 2, self.path, 0) 
             self.liste_ennemis.append(ennemi)
 
     def deplacer_ennemis(self):
@@ -67,8 +65,7 @@ class Modele():
 
 class Ennemi: #chemin
 
-    def __init__(self, id, x, y, taille, life, vitesse, path, index_path):
-        self.id = id
+    def __init__(self, x, y, taille, life, vitesse, path, index_path):
         self.x = x
         self.y = y
         self.taille = taille
@@ -130,6 +127,7 @@ class Controleur():
         self.modele = Modele(600,600)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
         self.vue.dessiner_ennemi()
+        self.modele.ennemi()
         self.modele.apparition_ennemis()
         self.modele.deplacer_ennemis()
         self.modele.supprimer_ennemis()
