@@ -65,10 +65,30 @@ class Ennemi: #chemin
         self.index_path = index_path
     
     def deplacer(self):
+        
         if len(self.path) <= self.index_path:
             pass # on arrive a la fin du path ici
         else:
             print(self.path[self.index_path])
+            
+            
+            destination_X = self.path[self.index_path+1][0]
+            destination_Y = self.path[self.index_path+1][1]
+            
+            if self.x != destination_X and self.y != destination_Y:
+                
+                if self.x < destination_X:
+                    self.x += self.vitesse #déplace droit
+                # elif self.x > destination_X:
+                #     self.x -= self.vitesse #déplace gauche
+                
+                if self.y < destination_Y:
+                    self.y += self.vitesse #déplace bas
+                # elif self.y > destination_X:
+                #     self.y -= self.vitesse #déplace haut
+                
+            else:
+                self.index_path +=1
             
             # if coordonner destionation != coordonner self.path[self.index_path]
                 # effectue ton mouvement vers la prochaine coord
@@ -78,6 +98,14 @@ class Ennemi: #chemin
                     # y+1
             #else:
                 #self.index_path+=1
+                
+    #     def deplacer(self):
+#         if self.index_path < len(self.path): #tant que le chemin n'est pas complété
+#             destination_X, destination_Y = self.path[self.index_path] #on note la prochaine destination à atteindre
+#             deplace_X = (destination_X - self.x)/self.vitesse # on vient chercher le rapport de déplacement des ennemis à chaque itération de rafraîchissement
+#             deplace_Y = (destination_Y - self.y)/self.vitesse 
+#             self.x += deplace_X #on ajoute cette valeur à chaque itération pour créer le déplacement
+#             self.y += deplace_Y
             
             
         
