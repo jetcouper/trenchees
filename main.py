@@ -124,9 +124,10 @@ class Modele():
             # else:
             #     projectile.y -= projectile.vitesse
             
-            # delete le projectile si y touch et gerer la logique de damage ici et tout
+            # delete le projectile si y touch et gerer la logique de damage ici et tout 
+            # sort du rayon # timer
             print(projectile.x, projectile.y) 
-            
+        
 
 class Controleur():
     def __init__(self):     
