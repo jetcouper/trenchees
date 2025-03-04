@@ -26,20 +26,26 @@ class Tour():
         self.cooldown_time = cooldown_time # 1 secondes
         self.on_cooldown = on_cooldown # false
         self.angle = angle
+        self.abilities= {}
 
     
-    def set_abilities(self, f='main'):
+    def add_abilities(self, f='main'):
         for file in os.listdir("abilities"):
             filename = os.path.splitext(file)
             if(filename[0] == f):
                 print(f'fichier trouvé : '+filename[0])
                 with open(os.path.join("abilities", file), "r", encoding="utf-8") as f:
                     data = json.load(f)
-                    self.damage = data["damage"]
-                    self.vitesse = data["vitesse"]
-                    self.cooldown_time = data["cooldown"]
-                    self.rayon = data["rayon"]
+                    self.damage = data["damage"] + self.damage
+                    self.vitesse = data["vitesse"] + self.vitesse
+                    self.cooldown_time = data["cooldown"] + self.cooldown_time
+                    self.rayon = data["rayon"] + self.rayon
                     self.type = data["type"]
+                    self.abilities[data["id"]] = data
+                    
+                    
+    
+
 
         
         

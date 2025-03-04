@@ -3,10 +3,12 @@
     "type": "basic",
     "name" : "Tour de base",
     "description" : "Aptitude de base pour toutes les Tours",
-    "parent" : null,
     "damage" : 20,
     "cooldown" : 300,
     "vitesse" : 5,
-    "rayon" : 10
+    "rayon" : 10,
+    "nbr_cannons"  : 1,
+    "parent" : null,
+    "lock" : null
 
 }
