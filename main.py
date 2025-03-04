@@ -1,6 +1,7 @@
 import tkinter as tk
 #Ajout pour voir les abilities dans le répertoire
 import os
+import json
 import math
 
 class Vue():
@@ -25,6 +26,7 @@ class Tour():
         self.cooldown_time = cooldown_time # 1 secondes
         self.on_cooldown = on_cooldown # false
         self.angle = angle
+        self.abilities= {}
 
     def init_tower(self, f='main'):
         for file in os.listdir("abilities"):
@@ -45,6 +47,21 @@ class Tour():
                 else:
                     return None
             return None
+    
+    def add_abilities(self, f='main'):
+        for file in os.listdir("abilities"):
+            filename = os.path.splitext(file)
+            if(filename[0] == f):
+                print(f'fichier trouvé : '+filename[0])
+                with open(os.path.join("abilities", file), "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    self.damage = data["damage"] + self.damage
+                    self.vitesse = data["vitesse"] + self.vitesse
+                    self.cooldown_time = data["cooldown"] + self.cooldown_time
+                    self.rayon = data["rayon"] + self.rayon
+                    self.type = data["type"]
+                    self.abilities[data["id"]] = data
+
     
     def avaible_upgrade(self):
         pass
