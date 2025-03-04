@@ -4,11 +4,16 @@ import os
 import json
 import math
 
+ENNEMIS_COLOR = "Green"
+TOURS_COLOR = "Blue"
+PROJECTILES_COLOR = "Red"
+
 class Vue():
     def __init__(self, controleur, largeur, hauteur):
         self.controleur = controleur
         self.root = tk.Tk()
         self.creer_cadre_jeu(largeur, hauteur)
+        
         
     def creer_cadre_jeu(self, largeur, hauteur):
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
@@ -16,8 +21,29 @@ class Vue():
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="white")
         self.canevas.pack()
         
+    def dessiner_ennemi(self, liste):
+        self.canevas.delete("ennemi")
+        for ennemi in liste:
+            self.canevas.create_oval(ennemi.x - ennemi.taille, ennemi.y - ennemi.taille, 
+                                    ennemi.x + ennemi.taille, ennemi.y + ennemi.taille, 
+                                    fill=ENNEMIS_COLOR,tags="ennemi")
+            
+    def dessiner_tours(self, tours):
+        self.canevas.delete("tour")
+        for tour in tours:
+            self.canevas.create_rectangle(tour.x - 20/2, tour.y - 20/2,
+                                    tour.x + 20, tour.y + 20, 
+                                    fill=TOURS_COLOR,tags="tour")
+            
+    def dessiner_projectiles(self, projectiles):
+        self.canevas.delete("projectile")
+        for projectile in projectiles:
+            self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
+                                    projectile.x + 2, projectile.y + 2, 
+                                    fill=PROJECTILES_COLOR,tags="projectile")
+        
 class Tour():
-    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0):
+    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, TTL = 100):
         self.x = posX
         self.y = posY
         self.vitesse = vitesse
@@ -27,6 +53,7 @@ class Tour():
         self.on_cooldown = on_cooldown # false
         self.angle = angle
         self.abilities= {}
+        self.TTL = TTL
 
     def init_tower(self, f='main'):
         for file in os.listdir("abilities"):
@@ -84,7 +111,8 @@ class Projectiles():
         self.cible_x = ennemi.x
         self.cible_y = ennemi.y
         self.ennemi = ennemi
-        self.type = "basic" # temporairement hardcoder on attend le type par la tour normalement.
+        self.type = "tracing" # temporairement hardcoder on attend le type par la tour normalement.
+        self.TTL = tour.TTL
 
 class Modele():
     def __init__(self, largeur, hauteur):
@@ -93,14 +121,37 @@ class Modele():
         self.projectiles = []
         self.tours = []
         self.ennemis = []
+        self.path = [
+            (0.0, 0.0),
+            (25.0, 50.0),
+            (50.0, 100.0),
+            (75.0, 150.0),
+            (100.0, 200.0),
+            (120.0, 250.0),
+            (140.0, 300.0),
+            (160.0, 350.0),
+            (180.0, 400.0),
+            (200.0, 500.0),
+            (20,20)
+        ]
+        
+        self.path1 = [
+            (0.0, 0.0),
+            (10.0, 10.0),
+            (160.0, 150.0),
+            (50.0, 100.0),
+            (100.0, 200.0),
+            (75.0, 150.0),
+            (120.0, 250.0),
+            (140.0, 300.0),
+            (180.0, 400.0),
+            (200.0, 500.0),
+            (20,20)
+        ]
         
         ### Test ici ###
-        e = Ennemi(150, 55)
-        e1 = Ennemi(50, 45)
-        t = Tour(20, 20, 0.1, 5, 300, 5000, False, 0)
+        t = Tour(250, 300, 1, 2, 300, 5000, False, 0, 6000)
         self.tours.append(t)
-        self.ennemis.append(e)
-        self.ennemis.append(e1)
     
     def valider_tirs(self):
         for tour in self.tours:
@@ -117,6 +168,10 @@ class Modele():
         for projectile in self.projectiles:
             ### Methode pour chaque type de projectile
             
+            projectile.TTL -= 1
+            if projectile.TTL <= 0:
+                self.projectiles.remove(projectile)
+            
             # Pour missile de base ?
             if projectile.type == "basic":
                 if projectile.cible_x >= projectile.x:
@@ -129,32 +184,93 @@ class Modele():
                 else:
                     projectile.y -= projectile.vitesse
                 
-            # Pour missile qui suit
-            # if projectile.type == "following":
-            # if projectile.ennemi.x >= projectile.x:
-            #     projectile.x += projectile.vitesse
-            # else:
-            #     projectile.x -= projectile.vitesse
                 
-            # if projectile.ennemi.y >= projectile.y:
-            #     projectile.y += projectile.vitesse
-            # else:
-            #     projectile.y -= projectile.vitesse
+                
+            # Pour missile qui suit
+            if projectile.type == "tracing":
+                if projectile.ennemi.x >= projectile.x:
+                    projectile.x += projectile.vitesse
+                else:
+                    projectile.x -= projectile.vitesse
+                    
+                if projectile.ennemi.y >= projectile.y:
+                    projectile.y += projectile.vitesse
+                else:
+                    projectile.y -= projectile.vitesse
             
             # delete le projectile si y touch et gerer la logique de damage ici et tout 
             # sort du rayon # timer
-            print(projectile.x, projectile.y) 
+            
         
 
+    def apparition_ennemis(self):
+        ennemi = Ennemi(0, 0, 10, 5, 1, self.path, 0)
+        ennemi2 = Ennemi(0, 0, 10, 5, 1, self.path1, 0)
+        self.ennemis.append(ennemi)
+        self.ennemis.append(ennemi2)
+
+    def deplacer_ennemis(self):
+        for ennemi in self.ennemis:
+            ennemi_arrive = ennemi.deplacer()
+            if not ennemi_arrive:
+                # lennemi a rentrer dans la base du joueur
+                # faire perdre vie au joueur
+                # ici faut delete lennemi
+                self.ennemis.remove(ennemi)
+                print(self.ennemis)
+
+class Ennemi: #chemin
+    def __init__(self, x, y, taille, life, vitesse, path, index_path = 0):
+        self.x = x
+        self.y = y
+        self.taille = taille
+        self.vitesse = vitesse
+        self.life = life
+        self.path = path
+        self.index_path = index_path
+    
+    def deplacer(self):
+        try:
+            destination_X = self.path[self.index_path+1][0]
+            destination_Y = self.path[self.index_path+1][1]
+        
+            if self.x != destination_X or self.y != destination_Y:
+            
+                if self.x < destination_X:
+                    self.x += self.vitesse #déplace droit
+                elif self.x > destination_X:
+                    self.x -= self.vitesse #déplace gauche
+                
+                if self.y < destination_Y:
+                    self.y += self.vitesse #déplace bas
+                elif self.y > destination_Y:
+                    self.y -= self.vitesse #déplace haut
+                    
+                #print("pos_x:", math.floor(self.x), "pos_y:", math.floor(self.y), "NextPathPosX:", destination_X, "NextPathPosY", destination_Y)
+                
+            else:
+                self.index_path +=1
+                
+        except:
+            return False
+            
+        return True
+        
 class Controleur():
     def __init__(self):     
-        self.modele = Modele(60,60)
+        self.modele = Modele(800,1000)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
+        self.modele.apparition_ennemis()
         self.loop_jeu()
+        
         
     def loop_jeu(self):
         self.modele.valider_tirs()
         self.modele.mouvement_projectiles()
+        self.vue.dessiner_ennemi(self.modele.ennemis)
+        self.vue.dessiner_tours(self.modele.tours)
+        self.vue.dessiner_projectiles(self.modele.projectiles)
+        self.modele.deplacer_ennemis()
         self.vue.root.after(16, self.loop_jeu) # 16 pour 60 fps
     
 if __name__ == "__main__":
