@@ -37,3 +37,11 @@ class Vue():
             self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
                                           projectile.x + 2, projectile.y + 2,
                                           fill=PROJECTILES_COLOR, tags="projectile")
+
+    def dessiner_chemin(self, path):
+        self.canevas.delete("chemin")
+        if len(path) > 1:
+            for i in range(len(path) - 1):
+                x1, y1 = path[i]
+                x2, y2 = path[i + 1]
+                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags="chemin")
