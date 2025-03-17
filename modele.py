@@ -80,6 +80,7 @@ class Modele():
     def __init__(self, largeur, hauteur):
         self.largeur = largeur
         self.hauteur = hauteur
+        self.count = 1
         self.projectiles = []
         self.tours = []
         self.ennemis = []
@@ -103,7 +104,10 @@ class Modele():
         if len(self.ennemis) > 0:
             print("Round Can not start")
         else:
-             self.ennemis.append(Ennemi(0, 100, 10, 5, 1, self.path, 0))
+            self.count+=1
+            for x in range(self.count):
+                print(x)
+                self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 1, self.path, 0))
 
 
     def valider_tirs(self):
