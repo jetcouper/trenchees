@@ -3,7 +3,7 @@ from vue import Vue
 
 class Controleur():
     def __init__(self):
-        self.modele = Modele(800, 1000)
+        self.modele = Modele(500, 500)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
         self.vue.dessiner_chemin(self.modele.path)
         self.modele.apparition_ennemis()
