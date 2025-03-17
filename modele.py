@@ -187,6 +187,22 @@ class Ennemi:  # chemin
             destination_Y = self.path[self.index_path + 1][1]
 
             if self.x != destination_X or self.y != destination_Y:
+                
+                # if self.x > destination_X and self.y > destination_Y:
+                #     self.x -= self.vitesse * 0.70
+                #     self.y -= self.vitesse * 0.70
+                    
+                # if self.x > destination_X and self.y < destination_Y:
+                #     self.x -= self.vitesse * 0.70
+                #     self.y += self.vitesse * 0.70
+                    
+                # if self.x < destination_X and self.y < destination_Y:
+                #     self.x += self.vitesse * 0.70
+                #     self.y += self.vitesse * 0.70
+                    
+                # if self.x < destination_X and self.y > destination_Y:
+                #     self.x += self.vitesse * 0.70
+                #     self.y -= self.vitesse * 0.70
 
                 if self.x < destination_X:
                     self.x += self.vitesse  # déplace droit
