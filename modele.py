@@ -113,6 +113,13 @@ class Modele():
         t = Tour(250, 300, 1, 2, 300, 5000, False, 0, 6000)
         self.tours.append(t)
 
+    def start_round(self):
+        if len(self.ennemis) > 0:
+            print("Round Can not start")
+        else:
+             self.ennemis.append(Ennemi(0, 100, 10, 5, 1, self.path, 0))
+
+
     def valider_tirs(self):
         for tour in self.tours:
             # Le tirs contient lobject ennemi sur lequel il tir et la tour qui tir le projectile
