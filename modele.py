@@ -78,11 +78,12 @@ class Projectiles():
 
 
 class Modele():
-    def __init__(self, largeur, hauteur, score=250, life_joueur=100):
+    def __init__(self, largeur, hauteur, score=250, life_joueur=100, tour=0):
         self.largeur = largeur
         self.hauteur = hauteur
         self.score = score #score initial du joueur
         self.life_joueur = life_joueur #nb de vies initiales du joueur
+        self.selection_tour = tour
         #self.experience_joueur = 1 #expérience initiale du joueur ???????
         self.projectiles = []
         self.tours = []
@@ -201,15 +202,19 @@ class Modele():
                 self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
                 self.ennemis.remove(ennemi)
         
-        print(self.score)   #affiche le nouveau score du joueur            
-                
-    def acheter_tour(self, tour):
+        print(self.score)   #affiche le nouveau score du joueur   
         
-        if (self.score >= tour.price): # si le joueur peut acheter la tour avec son pointage, on soustrait du solde le montant de la tour 
-            self.score -= tour.price
+    # def selection_tour(self):
+    #     for tour in self.tours:
+    #         if (tour == self.tours[i])         
+                
+    def acheter_tour(self):
+        
+            if (self.score >= self.tours[self.selection_tour].price): # si le joueur peut acheter la tour avec son pointage, on soustrait du solde le montant de la tour 
+                self.score -= self.tours[self.selection_tour].price
             
-        if (self.score < tour.price): # si le joueur n'a pas assez de fonds, un message avertit le joueur qu'il ne peut procéder à l'achat 
-            print("Pas assez de fonds pour l'achat de cette tour")
+            if (self.score < self.tours[self.selection_tour].price): # si le joueur n'a pas assez de fonds, un message avertit le joueur qu'il ne peut procéder à l'achat 
+                print("Pas assez de fonds pour l'achat de cette tour")
     
     def victoire_ennemi(self):
         for ennemi in self.ennemis:
