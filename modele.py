@@ -3,7 +3,7 @@ import os
 import json
 
 class Tour():
-    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, TTL=100):
+    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, TTL=0):
         self.x = posX
         self.y = posY
         self.vitesse = vitesse
@@ -13,7 +13,7 @@ class Tour():
         self.on_cooldown = on_cooldown  # false
         self.angle = angle
         self.abilities = {}
-        self.TTL = TTL
+        self.TTL = rayon/vitesse
 
     def init_tower(self, f='main'):
         for file in os.listdir("abilities"):
@@ -95,22 +95,8 @@ class Modele():
             (800.0, 800.0),
         ]
 
-        # self.path1 = [
-        #     (0.0, 0.0),
-        #     (10.0, 10.0),
-        #     (160.0, 150.0),
-        #     (50.0, 100.0),
-        #     (100.0, 200.0),
-        #     (75.0, 150.0),
-        #     (120.0, 250.0),
-        #     (140.0, 300.0),
-        #     (180.0, 400.0),
-        #     (200.0, 500.0),
-        #     (20, 20)
-        # ]
-
         ### Test ici ###
-        t = Tour(250, 300, 1, 2, 300, 5000, False, 0, 6000)
+        t = Tour(500, 300, 1, 2, 100, 0, False, 0, 6000)
         self.tours.append(t)
 
     def valider_tirs(self):
@@ -160,10 +146,8 @@ class Modele():
             # sort du rayon # timer
 
     def apparition_ennemis(self):
-        ennemi = Ennemi(0, 100, 10, 5, 1, self.path, 0)
-        ennemi2 = Ennemi(0, 100, 10, 5, 1, self.path, 0)
+        ennemi = Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0)
         self.ennemis.append(ennemi)
-        self.ennemis.append(ennemi2)
 
     def deplacer_ennemis(self):
         for ennemi in self.ennemis:
