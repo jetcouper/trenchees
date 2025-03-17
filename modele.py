@@ -3,7 +3,7 @@ import os
 import json
 
 class Tour():
-    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, TTL=100):
+    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, TTL=100, price=50):
         self.x = posX
         self.y = posY
         self.vitesse = vitesse
@@ -14,6 +14,7 @@ class Tour():
         self.angle = angle
         self.abilities = {}
         self.TTL = TTL
+        self.price = price # coût de la tour 
 
     def init_tower(self, f='main'):
         for file in os.listdir("abilities"):
@@ -77,9 +78,12 @@ class Projectiles():
 
 
 class Modele():
-    def __init__(self, largeur, hauteur):
+    def __init__(self, largeur, hauteur, score=250, life_joueur=100):
         self.largeur = largeur
         self.hauteur = hauteur
+        self.score = score #score initial du joueur
+        self.life_joueur = life_joueur #nb de vies initiales du joueur
+        #self.experience_joueur = 1 #expérience initiale du joueur ???????
         self.projectiles = []
         self.tours = []
         self.ennemis = []
@@ -160,8 +164,8 @@ class Modele():
             # sort du rayon # timer
 
     def apparition_ennemis(self):
-        ennemi = Ennemi(0, 100, 10, 5, 1, self.path, 0)
-        ennemi2 = Ennemi(0, 100, 10, 5, 1, self.path, 0)
+        ennemi = Ennemi(0, 100, 10, 5, 1, self.path, 0, 25)
+        ennemi2 = Ennemi(0, 100, 10, 5, 1, self.path, 0, 20)
         self.ennemis.append(ennemi)
         self.ennemis.append(ennemi2)
 
@@ -172,12 +176,59 @@ class Modele():
                 # lennemi a rentrer dans la base du joueur
                 # faire perdre vie au joueur
                 # ici faut delete lennemi
-                self.ennemis.remove(ennemi)
+                #self.ennemis.remove(ennemi) #vers la méthode mort ennemi 
+                self.mort_ennemi()
                 print(self.ennemis)
+                
+    def vie_restante_ennemi(self):
+        
+        for ennemi in self.ennemis:
+            
+            for projectile in self.projectiles: 
+                if (ennemi.x == projectile.x and ennemi.y == projectile.y):
+                        ennemi.life -= projectile.damage
+            
+                if (ennemi.life < 0):
+                    ennemi.life = 0
+                    self.mort_ennemi() # call la fonction mort de l'ennemi 
+        
+        print(ennemi.life) #pour vérifier le damage sur ennemi
+                
+    def mort_ennemi(self):
+        
+        for ennemi in self.ennemis:
+            if (ennemi.life == 0): #si l'ennemi est vaincu
+                self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
+                self.ennemis.remove(ennemi)
+        
+        print(self.score)   #affiche le nouveau score du joueur            
+                
+    def acheter_tour(self, tour):
+        
+        if (self.score >= tour.price): # si le joueur peut acheter la tour avec son pointage, on soustrait du solde le montant de la tour 
+            self.score -= tour.price
+            
+        if (self.score < tour.price): # si le joueur n'a pas assez de fonds, un message avertit le joueur qu'il ne peut procéder à l'achat 
+            print("Pas assez de fonds pour l'achat de cette tour")
+    
+    def victoire_ennemi(self):
+        for ennemi in self.ennemis:
+            if (ennemi.x == self.path[len(self.path) - 1] and ennemi.y == self.path[len(self.path) - 1]): #si un ennemi traverse tout le chemin
+                self.score -= ennemi.score
 
+                if (self.score < 0):
+                    self.score = 0
+                    
+    def fin_partie(self):   
+        
+        if (self.score == 0):
+            print("Fin de la partie") #fin du loop 
+                 
+                    
+            
 
 class Ennemi:  # chemin
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0):
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
         self.x = x
         self.y = y
         self.taille = taille
@@ -185,6 +236,7 @@ class Ennemi:  # chemin
         self.life = life
         self.path = path
         self.index_path = index_path
+        self.score = score
 
     def deplacer(self):
         try:
@@ -212,3 +264,8 @@ class Ennemi:  # chemin
             return False
 
         return True
+    
+            
+        
+    
+    
