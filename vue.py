@@ -10,6 +10,7 @@ class Vue():
         self.controleur = controleur
         self.root = tk.Tk()
         self.creer_cadre_jeu(largeur, hauteur)
+        self.dessiner_btn_Round()
 
     def creer_cadre_jeu(self, largeur, hauteur):
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)

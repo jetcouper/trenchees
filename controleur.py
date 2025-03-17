@@ -3,7 +3,7 @@ from vue import Vue
 
 class Controleur():
     def __init__(self):
-        self.modele = Modele(800, 1000)
+        self.modele = Modele(800, 800)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
         self.vue.dessiner_chemin(self.modele.path)
         self.modele.apparition_ennemis()
@@ -15,7 +15,7 @@ class Controleur():
         self.vue.dessiner_ennemi(self.modele.ennemis)
         self.vue.dessiner_tours(self.modele.tours)
         self.vue.dessiner_projectiles(self.modele.projectiles)
-        self.vue.dessiner_btn_Round()
+        
         self.modele.deplacer_ennemis()
         self.vue.root.after(16, self.loop_jeu)  # 16 pour 60 fps
 
