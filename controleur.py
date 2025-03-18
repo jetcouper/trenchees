@@ -17,6 +17,9 @@ class Controleur():
         self.vue.dessiner_projectiles(self.modele.projectiles)
         
         self.modele.deplacer_ennemis()
+        # self.modele.acheter_tour()
+        self.modele.vie_restante_ennemi()
+        self.modele.mort_ennemi()
         self.vue.root.after(16, self.loop_jeu)  # 16 pour 60 fps
 
 

@@ -3,7 +3,7 @@ import os
 import json
 
 class Tour():
-    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, TTL=0):
+    def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, price=50):
         self.x = posX
         self.y = posY
         self.vitesse = vitesse
@@ -14,6 +14,7 @@ class Tour():
         self.angle = angle
         self.abilities = {}
         self.TTL = rayon/vitesse
+        self.price = price # coût de la tour 
 
     def init_tower(self, f='main'):
         for file in os.listdir("abilities"):
@@ -55,13 +56,6 @@ class Tour():
     def upgrade(self):
         pass
 
-
-class Ennemi():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-
 class Projectiles():
     def __init__(self, ennemi, tour):
         self.x = tour.x
@@ -77,10 +71,13 @@ class Projectiles():
 
 
 class Modele():
-    def __init__(self, largeur, hauteur):
+    def __init__(self, largeur, hauteur, score=0, life_joueur=100):
         self.largeur = largeur
         self.hauteur = hauteur
         self.count = 1
+        self.score = score #score initial du joueur
+        self.life_joueur = life_joueur #nb de vies initiales du joueur
+        #self.experience_joueur = 1 #expérience initiale du joueur ???????
         self.projectiles = []
         self.tours = []
         self.ennemis = []
@@ -97,7 +94,7 @@ class Modele():
         ]
 
         ### Test ici ###
-        t = Tour(500, 300, 1, 2, 100, 0, False, 0, 6000)
+        t = Tour(500, 300, 1, 2, 150, 0, False, 0, 50)
         self.tours.append(t)
 
     def start_round(self):
@@ -164,15 +161,55 @@ class Modele():
         for ennemi in self.ennemis:
             ennemi_arrive = ennemi.deplacer()
             if not ennemi_arrive:
-                # lennemi a rentrer dans la base du joueur
-                # faire perdre vie au joueur
-                # ici faut delete lennemi
+                ennemi.life = 0
+                self.victoire_ennemi() # on enleve 1 pts de vie par bebitte tant que joueur a plus de 1 points de vie sinon crash le jeu ! 
                 self.ennemis.remove(ennemi)
-                print(self.ennemis)
+                
+    def vie_restante_ennemi(self):
+        print(self.life_joueur)
+        print(self.ennemis)
+        for ennemi in self.ennemis:
+            print(ennemi.life)
+            tolerance = 3
+            for projectile in self.projectiles:
+                print(int(ennemi.x), int(ennemi.y), "    ", projectile.x, projectile.y)
+                if abs(int(ennemi.x) - projectile.x) <= tolerance and abs(int(ennemi.y) - projectile.y) <= tolerance:
+                    ennemi.life -= projectile.damage
+                    self.projectiles.remove(projectile)
+                    
+                if ennemi.life <= 0:
+                    self.mort_ennemi()
+        
+                
+    def mort_ennemi(self):
+        for ennemi in self.ennemis:
+            if (ennemi.life < 0): #si l'ennemi est vaincu
+                self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
+                self.ennemis.remove(ennemi)
+        
+    # def selection_tour(self):
+    #     for tour in self.tours:
+    #         if (tour == self.tours[i])         
+                
+    # def acheter_tour(self):
+        
+    #         if (self.score >= self.tours[self.selection_tour].price): # si le joueur peut acheter la tour avec son pointage, on soustrait du solde le montant de la tour 
+    #             self.score -= self.tours[self.selection_tour].price
+            
+    #         if (self.score < self.tours[self.selection_tour].price): # si le joueur n'a pas assez de fonds, un message avertit le joueur qu'il ne peut procéder à l'achat 
+    #             print("Pas assez de fonds pour l'achat de cette tour")
+    
+    def victoire_ennemi(self):
+        self.life_joueur -=1 
+        if self.life_joueur <= 0:
+            print("game terminer on ferme le loop ici") ## ici faut crash le jeu
+            # ici vue et ferme loop
+                 
+                    
+            
 
-
-class Ennemi:  # chemin
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0):
+class Ennemi():  # chemin
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
         self.x = x
         self.y = y
         self.taille = taille
@@ -180,6 +217,7 @@ class Ennemi:  # chemin
         self.life = life
         self.path = path
         self.index_path = index_path
+        self.score = score
 
     def deplacer(self):
         try:
@@ -214,8 +252,6 @@ class Ennemi:  # chemin
                 elif self.y > destination_Y:
                     self.y -= self.vitesse  # déplace haut
 
-                # print("pos_x:", math.floor(self.x), "pos_y:", math.floor(self.y), "NextPathPosX:", destination_X, "NextPathPosY", destination_Y)
-
             else:
                 self.index_path += 1
 
@@ -223,3 +259,8 @@ class Ennemi:  # chemin
             return False
 
         return True
+    
+            
+        
+    
+    
