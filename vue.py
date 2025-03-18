@@ -10,6 +10,7 @@ class Vue():
         self.controleur = controleur
         self.root = tk.Tk()
         self.creer_cadre_jeu(largeur, hauteur)
+        self.dessiner_btn_Round()
 
     def creer_cadre_jeu(self, largeur, hauteur):
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
@@ -45,3 +46,8 @@ class Vue():
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
                 self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags="chemin")
+                
+    def dessiner_btn_Round(self):
+        btn_test = tk.Button(self.cadrePrincipal,text="Start Round", command=self.controleur.modele.start_round)
+        btn_test.pack(anchor="sw")
+        
