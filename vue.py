@@ -17,6 +17,7 @@ class Vue():
         self.cadrePrincipal.grid(column=0, row=0)
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="white")
         self.canevas.pack()
+        self.canevas.bind("<Button-1>", self.afficher_coordonnees)
 
     def dessiner_ennemi(self, liste):
         self.canevas.delete("ennemi")
@@ -50,4 +51,8 @@ class Vue():
     def dessiner_btn_Round(self):
         btn_test = tk.Button(self.cadrePrincipal,text="Start Round", command=self.controleur.modele.start_round)
         btn_test.pack(anchor="sw")
+        
+    def afficher_coordonnees(self, event):
+        x, y = event.x, event.y
+        self.controleur.clic_dans_vue(x, y)
         

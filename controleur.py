@@ -8,6 +8,9 @@ class Controleur():
         self.vue.dessiner_chemin(self.modele.path)
         self.modele.apparition_ennemis()
         self.loop_jeu()
+        
+    def clic_dans_vue(self, x, y):
+        self.modele.placer_tour(x, y)
 
     def loop_jeu(self):
         self.modele.valider_tirs()

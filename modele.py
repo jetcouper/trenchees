@@ -98,6 +98,10 @@ class Modele():
         t2 = Tour(250, 250, 2, 4, 200, 40, False, 0, 100)
         self.tours.append(t)
         self.tours.append(t2)
+        
+    def placer_tour(self, x, y):
+        t = Tour(x, y, 1, 2, 150, 25, False, 0, 50 )
+        self.tours.append(t)
 
     def start_round(self):
         if len(self.ennemis) > 0:
@@ -105,7 +109,6 @@ class Modele():
         else:
             self.count+=1
             for x in range(self.count):
-                print(x)
                 self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 5, self.path, 0))
 
 
@@ -168,13 +171,9 @@ class Modele():
                 self.ennemis.remove(ennemi)
                 
     def vie_restante_ennemi(self):
-        print(self.life_joueur)
-        print(self.ennemis)
         for ennemi in self.ennemis:
-            print(ennemi.life)
             tolerance = 3
             for projectile in self.projectiles:
-                print(int(ennemi.x), int(ennemi.y), "    ", projectile.x, projectile.y)
                 if abs(int(ennemi.x) - projectile.x) <= tolerance and abs(int(ennemi.y) - projectile.y) <= tolerance:
                     ennemi.life -= projectile.damage
                     self.projectiles.remove(projectile)
