@@ -68,8 +68,14 @@ class Vue():
                     
     def verifier_emplacement(self, x, y):
         
-        self.identifier_tour(x,y)
+        # self.identifier_tour(x,y)
         
-        if ([x,y] != self.canevas.gettags("chemin") and [x,y] != self.canevas.gettags("tour")):
-            return True
+        # if ([x,y] != self.canevas.gettags("chemin") and [x,y] != self.canevas.gettags("tour")):
+        #     return True
+        
+        tags = self.canevas.gettags("tour")
+        
+        # if "tour" in tags:
+        #     x = self.canevas.xview
+        #     y = self.canevas.yview
         
