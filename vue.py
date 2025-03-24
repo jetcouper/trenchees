@@ -31,14 +31,14 @@ class Vue():
         for tour in tours:
             self.canevas.create_rectangle(tour.x - 20 / 2, tour.y - 20 / 2,
                                           tour.x + 20, tour.y + 20,
-                                          fill=TOURS_COLOR, tags="tour")
+                                          fill=TOURS_COLOR, tags=("tour"))
 
     def dessiner_projectiles(self, projectiles):
         self.canevas.delete("projectile")
         for projectile in projectiles:
             self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
                                           projectile.x + 2, projectile.y + 2,
-                                          fill=PROJECTILES_COLOR, tags="projectile")
+                                          fill=PROJECTILES_COLOR, tags=("projectile",))
 
     def dessiner_chemin(self, path):
         self.canevas.delete("chemin")
@@ -46,7 +46,7 @@ class Vue():
             for i in range(len(path) - 1):
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
-                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags="chemin")
+                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
                 
     def dessiner_btn_Round(self):
         btn_test = tk.Button(self.cadrePrincipal,text="Start Round", command=self.controleur.modele.start_round)
@@ -54,5 +54,22 @@ class Vue():
         
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
-        self.controleur.clic_dans_vue(x, y)
+        
+        if (self.verifier_emplacement(x,y)):
+            self.controleur.clic_dans_vue(x, y)
+        else:
+            print("Not allowed")
+        
+        
+    def identifier_tour(self, x, y):
+        
+        if ([x,y] == self.canevas.gettags("tour")):
+            print("tour")
+                    
+    def verifier_emplacement(self, x, y):
+        
+        self.identifier_tour(x,y)
+        
+        if ([x,y] != self.canevas.gettags("chemin") and [x,y] != self.canevas.gettags("tour")):
+            return True
         

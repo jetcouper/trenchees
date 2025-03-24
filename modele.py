@@ -1,9 +1,11 @@
 import math
 import os
 import json
+import random
 
 class Tour():
     def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, price=50):
+        #self.id = random()
         self.x = posX
         self.y = posY
         self.vitesse = vitesse
@@ -102,6 +104,10 @@ class Modele():
         self.tours.append(t2)
         
     def placer_tour(self, x, y):
+        
+        # for tour in self.tours:
+        #     if (x != tour.x and y != tour.y)
+            
         t = Tour(x, y, 1, 2, 150, 25, False, 0, 50 )
         if t.price > self.argent:
             print("Too broke to play")
@@ -109,20 +115,6 @@ class Modele():
             self.argent -= t.price
             self.tours.append(t)
             print(self.argent)
-        
-        #if (self.selectON == True):
-            
-            
-            # for tour in self.tours:
-                
-            #     if (self.argent >= tour.price): #vérfie si tu as assez d'argent 
-            #         self.argent -= tour.price
-            #         print(self.argent)
-            #          #va dessiner la tour 
-            #         self.tours.append(t)
-            #         print(self.argent)
-            #     else:
-            #         print("Too broke to play")
 
     def start_round(self):
         if len(self.ennemis) > 0:
