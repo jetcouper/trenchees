@@ -14,7 +14,8 @@ class Tour():
         self.angle = angle
         self.abilities = {}
         self.TTL = rayon/vitesse
-        self.price = price # coût de la tour 
+        self.price = price # coût de la tour
+        self.current_cooldown = 0
 
     def init_tower(self, f='main'):
         for file in os.listdir("abilities"):
@@ -24,16 +25,15 @@ class Tour():
             # pass
 
     def tire(self, ennemis):
-        # passer ici le 
-        if not self.on_cooldown:
-            for ennemi in ennemis:  # tire en fonction de qui est dans le rayon et le premier dans la liste
-                distance = math.sqrt(
-                    abs(ennemi.x - self.x) * abs(ennemi.x - self.x) + abs(ennemi.y - self.y) * abs(ennemi.y - self.y))
+            if self.current_cooldown > 0:
+                self.current_cooldown -= 1
+                return None
+
+            for ennemi in ennemis:
+                distance = math.sqrt((ennemi.x - self.x)**2 + (ennemi.y - self.y)**2)
                 if distance <= self.rayon:
-                    self.on_cooldown = True
+                    self.current_cooldown = self.cooldown_time
                     return [ennemi, self]
-                else:
-                    return None
             return None
 
     def add_abilities(self, f='main'):
@@ -94,8 +94,10 @@ class Modele():
         ]
 
         ### Test ici ###
-        t = Tour(500, 300, 1, 2, 150, 0, False, 0, 50)
+        t = Tour(500, 300, 1, 2, 150, 25, False, 0, 50)
+        t2 = Tour(250, 250, 2, 4, 200, 40, False, 0, 100)
         self.tours.append(t)
+        self.tours.append(t2)
 
     def start_round(self):
         if len(self.ennemis) > 0:
@@ -104,7 +106,7 @@ class Modele():
             self.count+=1
             for x in range(self.count):
                 print(x)
-                self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 1, self.path, 0))
+                self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 5, self.path, 0))
 
 
     def valider_tirs(self):
@@ -154,7 +156,7 @@ class Modele():
             # sort du rayon # timer
 
     def apparition_ennemis(self):
-        ennemi = Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0)
+        ennemi = Ennemi(self.path[0][0], self.path[0][1], 10, 5, 5, self.path, 0)
         self.ennemis.append(ennemi)
 
     def deplacer_ennemis(self):
@@ -203,6 +205,7 @@ class Modele():
         self.life_joueur -=1 
         if self.life_joueur <= 0:
             print("game terminer on ferme le loop ici") ## ici faut crash le jeu
+            quit()
             # ici vue et ferme loop
                  
                     
