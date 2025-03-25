@@ -10,7 +10,6 @@ class Vue():
         self.controleur = controleur
         self.root = tk.Tk()
         self.creer_cadre_jeu(largeur, hauteur)
-        self.dessiner_btn_Round()
 
     def creer_cadre_jeu(self, largeur, hauteur):
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
@@ -18,6 +17,15 @@ class Vue():
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="white")
         self.canevas.pack()
         self.canevas.bind("<Button-1>", self.afficher_coordonnees)
+        
+        self.cadreSecondaire = tk.Frame(self.root, width=largeur*0.2, height=hauteur, bg="white")
+        self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
+        self.UIinfo = tk.Canvas(self.cadreSecondaire, width=largeur*0.2, height=hauteur, bg="white")
+        self.UIinfo.pack_propagate(False)
+        self.UIinfo.pack()
+        ## ajouter le stock et les bouttons ici
+        button = tk.Button(self.UIinfo, text="Start Round", foreground="lightgrey", activeforeground="black", command=self.controleur.modele.start_round) 
+        button.pack()   
 
     def dessiner_ennemi(self, liste):
         self.canevas.delete("ennemi")
@@ -47,10 +55,7 @@ class Vue():
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
                 self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags="chemin")
-                
-    def dessiner_btn_Round(self):
-        btn_test = tk.Button(self.cadrePrincipal,text="Start Round", command=self.controleur.modele.start_round)
-        btn_test.pack(anchor="sw")
+        
         
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
