@@ -12,6 +12,9 @@ class Controleur():
     def clic_dans_vue(self, x, y):
         self.modele.placer_tour(x, y)
 
+    def start_Round(self):
+        self.modele.start_round()
+
     def loop_jeu(self):
         
         self.modele.valider_tirs()

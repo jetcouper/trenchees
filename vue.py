@@ -65,18 +65,19 @@ class Vue():
         
         self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black",font=("Italic", 20), bg="orange")
         self.Argent.pack(anchor="w")
-        
 
         
         
         
         
         
-        button = tk.Button(self.UIinfo, text="Start Round", foreground="lightgrey", activeforeground="black", command=self.controleur.modele.start_round) 
-        button.pack()   
+        button = tk.Button(self.UIinfo, text="Start Round", activeforeground="black", command=self.controleur.start_Round)
+        button.pack()
         
         self.label_Round_nbr = tk.Label(self.UIinfo, text="Round : 0", fg="black",font=("Italic", 20), bg="orange")
         self.label_Round_nbr.pack()
+
+
 
     def dessiner_ennemi(self, liste):
         self.canevas.delete("ennemi")
