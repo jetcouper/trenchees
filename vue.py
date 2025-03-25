@@ -114,7 +114,7 @@ class Vue():
             print("Not allowed")
         
                     
-    def verifier_emplacement(self, event):
+    def verifier_emplacement(self, event):   
         
         # https://tkinter-docs.readthedocs.io/en/latest/widgets/canvas.html
         # find_overlapping(x1, y1, x2, y2)
