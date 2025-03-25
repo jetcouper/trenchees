@@ -9,14 +9,44 @@ class Vue():
     def __init__(self, controleur, largeur, hauteur):
         self.controleur = controleur
         self.root = tk.Tk()
-        self.creer_cadre_jeu(largeur, hauteur)
+        self.info = []
+        self.creer_cadre_jeu(largeur, hauteur, self.info)
+        
+        
 
-    def creer_cadre_jeu(self, largeur, hauteur):
+
+    def update_vue(self,vie, score, argent, round):
+        self.info = [vie, score, argent, round]
+        self.label_score.pack_forget
+        self.score.pack_forget
+        self.vie.pack_forget
+        self.label_Round_nbr.pack_forget
+        self.score.config(text=(f"Vie {self.info[1]}"))
+        
+        self.vie.config(text=(f"score {self.info[0]}"))
+        
+        self.Argent.config(text=(f"Argent {self.info[2]}"))
+        
+        self.label_Round_nbr.config(text=(f"Round: {self.info[3]}"))
+        
+   
+        self.label_score.pack(pady=50)
+        
+        self.vie.pack(anchor="w")
+
+        self.score.pack(anchor="w")
+  
+        self.Argent.pack(anchor="w")
+        self.label_Round_nbr.pack()
+
+    def creer_cadre_jeu(self, largeur, hauteur, info):
+        
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
         self.cadrePrincipal.grid(column=0, row=0)
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="green")
         self.canevas.pack()
         self.canevas.bind("<Button-1>", self.afficher_coordonnees)
+        self.placeholder = 0
         
         self.cadreSecondaire = tk.Frame(self.root, width=largeur*0.2, height=hauteur, bg="orange")
         self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
@@ -24,12 +54,29 @@ class Vue():
         self.UIinfo.pack_propagate(False)
         self.UIinfo.pack()
         ## ajouter le stock et les bouttons ici
-        self.label_score = tk.Label(self.UIinfo, text="Info", fg="black",font=("Italic", 40))
+        self.label_score = tk.Label(self.UIinfo, text=("Info"), fg="black",font=("Italic", 40), bg="orange", padx=2)
         self.label_score.pack(pady=50)
+        
+        self.vie = tk.Label(self.UIinfo, text=(f"Vie 0"), fg="black",font=("Italic", 20), bg="orange")
+        self.vie.pack(anchor="w")
+        
+        self.score = tk.Label(self.UIinfo, text=(f"score 0"), fg="black",font=("Italic", 20), bg="orange")
+        self.score.pack(anchor="w")
+        
+        self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black",font=("Italic", 20), bg="orange")
+        self.Argent.pack(anchor="w")
+        
+
+        
+        
+        
         
         
         button = tk.Button(self.UIinfo, text="Start Round", foreground="lightgrey", activeforeground="black", command=self.controleur.modele.start_round) 
         button.pack()   
+        
+        self.label_Round_nbr = tk.Label(self.UIinfo, text="Round : 0", fg="black",font=("Italic", 20), bg="orange")
+        self.label_Round_nbr.pack()
 
     def dessiner_ennemi(self, liste):
         self.canevas.delete("ennemi")
@@ -77,7 +124,7 @@ class Vue():
         # must be the top-left corner of the region and (x2, y2) the bottom-right. 
         # The items are returned in stacking order, with the lowest item first.
         
-        tempTour = self.canevas.find_overlapping(event.x - 20 / 2, event.y - 20 / 2, event.x + 20/2, event.y + 20/2)
+        tempTour = self.canevas.find_overlapping(event.x - 20 / 2, event.y - 20 / 2, event.x + 20, event.y + 20)
         
         tags = self.canevas.gettags(tempTour) #vérifie s'il existe des tags à l'emplacement cliqué sur le canevas, selon le format des carrés/tours 
         

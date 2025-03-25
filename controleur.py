@@ -13,11 +13,13 @@ class Controleur():
         self.modele.placer_tour(x, y)
 
     def loop_jeu(self):
+        
         self.modele.valider_tirs()
         self.modele.mouvement_projectiles()
         self.vue.dessiner_ennemi(self.modele.ennemis)
         self.vue.dessiner_tours(self.modele.tours)
         self.vue.dessiner_projectiles(self.modele.projectiles)
+        self.vue.update_vue( self.modele.score, self.modele.life_joueur,self.modele.argent, self.modele.count)
         
         self.modele.deplacer_ennemis()
         # self.modele.acheter_tour()
