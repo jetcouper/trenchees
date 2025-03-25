@@ -1,9 +1,11 @@
 import math
 import os
 import json
+import random
 
 class Tour():
     def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, price=50):
+        #self.id = random()
         self.x = posX
         self.y = posY
         self.vitesse = vitesse
@@ -102,6 +104,10 @@ class Modele():
         self.tours.append(t2)
         
     def placer_tour(self, x, y):
+        
+        # for tour in self.tours:
+        #     if (x != tour.x and y != tour.y)
+            
         t = Tour(x, y, 1, 2, 150, 25, False, 0, 50 )
         if t.price > self.argent:
             print("Too broke to play")
@@ -109,20 +115,6 @@ class Modele():
             self.argent -= t.price
             self.tours.append(t)
             print(self.argent)
-        
-        #if (self.selectON == True):
-            
-            
-            # for tour in self.tours:
-                
-            #     if (self.argent >= tour.price): #vérfie si tu as assez d'argent 
-            #         self.argent -= tour.price
-            #         print(self.argent)
-            #          #va dessiner la tour 
-            #         self.tours.append(t)
-            #         print(self.argent)
-            #     else:
-            #         print("Too broke to play")
 
     def start_round(self):
         if len(self.ennemis) > 0:
@@ -130,7 +122,7 @@ class Modele():
         else:
             self.count+=1
             for x in range(self.count):
-                self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 5, self.path, 0))
+                self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 1, self.path, 0))
 
 
     def valider_tirs(self):
@@ -180,7 +172,7 @@ class Modele():
             # sort du rayon # timer
     
     def apparition_ennemis(self):
-        ennemi = Ennemi(self.path[0][0], self.path[0][1], 10, 5, 5, self.path, 0)
+        ennemi = Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0)
         self.ennemis.append(ennemi)
 
     def deplacer_ennemis(self):
@@ -207,6 +199,7 @@ class Modele():
         for ennemi in self.ennemis:
             if (ennemi.life < 0): #si l'ennemi est vaincu
                 self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
+                self.argent += ennemi.score
                 self.ennemis.remove(ennemi)
         
     # def selection_tour(self):

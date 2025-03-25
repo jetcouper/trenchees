@@ -39,14 +39,14 @@ class Vue():
         for tour in tours:
             self.canevas.create_rectangle(tour.x - 20 / 2, tour.y - 20 / 2,
                                           tour.x + 20, tour.y + 20,
-                                          fill=TOURS_COLOR, tags="tour")
+                                          fill=TOURS_COLOR, tags=("tour"))
 
     def dessiner_projectiles(self, projectiles):
         self.canevas.delete("projectile")
         for projectile in projectiles:
             self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
                                           projectile.x + 2, projectile.y + 2,
-                                          fill=PROJECTILES_COLOR, tags="projectile")
+                                          fill=PROJECTILES_COLOR, tags=("projectile",))
 
     def dessiner_chemin(self, path):
         self.canevas.delete("chemin")
@@ -54,10 +54,35 @@ class Vue():
             for i in range(len(path) - 1):
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
-                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags="chemin")
-        
+                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
         
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
-        self.controleur.clic_dans_vue(x, y)
+        
+        if (self.verifier_emplacement(event)):
+            self.controleur.clic_dans_vue(x, y)
+        else:
+            print("Not allowed")
+        
+                    
+    def verifier_emplacement(self, event):
+        
+        # https://tkinter-docs.readthedocs.io/en/latest/widgets/canvas.html
+        # find_overlapping(x1, y1, x2, y2)
+        # Returns every item overlapping the rectangular region given by x1, y1, x2, and y2. (x1, y1) 
+        # must be the top-left corner of the region and (x2, y2) the bottom-right. 
+        # The items are returned in stacking order, with the lowest item first.
+        
+        tempTour = self.canevas.find_overlapping(event.x - 20 / 2, event.y - 20 / 2, event.x + 20/2, event.y + 20/2)
+        
+        tags = self.canevas.gettags(tempTour) #vérifie s'il existe des tags à l'emplacement cliqué sur le canevas, selon le format des carrés/tours 
+        
+        if "tour" in tags or "chemin" in tags:
+            print("not good")
+            return False
+            
+        else:
+            print("okay")
+            return True
+            
         
