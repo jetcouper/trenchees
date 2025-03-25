@@ -55,27 +55,30 @@ class Vue():
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
         
-        if (self.verifier_emplacement(x,y)):
+        if (self.verifier_emplacement(event)):
             self.controleur.clic_dans_vue(x, y)
         else:
             print("Not allowed")
         
-        
-    def identifier_tour(self, x, y):
-        
-        if ([x,y] == self.canevas.gettags("tour")):
-            print("tour")
                     
-    def verifier_emplacement(self, x, y):
+    def verifier_emplacement(self, event):
         
-        # self.identifier_tour(x,y)
+        # https://tkinter-docs.readthedocs.io/en/latest/widgets/canvas.html
+        # find_overlapping(x1, y1, x2, y2)
+        # Returns every item overlapping the rectangular region given by x1, y1, x2, and y2. (x1, y1) 
+        # must be the top-left corner of the region and (x2, y2) the bottom-right. 
+        # The items are returned in stacking order, with the lowest item first.
         
-        # if ([x,y] != self.canevas.gettags("chemin") and [x,y] != self.canevas.gettags("tour")):
-        #     return True
+        tempTour = self.canevas.find_overlapping(event.x - 20 / 2, event.y - 20 / 2, event.x + 20/2, event.y + 20/2)
         
-        tags = self.canevas.gettags("tour")
+        tags = self.canevas.gettags(tempTour) #vérifie s'il existe des tags à l'emplacement cliqué sur le canevas, selon le format des carrés/tours 
         
-        # if "tour" in tags:
-        #     x = self.canevas.xview
-        #     y = self.canevas.yview
+        if "tour" in tags or "chemin" in tags:
+            print("not good")
+            return False
+            
+        else:
+            print("okay")
+            return True
+            
         
