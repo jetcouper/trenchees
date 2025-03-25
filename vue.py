@@ -18,12 +18,16 @@ class Vue():
         self.canevas.pack()
         self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         
-        self.cadreSecondaire = tk.Frame(self.root, width=largeur*0.2, height=hauteur, bg="white")
+        self.cadreSecondaire = tk.Frame(self.root, width=largeur*0.2, height=hauteur, bg="orange")
         self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
-        self.UIinfo = tk.Canvas(self.cadreSecondaire, width=largeur*0.2, height=hauteur, bg="white")
+        self.UIinfo = tk.Canvas(self.cadreSecondaire, width=largeur*0.2, height=hauteur, bg="orange")
         self.UIinfo.pack_propagate(False)
         self.UIinfo.pack()
         ## ajouter le stock et les bouttons ici
+        self.label_score = tk.Label(self.UIinfo, text="Info", fg="black",font=("Italic", 40))
+        self.label_score.pack(pady=50)
+        
+        
         button = tk.Button(self.UIinfo, text="Start Round", foreground="lightgrey", activeforeground="black", command=self.controleur.modele.start_round) 
         button.pack()   
 
