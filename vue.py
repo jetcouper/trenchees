@@ -1,6 +1,6 @@
 import tkinter as tk
 
-ENNEMIS_COLOR = "Green"
+ENNEMIS_COLOR = "Yellow"
 TOURS_COLOR = "Blue"
 PROJECTILES_COLOR = "Red"
 
@@ -14,7 +14,7 @@ class Vue():
     def creer_cadre_jeu(self, largeur, hauteur):
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
         self.cadrePrincipal.grid(column=0, row=0)
-        self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="white")
+        self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="green")
         self.canevas.pack()
         self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         
