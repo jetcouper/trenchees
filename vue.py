@@ -11,9 +11,6 @@ class Vue():
         self.root = tk.Tk()
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
-        
-        
-
 
     def update_vue(self,vie, score, argent, round):
         self.info = [vie, score, argent, round]
