@@ -76,7 +76,7 @@ class Modele():
     def __init__(self, largeur, hauteur, score=0, argent=500, life_joueur=100):
         self.largeur = largeur
         self.hauteur = hauteur
-        self.count = 1
+        self.round_count = 0
         self.score = score #score initial du joueur
         self.argent = argent 
         self.life_joueur = life_joueur #nb de vies initiales du joueur
@@ -120,8 +120,8 @@ class Modele():
         if len(self.ennemis) > 0:
             print("Round Can not start")
         else:
-            self.count+=1
-            for x in range(self.count):
+            self.round_count+=1
+            for x in range(self.round_count):
                 self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 1, self.path, 0))
 
 

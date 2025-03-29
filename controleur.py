@@ -6,7 +6,7 @@ class Controleur():
         self.modele = Modele(800, 800)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
         self.vue.dessiner_chemin(self.modele.path)
-        self.modele.apparition_ennemis()
+        #self.modele.apparition_ennemis() Start round dès le début
         self.loop_jeu()
         
     def clic_dans_vue(self, x, y):
@@ -22,7 +22,7 @@ class Controleur():
         self.vue.dessiner_ennemi(self.modele.ennemis)
         self.vue.dessiner_tours(self.modele.tours)
         self.vue.dessiner_projectiles(self.modele.projectiles)
-        self.vue.update_vue( self.modele.score, self.modele.life_joueur,self.modele.argent, self.modele.count)
+        self.vue.update_vue( self.modele.score, self.modele.life_joueur,self.modele.argent, self.modele.round_count)
         
         self.modele.deplacer_ennemis()
         # self.modele.acheter_tour()

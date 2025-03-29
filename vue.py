@@ -55,23 +55,24 @@ class Vue():
         self.label_score.pack(pady=50)
         
         self.vie = tk.Label(self.UIinfo, text=(f"Vie 0"), fg="black",font=("Italic", 20), bg="orange")
-        self.vie.pack(anchor="w")
+        self.vie.pack()
         
         self.score = tk.Label(self.UIinfo, text=(f"score 0"), fg="black",font=("Italic", 20), bg="orange")
-        self.score.pack(anchor="w")
+        self.score.pack()
         
         self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black",font=("Italic", 20), bg="orange")
-        self.Argent.pack(anchor="w")
+        self.Argent.pack()
 
         
         
+        Rframe = tk.Frame(self.UIinfo, width=largeur*0.2, height=hauteur*0.2, bg="orange")
+        Rframe.pack(side="bottom",fill="x", padx=5, pady=5)
         
         
-        
-        button = tk.Button(self.UIinfo, text="Start Round", activeforeground="black", command=self.controleur.start_Round)
+        button = tk.Button(Rframe, text="Start Round", activeforeground="black", command=self.controleur.start_Round)
         button.pack()
         
-        self.label_Round_nbr = tk.Label(self.UIinfo, text="Round : 0", fg="black",font=("Italic", 20), bg="orange")
+        self.label_Round_nbr = tk.Label(Rframe, text="Round : 0", fg="black",font=("Italic", 20), bg="orange")
         self.label_Round_nbr.pack()
 
 
