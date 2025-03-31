@@ -3,6 +3,30 @@ import os
 import json
 import random
 
+
+class Helper(object):
+    def getAngledPoint(angle,longueur,cx,cy):
+        x = (math.cos(angle)*longueur)+cx
+        y = (math.sin(angle)*longueur)+cy
+        return (x,y)
+    getAngledPoint = staticmethod(getAngledPoint)
+    
+    def calcAngle(x1,y1,x2,y2):
+         dx = x2-x1
+         dy = y2-y1
+         #angle = (math.atan2(dy,dx) % (2*math.pi)) * (180/math.pi)
+         angle = (math.atan2(dy,dx) ) #% (2*math.pi)) * (180/math.pi)
+         return angle
+    calcAngle = staticmethod(calcAngle)
+    
+    def calcDistance(x1,y1,x2,y2):
+         dx = abs(x2-x1)**2
+         dy = abs(y2-y1)**2
+         distance=math.sqrt(dx+dy)
+         return distance
+    calcDistance = staticmethod(calcDistance)
+
+    
 class Tour():
     def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, price=50):
         #self.id = random()
@@ -33,6 +57,8 @@ class Tour():
 
             for ennemi in ennemis:
                 distance = math.sqrt((ennemi.x - self.x)**2 + (ennemi.y - self.y)**2)
+                #distance = Helper.calcDistance(self.x, self.y,ennemi.x,ennemi.y)
+                
                 if distance <= self.rayon:
                     self.current_cooldown = self.cooldown_time
                     return [ennemi, self]
@@ -145,28 +171,56 @@ class Modele():
                 self.projectiles.remove(projectile)
 
             # Pour missile de base ?
-            if projectile.type == "basic":
-                if projectile.cible_x >= projectile.x:
-                    projectile.x += projectile.vitesse
-                else:
-                    projectile.x -= projectile.vitesse
+            # if projectile.type == "basic":
+            #     angle = Helper.calcAngle(projectile.x,projectile.y,projectile.cible_x,projectile.cible_y)
+            #     pasx = math.cos(angle) * projectile.vitesse
+            #     pasy = math.sin(angle) * projectile.vitesse
+                
+            #     projectile.x += pasx
+            #     projectile.y += pasy
+                
+            if projectile.type == "tracing":
+                cible_x = projectile.ennemi.x
+                cible_y = projectile.ennemi.y
+            else:
 
-                if projectile.cible_y >= projectile.y:
-                    projectile.y += projectile.vitesse
-                else:
-                    projectile.y -= projectile.vitesse
+                cible_x = projectile.cible_x
+                cible_y = projectile.cible_y
+                
+            distance = Helper.calcDistance(projectile.x, projectile.y, cible_x, cible_y)
+                
+            if distance < projectile.vitesse:
+                projectile.x = cible_x
+                projectile.y = cible_y
+            else:
+                angle = Helper.calcAngle(projectile.x, projectile.y, cible_x, cible_y)
+                pasx = math.cos(angle) * projectile.vitesse
+                pasy = math.sin(angle) * projectile.vitesse
+                projectile.x += pasx
+                projectile.y += pasy
+                
+                
+                # if projectile.cible_x >= projectile.x:
+                #     projectile.x += projectile.vitesse
+                # else:
+                #     projectile.x -= projectile.vitesse
+
+                # if projectile.cible_y >= projectile.y:
+                #     projectile.y += projectile.vitesse
+                # else:
+                #     projectile.y -= projectile.vitesse
 
             # Pour missile qui suit
-            if projectile.type == "tracing":
-                if projectile.ennemi.x >= projectile.x:
-                    projectile.x += projectile.vitesse
-                else:
-                    projectile.x -= projectile.vitesse
+            # if projectile.type == "tracing":
+                # if projectile.ennemi.x >= projectile.x:
+                #     projectile.x += projectile.vitesse
+                # else:
+                #     projectile.x -= projectile.vitesse
 
-                if projectile.ennemi.y >= projectile.y:
-                    projectile.y += projectile.vitesse
-                else:
-                    projectile.y -= projectile.vitesse
+                # if projectile.ennemi.y >= projectile.y:
+                #     projectile.y += projectile.vitesse
+                # else:
+                #     projectile.y -= projectile.vitesse
 
             # delete le projectile si y touch et gerer la logique de damage ici et tout 
             # sort du rayon # timer
