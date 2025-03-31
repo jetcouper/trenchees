@@ -45,13 +45,12 @@ class Vue():
         else:
             self.button.config(state="normal")
 
-    def creer_cadre_jeu(self, largeur, hauteur, info, event):
+    def creer_cadre_jeu(self, largeur, hauteur, info):
 
-        self.x, self.y = event.x, event.y 
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
         self.cadrePrincipal.grid(column=0, row=0)
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="green")
-        self.canevas.bind(self.cadreBoutonBtnTour, self.afficher_coordonnees(event))
+        #self.canevas.bind(self.cadreBoutonBtnTour, self.afficher_coordonnees(event))
         self.canevas.pack()
         self.placeholder = 0
 
@@ -81,7 +80,8 @@ class Vue():
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
-        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red", command=self.afficher_coordonnees(event))
+        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red")
+        self.cadreBoutonBtnTour.bind("<Button-1>", self.selection_tour)
         self.cadreBoutonBtnTour.pack(padx=20, pady=100)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
@@ -120,11 +120,17 @@ class Vue():
                 x2, y2 = path[i + 1]
                 self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
                 
-    def afficher_coordonnees(self,event):
+    def selection_tour(self):
+       return True
+        
+    
+    def afficher_coordonnees(self, event):
         x, y = event.x, event.y
 
-        if (self.verifier_emplacement(event)):
-            self.controleur.clic_dans_vue(x, y)
+        if (self.selection_tour): #si le bouton a été appuyé 
+            
+            if (self.verifier_emplacement(event)): #si l'emplacement est valide
+                self.controleur.clic_dans_vue(x, y)
         else:
             print("Not allowed")
 
