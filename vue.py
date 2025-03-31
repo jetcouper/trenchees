@@ -24,6 +24,7 @@ class Vue():
         self.vie.config(text=(f"score {self.info[0]}"))
 
         self.Argent.config(text=(f"Argent {self.info[2]}"))
+        
         self.nbennemis.config(text=(f"Ennemis restant: {self.info[4]}"))
 
         self.label_Round_nbr.config(text=(f"Round: {self.info[3]}"))
@@ -35,20 +36,23 @@ class Vue():
         self.score.pack(anchor="w")
 
         self.Argent.pack(anchor="w")
+        
         self.nbennemis.pack()
+        
         self.label_Round_nbr.pack()
         if self.info[4] > 0:
             self.button.config(state="disabled")
         else:
             self.button.config(state="normal")
 
-    def creer_cadre_jeu(self, largeur, hauteur, info):
+    def creer_cadre_jeu(self, largeur, hauteur, info, event):
 
+        self.x, self.y = event.x, event.y 
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
         self.cadrePrincipal.grid(column=0, row=0)
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="green")
+        self.canevas.bind(self.cadreBoutonBtnTour, self.afficher_coordonnees(event))
         self.canevas.pack()
-        self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         self.placeholder = 0
 
         self.cadreSecondaire = tk.Frame(self.root, width=largeur * 0.2, height=hauteur, bg="orange")
@@ -72,11 +76,12 @@ class Vue():
         self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Italic", 13),
                                   bg="orange")
         self.nbennemis.pack()
+        
 
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
-        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red")
+        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red", command=self.afficher_coordonnees(event))
         self.cadreBoutonBtnTour.pack(padx=20, pady=100)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
@@ -114,8 +119,8 @@ class Vue():
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
                 self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
-
-    def afficher_coordonnees(self, event):
+                
+    def afficher_coordonnees(self,event):
         x, y = event.x, event.y
 
         if (self.verifier_emplacement(event)):
