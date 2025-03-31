@@ -147,7 +147,6 @@ class Modele():
         self.score = self.default_score
         self.argent = self.default_argent
         self.life_joueur = self.default_life_joueur
-        self.life_joueur = 1
         
         
         
@@ -307,9 +306,7 @@ class Ennemi():  # chemin
         self.y = y
         self.taille = taille
         self.vitesse = vitesse
-        #### Ne pas merge ceci
-        self.life = 100000000000
-        ### 
+        self.life = life
         self.path = path
         self.index_path = index_path
         self.score = score
