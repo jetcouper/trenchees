@@ -11,6 +11,7 @@ class Vue():
         self.root = tk.Tk()
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
+        self.switch = True; 
 
     def update_vue(self, vie, score, argent, round, nbennemis):
         self.info = [vie, score, argent, round, nbennemis]
@@ -25,9 +26,9 @@ class Vue():
 
         self.Argent.config(text=(f"Argent {self.info[2]}"))
         
-        self.nbennemis.config(text=(f"Ennemis restant: {self.info[4]}"))
-
         self.label_Round_nbr.config(text=(f"Round: {self.info[3]}"))
+
+        self.nbennemis.config(text=(f"Ennemis restant: {self.info[4]}"))
 
         self.label_score.pack(pady=50)
 
@@ -50,7 +51,7 @@ class Vue():
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
         self.cadrePrincipal.grid(column=0, row=0)
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="green")
-        #self.canevas.bind(self.cadreBoutonBtnTour, self.afficher_coordonnees(event))
+        #self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         self.canevas.pack()
         self.placeholder = 0
 
@@ -80,8 +81,8 @@ class Vue():
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
-        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red")
-        self.cadreBoutonBtnTour.bind("<Button-1>", self.selection_tour)
+        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red", command=self.selection_tour)
+        #self.cadreBoutonBtnTour.bind("<Button-1>", self.selection_tour)
         self.cadreBoutonBtnTour.pack(padx=20, pady=100)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
@@ -121,7 +122,16 @@ class Vue():
                 self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
                 
     def selection_tour(self):
-       return True
+        
+        print("clic tour")
+        
+        if (self.switch):
+            self.canevas.bind("<Button-1>", self.afficher_coordonnees)
+            
+        else: 
+            self.canevas.unbind("<Button-1>")
+        
+        self.switch = not self.switch 
         
     
     def afficher_coordonnees(self, event):

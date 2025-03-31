@@ -15,6 +15,9 @@ class Controleur():
 
     def start_Round(self):
         self.modele.start_round()
+    
+    def select_Tour(self):
+        self.vue.verifier_emplacement()
 
     def loop_jeu(self):
         self.modele.valider_tirs()
