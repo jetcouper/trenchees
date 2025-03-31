@@ -28,8 +28,18 @@ class Controleur():
         # self.modele.acheter_tour()
         self.modele.vie_restante_ennemi()
         self.modele.mort_ennemi()
-        self.vue.root.after(16, self.loop_jeu)  # 16 pour 60 fps
-
+        
+        if(self.modele.player_alive):
+            self.vue.root.after(16, self.loop_jeu)  # 16 pour 60 fps
+        else:
+            self.vue.afficher_game_over()
+            
+            
+    def init_game_values(self):
+        self.modele.reset()
+        self.vue.reset()
+        
+        self.loop_jeu()
 
 if __name__ == "__main__":
     c = Controleur()

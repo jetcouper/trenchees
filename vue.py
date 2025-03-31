@@ -11,6 +11,14 @@ class Vue():
         self.root = tk.Tk()
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
+        
+        
+    def reset(self):
+        self.canevas.delete("popup")
+        print("Message de Reset")
+        
+        
+        
 
     def update_vue(self,vie, score, argent, round):
         self.info = [vie, score, argent, round]
@@ -62,6 +70,11 @@ class Vue():
         
         self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black",font=("Italic", 20), bg="orange")
         self.Argent.pack()
+        
+        ### Initialisation de la frame Popup
+        self.popup = tk.Frame(self.canevas, bg="gray", bd=2, relief="raised")
+        tk.Label(self.popup, text="Game-OVER", font=("Arial", 14), bg="gray").pack(pady=10)
+        tk.Button(self.popup, text="Réessayer", command=lambda: self.controleur.init_game_values()).pack(pady=10)
 
         
         
@@ -113,6 +126,10 @@ class Vue():
             self.controleur.clic_dans_vue(x, y)
         else:
             print("Not allowed")
+            
+            
+    def afficher_game_over(self):
+        popup_window = self.canevas.create_window(400, 300, window=self.popup, tags="popup")
         
                     
     def verifier_emplacement(self, event):   

@@ -102,15 +102,20 @@ class Modele():
     def __init__(self, largeur, hauteur, score=0, argent=500, life_joueur=100):
         self.largeur = largeur
         self.hauteur = hauteur
-        self.round_count = 0
-        self.score = score #score initial du joueur
-        self.argent = argent 
-        self.life_joueur = life_joueur #nb de vies initiales du joueur
+        
+        self.default_score = score
+        self.default_argent = argent
+        self.default_life_joueur = life_joueur
+        
+        
+        self.reset()
+        
+        ### NE PAS MERGE
+        #self.life_joueur = 1#nb de vies initiales du joueur
         #self.experience_joueur = 1 #expérience initiale du joueur ???????
         #self.selectON = False
-        self.projectiles = []
-        self.tours = []
-        self.ennemis = []
+        
+       
         self.path = [
             (0.0, 50.0),
             (150.0, 50.0),
@@ -131,6 +136,20 @@ class Modele():
         ]
 
 
+        
+    ### Méthode pour remettre à 0 les varaiables de jeu    
+    def reset(self):
+        self.player_alive = True
+        self.projectiles = []
+        self.tours = []
+        self.ennemis = []
+        self.round_count = 0
+        self.score = self.default_score
+        self.argent = self.default_argent
+        self.life_joueur = self.default_life_joueur
+        self.life_joueur = 1
+        
+        
         
     def placer_tour(self, x, y):
         
@@ -275,7 +294,8 @@ class Modele():
         self.life_joueur -=1 
         if self.life_joueur <= 0:
             print("game terminer on ferme le loop ici") ## ici faut crash le jeu
-            quit()
+            self.player_alive = False
+            #quit()
             # ici vue et ferme loop
                  
                     
@@ -287,7 +307,9 @@ class Ennemi():  # chemin
         self.y = y
         self.taille = taille
         self.vitesse = vitesse
-        self.life = life
+        #### Ne pas merge ceci
+        self.life = 100000000000
+        ### 
         self.path = path
         self.index_path = index_path
         self.score = score
