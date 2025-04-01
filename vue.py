@@ -1,4 +1,5 @@
 import tkinter as tk
+from PIL import Image, ImageTk
 
 ENNEMIS_COLOR = "Yellow"
 TOURS_COLOR = "Blue"
@@ -12,6 +13,29 @@ class Vue():
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
+        self.ennemi_image1 = Image.open("assets/ennemi1.png")
+        self.ennemi_image1 = self.ennemi_image1.resize((30, 30))
+        self.ennemi_photo1 = ImageTk.PhotoImage(self.ennemi_image1)
+        
+        self.ennemi_image2 = Image.open("assets/ennemi2.png")
+        self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
+        self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
+        
+        self.tour_image1 = Image.open("assets/tour1.png")
+        self.tour_image1 = self.tour_image1.resize((40,40))
+        self.tour_photo1 = ImageTk.PhotoImage(self.tour_image1)
+        
+        self.tour_image2 = Image.open("assets/tour2.png")
+        self.tour_image2 = self.tour_image2.resize((40,40))
+        self.tour_photo2 = ImageTk.PhotoImage(self.tour_image2)
+        
+        self.tour_image3 = Image.open("assets/tour3.png")
+        self.tour_image3 = self.tour_image3.resize((40,40))
+        self.tour_photo3 = ImageTk.PhotoImage(self.tour_image3)
+        
+        self.tour_image4 = Image.open("assets/tour4.png")
+        self.tour_image4 = self.tour_image4.resize((40,40))
+        self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
         
     def reset(self):
         self.canevas.delete("popup")
@@ -104,16 +128,12 @@ class Vue():
     def dessiner_ennemi(self, liste):
         self.canevas.delete("ennemi")
         for ennemi in liste:
-            self.canevas.create_oval(ennemi.x - ennemi.taille, ennemi.y - ennemi.taille,
-                                     ennemi.x + ennemi.taille, ennemi.y + ennemi.taille,
-                                     fill=ENNEMIS_COLOR, tags="ennemi")
+            self.canevas.create_image(ennemi.x, ennemi.y, image=self.ennemi_photo1, tags="ennemi")
 
     def dessiner_tours(self, tours):
         self.canevas.delete("tour")
         for tour in tours:
-            self.canevas.create_rectangle(tour.x - 20 / 2, tour.y - 20 / 2,
-                                          tour.x + 20, tour.y + 20,
-                                          fill=TOURS_COLOR, tags=("tour"))
+            self.canevas.create_image(tour.x, tour.y, image=self.tour_photo2, tags=("tour"))
 
     def dessiner_projectiles(self, projectiles):
         self.canevas.delete("projectile")
