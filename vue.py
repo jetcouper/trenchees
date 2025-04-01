@@ -78,9 +78,13 @@ class Vue():
 
         self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
         self.cadrePrincipal.grid(column=0, row=0)
-        self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, bg="green")
+        self.map = Image.open("assets/map.png")
+        self.map = self.map.resize((largeur, hauteur))
+        self.map_photo = ImageTk.PhotoImage(self.map)
+        self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur)
         #self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         self.canevas.pack()
+        self.canevas.create_image(0, 0, anchor=tk.NW, image=self.map_photo)
         self.placeholder = 0
 
         self.cadreSecondaire = tk.Frame(self.root, width=largeur * 0.2, height=hauteur, bg="orange")
@@ -152,7 +156,7 @@ class Vue():
             for i in range(len(path) - 1):
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
-                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
+                #self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
                 
     def selection_tour(self):
         
