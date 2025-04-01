@@ -11,7 +11,9 @@ class Vue():
         self.controleur = controleur
         self.root = tk.Tk()
         self.root.title("Tower Defense")
-        #self.root.iconbitmap
+        ico = Image.open("assets/Machine_Gun.png")
+        photo = ImageTk.PhotoImage(ico)
+        self.root.wm_iconphoto(False, photo)
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
