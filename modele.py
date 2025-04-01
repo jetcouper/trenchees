@@ -155,7 +155,7 @@ class Modele():
         # for tour in self.tours:
         #     if (x != tour.x and y != tour.y)
             
-        t = Tour(x, y, 1, 2, 150, 25, False, 0, 50 )
+        t = Tour(x, y, 5, 2, 150, 25, False, 0, 50 )
         if t.price > self.argent:
             print("Too broke to play")
         else:
