@@ -10,6 +10,8 @@ class Vue():
     def __init__(self, controleur, largeur, hauteur):
         self.controleur = controleur
         self.root = tk.Tk()
+        self.root.title("Tower Defense")
+        #self.root.iconbitmap
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
