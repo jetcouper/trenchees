@@ -66,7 +66,7 @@ class Vue():
 
         self.Argent.pack(anchor="w")
         
-        self.nbennemis.pack()
+        self.nbennemis.pack(anchor="w")
         
         self.label_Round_nbr.pack()
         if self.info[4] > 0:
@@ -85,30 +85,34 @@ class Vue():
 
         self.cadreSecondaire = tk.Frame(self.root, width=largeur * 0.2, height=hauteur, bg="orange")
         self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
-        self.UIinfo = tk.Canvas(self.cadreSecondaire, width=largeur * 0.2, height=hauteur, bg="orange")
+        self.UIinfo = tk.Canvas(self.cadreSecondaire, width=largeur * 0.2, height=hauteur, bg="orange", relief="ridge",highlightthickness=0)
         self.UIinfo.pack_propagate(False)
-        self.UIinfo.pack()
+        self.UIinfo.pack(padx=2)
         ## ajouter le stock et les bouttons ici
+        
+        
+        
         self.label_score = tk.Label(self.UIinfo, text=("Info"), fg="black", font=("Italic", 40), bg="orange", padx=2)
         self.label_score.pack(pady=50)
 
-        self.vie = tk.Label(self.UIinfo, text=(f"Vie 0"), fg="black", font=("Italic", 13), bg="orange")
+        self.vie = tk.Label(self.UIinfo, text=(f"Vie 0"), fg="black", font=("Italic", 13, "bold" ), bg="orange")
         self.vie.pack()
 
-        self.score = tk.Label(self.UIinfo, text=(f"score 0"), fg="black", font=("Italic", 13), bg="orange")
+        self.score = tk.Label(self.UIinfo, text=(f"score 0"), fg="black", font=("Italic", 13, "bold"), bg="orange")
         self.score.pack()
 
-        self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black", font=("Italic", 13), bg="orange")
+        self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black", font=("Italic", 13, "bold"), bg="orange")
         self.Argent.pack()
+        
+        self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Italic", 13, "bold"),bg="orange")
+        self.nbennemis.pack()
+        
         
         ### Initialisation de la frame Popup
         self.popup = tk.Frame(self.canevas, bg="gray", bd=2, relief="raised")
         tk.Label(self.popup, text="Game-OVER", font=("Arial", 14), bg="gray").pack(pady=10)
         tk.Button(self.popup, text="Réessayer", command=lambda: self.controleur.init_game_values()).pack(pady=10)
 
-        self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Italic", 13),
-                                  bg="orange")
-        self.nbennemis.pack()
         
 
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
