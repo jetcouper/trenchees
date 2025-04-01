@@ -1,42 +1,36 @@
 # Tower Defense
 
 # Introduction
-- **Avertissement:** Ce jeux n'est qu'une version non-terminer(Béta), ceci ne représente pas la version finale. Il peut donc y avoir des bugs.
+- **Avertissement:** Ce jeux est une version préliminaire (Béta). 
 
-Ce document explique en parti comment ce projet est fait, par qui et avec quels moyens utilisés. Ce jeu est bassé sur un style 
-Tower Defense dont le bût du joueur est d'empêcher l'ennemi d'atteindre la fin du chemin en placant des tours autour du chemin.
+Ce document explique comment ce projet est fait, par qui et avec quels moyens utilisés. 
+Ce jeu est basé sur un style Tower Defense dont le but du joueur est d'empêcher l'ennemi d'atteindre la fin du chemin en placant des tours sur la carte.
 
 ## Languages utilisés
 - **Python:** Le language Python est utilisé principalement pour ce projet. Ce language peut être lu sur plusieurs appareils tel que Linux, Windows, 
-macOS et si bien programmé, sur android.
+macOS et si bien programmé, sur Android.
 
 - **JavaScript:** Le javaScript ou plus simplement les fichiers .json sont utilisés comme base de donnée pour contenir nos objects tel que les ennemis ou la carte elle-même.
 
 ## Structure
-- **Logique MVC:** Le programme est conçu selon la norme MVC (Model-View-Controller) qui est un modèle d'architecture 
-qui consiste à séparer la logique et calcule de la vue (Affichage logiciel), donc seul le contrôlleur devrait avoir accès à la vue et au modèle,
-la vue ne doit pas communiquer directement avec modèle elle doit passer par le contrôlleur pour mettre à jour son interface.
-- **Démarrage:** Le programme ne peut démarrer qu'à partir du contrôlleur.
+- **Logique MVC:** Le programme est conçu selon le modèle MVC (Modèle-Vue-Contrôleur). Ce modèle d'architecture consiste à séparer la logique et les calculs (Modèle) de l'affichage du logiciel(Vue). Le contrôleur agit à titre d'intermédiaire entre la Vue et le Modèle puisque ceux-ci ne communiquent pas entre eux. 
+- **Démarrage:** Le programme ne peut démarrer qu'à partir du contrôleur.
 
 ## Comment jouer
-- **Démarrage du jeu:** Au début vous verrez la carte, les informations du joueur et 2 boutons. Le bouton "Tours" va vous permettre de placer
-des tours sur la carte dans le bût de vaincre l'ennemis, cependant vous devrez prendre en compte que les tours coûtent de l'argent, alors placer vos tours
-de manière intélligente. Dans la barre à droit, nous avons les informations du jeu dont le score du joueur, ses vie, son argent et les ennemis restant sur
-la carte.
-
+- **Démarrage du jeu:** Au début, vous verrez la carte s'afficher avec un tableau de bord dans la barre à droite. Le tableau contient les informations statistiques du joueur (score, argent, vie, ennemis restants sur la carte) ainsi que 2 boutons (Tours et Start Round). Le bouton "Tours" va vous permettre de placer des tours sur la carte dans le but de vaincre les ennemis. Cependant, vous devrez prendre en compte que les tours coûtent de l'argent, alors placez vos tours de manière stratégiques. Le bouton Start Round permet de commencer le jeu en envoyant les vagues d'ennemis. 
 
 
 ## Comportement du jeu pour le joueur (V0.1) 
 
-- **Début partie:** Lorsque vous appuyez sur le bouton "Start Round" la partie va démarrer et l'ennemis va avancer jusqu'à ce rendre à la fin.
-Durant la partie, il 
-- **Placement des tours:** Vous pourrez placer les tours dans les zones qui ne sont pas d'autres tours ou le chemin. Ils tireront des projectiles sur les ennemis à proximité.
-- **Ennemis:** Des ennemis vont apparaitrent et seront plus nombreux chaque round et peut-être plus résistant(Plus de vie).
+- **Début partie:** Lorsque vous appuyez sur le bouton "Start Round", la partie va démarrer et l'ennemi va avancer jusqu'à se rendre à la fin du chemin. 
 
-- **Gagné le round:** Lorsque vous remportez le round, il vous est possible de continuer à l'infini, jusqu'à ce que vous soyez vaincu ou que vous quittez la partie.
+- **Placement des tours:** Vous pourrez placer les tours dans sur la carte, sauf sur les zones réservées pour les tours et le chemin. Le tours tireront des projectiles sur les ennemis à proximité.
 
-- **Perdu:** Lorsque vous perdez la partie,c'est à dire, s'il ne vous reste plus de vie un affichage GameOver apparaitra et tu auras le choix de recommencer
-ou non.
+- **Ennemis:** Des ennemis vont apparaîtrent à chaque début de round et seront plus nombreux à chaque vague. 
+
+- **Gagner le round:** Lorsque vous remportez le round, il vous est possible de continuer à l'infini, jusqu'à ce que vous soyez vaincu ou que vous quittiez la partie.
+
+- **Perdu:** Lorsque vous perdez la partie, c'est à dire, s'il ne vous reste plus de vie, un affichage GameOver apparaîtra et vous aurez le choix de recommencer une nouvelle partie ou non. 
 
   - *Valeurs des objets(De base):* 
     - Tours: 50$
