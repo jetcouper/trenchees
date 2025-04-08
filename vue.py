@@ -25,6 +25,8 @@ class Vue():
         self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
         self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
         
+        self.placement_mode = False
+        
         self.tour_image1 = Image.open("assets/tour1.png")
         self.tour_image1 = self.tour_image1.resize((40,40))
         self.tour_photo1 = ImageTk.PhotoImage(self.tour_image1)
@@ -40,6 +42,7 @@ class Vue():
         self.tour_image4 = Image.open("assets/tour4.png")
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
+
         
         
         
@@ -88,7 +91,7 @@ class Vue():
         self.map = self.map.resize((largeur, hauteur))
         self.map_photo = ImageTk.PhotoImage(self.map)
         self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur)
-        #self.canevas.bind("<Button-1>", self.afficher_coordonnees)
+        self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         self.canevas.pack()
         self.canevas.create_image(0, 0, anchor=tk.NW, image=self.map_photo)
         self.placeholder = 0
@@ -175,27 +178,27 @@ class Vue():
                 self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
                 
     def selection_tour(self):
+        self.placement_mode = not self.placement_mode
+        print("Placement mode:", self.placement_mode)
         
-        print("clic tour")
-        
-        if (self.switch):
+        if self.placement_mode:
             self.canevas.bind("<Button-1>", self.afficher_coordonnees)
-            
-        else: 
+        else:
             self.canevas.unbind("<Button-1>")
-        
-        self.switch = not self.switch 
+
         
     
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
 
-        if (self.selection_tour): #si le bouton a été appuyé 
-            
-            if (self.verifier_emplacement(event)): #si l'emplacement est valide
+        if self.placement_mode:
+            if self.verifier_emplacement(event):
                 self.controleur.clic_dans_vue(x, y)
+            else:
+                print("Placement refusé.")
         else:
-            print("Not allowed")
+            print("Mode placement non actif.")
+
             
     
         
@@ -211,10 +214,16 @@ class Vue():
         # must be the top-left corner of the region and (x2, y2) the bottom-right.
         # The items are returned in stacking order, with the lowest item first.
 
-        tempTour = self.canevas.find_overlapping(event.x - 20 / 2, event.y - 20 / 2, event.x + 20, event.y + 20)
+        tempTour = self.canevas.find_overlapping(event.x - 10, event.y - 10, event.x + 10, event.y + 10)
 
-        tags = self.canevas.gettags(
-            tempTour)  # vérifie s'il existe des tags à l'emplacement cliqué sur le canevas, selon le format des carrés/tours
+        for item_id in tempTour:
+            tags = self.canevas.gettags(item_id)
+            if "tour" in tags or "chemin" in tags:
+                print("not good")
+                return False
+
+        print("okay")
+       
 
         if "tour" in tags:
             print("tour")

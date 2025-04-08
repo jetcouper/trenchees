@@ -345,7 +345,42 @@ class Ennemi():  # chemin
 
         return True
     
-            
-        
+class Ennemi_glace(Ennemi): #ralentit la vitesse de projectile à proximité, donc diminue leur force d'impact de tirs? 
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=3, vitesse=2, path=None, index_path=0, score=20)           
     
+    #Ajouter les attributs propres à la glace ici
+        self.type = "glace"
     
+class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=4, vitesse=3, path=None, index_path=0, score=25)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "feu"
+
+class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=2, vitesse=1, path=None, index_path=0, score=18)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "gaz"
+    
+class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=5, vitesse=5, path=None, index_path=0, score=30)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "avion"
+    
+class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=7, vitesse=2, path=None, index_path=0, score=35)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "tank"
