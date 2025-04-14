@@ -17,7 +17,7 @@ class Vue():
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
-        self.ennemi_image1 = Image.open("assets/ennemi1.png")
+        self.ennemi_image1 = Image.open("assets/avion.png")
         self.ennemi_image1 = self.ennemi_image1.resize((30, 30))
         self.ennemi_photo1 = ImageTk.PhotoImage(self.ennemi_image1)
         
@@ -43,6 +43,8 @@ class Vue():
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
+        
+        
         
     def reset(self):
         self.canevas.delete("popup")
@@ -144,11 +146,21 @@ class Vue():
         self.canevas.delete("ennemi")
         for ennemi in liste:
             self.canevas.create_image(ennemi.x, ennemi.y, image=self.ennemi_photo1, tags="ennemi")
+            self.deplacer_ennemi
+            
+    def deplacer_ennemi(self):
+        print("angle")
+        
+        self.angle += 90
+        
+        self.ennemi_photo1.rotate(self.angle)
+         
 
     def dessiner_tours(self, tours):
         self.canevas.delete("tour")
         for tour in tours:
-            self.canevas.create_image(tour.x, tour.y, image=self.tour_photo1, tags="tour")
+            self.canevas.create_image(tour.x, tour.y, image=self.tour_photo2, anchor="center", tags=("tour"))
+            
 
     def dessiner_projectiles(self, projectiles):
         self.canevas.delete("projectile")
@@ -195,6 +207,7 @@ class Vue():
         
     def verifier_emplacement(self, event):
 
+        print("ici")
         # https://tkinter-docs.readthedocs.io/en/latest/widgets/canvas.html
         # find_overlapping(x1, y1, x2, y2)
         # Returns every item overlapping the rectangular region given by x1, y1, x2, and y2. (x1, y1)
@@ -210,7 +223,18 @@ class Vue():
                 return False
 
         print("okay")
-        return True
+       
 
+        if "tour" in tags:
+            print("tour")
+            return False
+        
+        if "chemin" in tags:
+            print("chemin")
+            return False
+
+        else:
+            print("okay")
+            return True
 
 

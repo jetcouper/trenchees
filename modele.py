@@ -184,15 +184,7 @@ class Modele():
             if projectile.TTL <= 0:
                 self.projectiles.remove(projectile)
 
-            # Pour missile de base ?
-            # if projectile.type == "basic":
-            #     angle = Helper.calcAngle(projectile.x,projectile.y,projectile.cible_x,projectile.cible_y)
-            #     pasx = math.cos(angle) * projectile.vitesse
-            #     pasy = math.sin(angle) * projectile.vitesse
-                
-            #     projectile.x += pasx
-            #     projectile.y += pasy
-                
+            
             if projectile.type == "tracing":
                 cible_x = projectile.ennemi.x
                 cible_y = projectile.ennemi.y
@@ -214,27 +206,7 @@ class Modele():
                 projectile.y += pasy
                 
                 
-                # if projectile.cible_x >= projectile.x:
-                #     projectile.x += projectile.vitesse
-                # else:
-                #     projectile.x -= projectile.vitesse
-
-                # if projectile.cible_y >= projectile.y:
-                #     projectile.y += projectile.vitesse
-                # else:
-                #     projectile.y -= projectile.vitesse
-
-            # Pour missile qui suit
-            # if projectile.type == "tracing":
-                # if projectile.ennemi.x >= projectile.x:
-                #     projectile.x += projectile.vitesse
-                # else:
-                #     projectile.x -= projectile.vitesse
-
-                # if projectile.ennemi.y >= projectile.y:
-                #     projectile.y += projectile.vitesse
-                # else:
-                #     projectile.y -= projectile.vitesse
+              
 
             # delete le projectile si y touch et gerer la logique de damage ici et tout 
             # sort du rayon # timer
@@ -311,31 +283,33 @@ class Ennemi():  # chemin
 
             if self.x != destination_X or self.y != destination_Y:
                 
-                # if self.x > destination_X and self.y > destination_Y:
-                #     self.x -= self.vitesse * 0.70
-                #     self.y -= self.vitesse * 0.70
-                    
-                # if self.x > destination_X and self.y < destination_Y:
-                #     self.x -= self.vitesse * 0.70
-                #     self.y += self.vitesse * 0.70
-                    
-                # if self.x < destination_X and self.y < destination_Y:
-                #     self.x += self.vitesse * 0.70
-                #     self.y += self.vitesse * 0.70
-                    
-                # if self.x < destination_X and self.y > destination_Y:
-                #     self.x += self.vitesse * 0.70
-                #     self.y -= self.vitesse * 0.70
+               
 
-                if self.x < destination_X:
-                    self.x += self.vitesse  # déplace droit
-                elif self.x > destination_X:
-                    self.x -= self.vitesse  # déplace gauche
+            #     if self.x < destination_X:
+            #         self.x += self.vitesse  # déplace droit
+            #     elif self.x > destination_X:
+            #         self.x -= self.vitesse  # déplace gauche
 
-                if self.y < destination_Y:
-                    self.y += self.vitesse  # déplace bas
-                elif self.y > destination_Y:
-                    self.y -= self.vitesse  # déplace haut
+            #     if self.y < destination_Y:
+            #         self.y += self.vitesse  # déplace bas
+            #     elif self.y > destination_Y:
+            #         self.y -= self.vitesse  # déplace haut
+
+
+     
+
+                
+                #distance = Helper.calcDistance(self.x, self.y, destination_X, destination_Y)
+                    
+                # if distance < projectile.vitesse:
+                #     projectile.x = cible_x
+                #     projectile.y = cible_y
+                # else:
+                angle = Helper.calcAngle(self.x, self.y, destination_X, destination_Y)
+                posx = math.cos(angle) * self.vitesse
+                posy = math.sin(angle) * self.vitesse
+                self.x += posx
+                self.y += posy
 
             else:
                 self.index_path += 1
@@ -345,7 +319,42 @@ class Ennemi():  # chemin
 
         return True
     
-            
-        
+class Ennemi_glace(Ennemi): #ralentit la vitesse de projectile à proximité, donc diminue leur force d'impact de tirs? 
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=3, vitesse=2, path=None, index_path=0, score=20)           
     
+    #Ajouter les attributs propres à la glace ici
+        self.type = "glace"
     
+class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=4, vitesse=3, path=None, index_path=0, score=25)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "feu"
+
+class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=2, vitesse=1, path=None, index_path=0, score=18)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "gaz"
+    
+class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=5, vitesse=5, path=None, index_path=0, score=30)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "avion"
+    
+class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
+    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+        #Appeler le constructeur de la super classe Ennemi
+        super.__init__(self, x, y, taille, life=7, vitesse=2, path=None, index_path=0, score=35)           
+    
+    #Ajouter les attributs propres à la glace ici
+        self.type = "tank"
