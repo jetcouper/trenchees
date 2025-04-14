@@ -11,6 +11,7 @@ class Vue():
         self.controleur = controleur
         self.root = tk.Tk()
         self.root.title("Tower Defense")
+        self.mode_actif = "placement"
         ico = Image.open("assets/Machine_Gun.png")
         photo = ImageTk.PhotoImage(ico)
         self.root.wm_iconphoto(False, photo)
@@ -129,9 +130,11 @@ class Vue():
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
-        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red", command=self.selection_tour)
-        #self.cadreBoutonBtnTour.bind("<Button-1>", self.selection_tour)
-        self.cadreBoutonBtnTour.pack(padx=20, pady=100)
+        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Poser Tour", height=5, width=12, bg="red", command=self.selection_tour)
+        self.cadreBoutonBtnTour.pack(padx=20, pady=10)
+
+        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=5, width=12, bg="green", command=self.selection_sell)
+        self.cadreBoutonBtnVendre.pack(padx=20, pady=10)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
                                 command=self.controleur.start_Round)
@@ -179,16 +182,36 @@ class Vue():
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
 
-        if self.placement_mode:
+        if self.mode_actif == "placement":
             if self.verifier_emplacement(event):
                 self.controleur.clic_dans_vue(x, y)
             else:
                 print("Placement refusé.")
+        elif self.mode_actif == "vente":
+            if self.verifier_tour(event):
+                self.controleur.clic_dans_vue_vendre(x, y)
+            else:
+                print("Aucune tour")
         else:
-            print("Mode placement non actif.")
-
-            
+            print("Mode non défini.")
     
+    def verifier_tour(self, event):
+        items = self.canevas.find_overlapping(event.x - 10, event.y - 10, event.x + 10, event.y + 10)
+        for item_id in items:
+            tags = self.canevas.gettags(item_id)
+            if "tour" in tags:
+                return True
+        return False
+
+    def selection_tour(self):
+        self.mode_actif = "placement"
+        print("Mode placement")
+
+    def selection_sell(self):
+        self.mode_actif = "vente"
+        print("Mode vente")
+
+
         
     def afficher_game_over(self):
         popup_window = self.canevas.create_window(400, 300, window=self.popup, tags="popup")
