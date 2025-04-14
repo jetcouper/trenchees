@@ -12,6 +12,7 @@ class Vue():
         self.controleur = controleur
         self.root = tk.Tk()
         self.root.title("Tower Defense")
+        self.mode_actif = "placement"
         ico = Image.open("assets/Machine_Gun.png")
         photo = ImageTk.PhotoImage(ico)
         self.root.wm_iconphoto(False, photo)
@@ -135,13 +136,32 @@ class Vue():
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
-        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Tours", height=5, width=12, bg="red", command=self.selection_tour)
-        #self.cadreBoutonBtnTour.bind("<Button-1>", self.selection_tour)
-        self.cadreBoutonBtnTour.pack(padx=20, pady=100)
+        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Poser Tour", height=5, width=12, bg="red", command=self.selection_tour)
+        self.cadreBoutonBtnTour.pack(padx=20, pady=10)
+
+        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=5, width=12, bg="green", command=self.selection_sell)
+        self.cadreBoutonBtnVendre.pack(padx=20, pady=10)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
                                 command=self.controleur.start_Round)
         self.button.pack()
+        
+        self.upgrade_frame = tk.Frame(self.UIinfo, bg="orange")
+        self.upgrade_frame.pack(pady=10)
+
+        self.btn_speed = tk.Button(self.upgrade_frame, text="Speed", width=8, command=self.selection_upgrade_speed)
+        self.btn_speed.pack(pady=5)  # par défaut, pack les widgets verticalement
+
+        self.btn_range = tk.Button(self.upgrade_frame, text="Range", width=8, command=self.selection_upgrade_range)
+        self.btn_range.pack(pady=5)
+
+        self.btn_damage = tk.Button(self.upgrade_frame, text="Damage", width=8, command=self.selection_upgrade_damage)
+        self.btn_damage.pack(pady=5)
+        
+        self.btn_cooldown = tk.Button(self.upgrade_frame, text="Cooldown", width=8, command=self.selection_upgrade_cooldown)
+        self.btn_cooldown.pack(pady=5)
+
+
 
         self.label_Round_nbr = tk.Label(Rframe, text="Round : 0", fg="black", font=("Italic", 20), bg="orange")
         self.label_Round_nbr.pack()
@@ -202,21 +222,64 @@ class Vue():
         else:
             self.canevas.unbind("<Button-1>")
 
-        
-    
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
 
-        if self.placement_mode:
+        if self.mode_actif == "placement":
             if self.verifier_emplacement(event):
                 self.controleur.clic_dans_vue(x, y)
             else:
                 print("Placement refusé.")
+        elif self.mode_actif == "vente":
+            if self.verifier_tour(event):
+                self.controleur.clic_dans_vue_vendre(x, y)
+            else:
+                print("Aucune tour présente pour vente.")
+        elif self.mode_actif == "upgrade":
+            if self.verifier_tour(event):
+                self.controleur.clic_dans_vue_upgrade(x, y)
+            else:
+                print("Aucune tour présente pour upgrade.")
         else:
-            print("Mode placement non actif.")
-
-            
+            print("Mode non défini.")
     
+    def verifier_tour(self, event):
+        items = self.canevas.find_overlapping(event.x - 10, event.y - 10, event.x + 10, event.y + 10)
+        for item_id in items:
+            tags = self.canevas.gettags(item_id)
+            if "tour" in tags:
+                return True
+        return False
+
+    def selection_tour(self):
+        self.mode_actif = "placement"
+        print("Mode placement")
+
+    def selection_sell(self):
+        self.mode_actif = "vente"
+        print("Mode vente")
+
+    def selection_upgrade_speed(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "speed"
+        print("Mode upgrade activé: Speed")
+
+    def selection_upgrade_range(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "range"
+        print("Mode upgrade activé: Range")
+
+    def selection_upgrade_damage(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "damage"
+        print("Mode upgrade activé: Damage")
+        
+    def selection_upgrade_cooldown(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "cooldown"
+        print("Mode upgrade activé: cooldown réduit de 5%")
+
+
         
     def afficher_game_over(self):
         popup_window = self.canevas.create_window(400, 300, window=self.popup, tags="popup")
