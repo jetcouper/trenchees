@@ -29,18 +29,17 @@ class Helper(object):
     
 class Tour():
     def __init__(self, posX, posY, vitesse=0, damage=0, rayon=0, cooldown_time=0, on_cooldown=0, angle=0, price=50):
-        #self.id = random()
         self.x = posX
         self.y = posY
         self.vitesse = vitesse
         self.damage = damage
         self.rayon = rayon
-        self.cooldown_time = cooldown_time  # 1 secondes
-        self.on_cooldown = on_cooldown  # false
+        self.cooldown_time = cooldown_time  
+        self.on_cooldown = on_cooldown  
         self.angle = angle
         self.abilities = {}
-        self.TTL = rayon/vitesse
-        self.price = price # coût de la tour
+        self.TTL = rayon/vitesse if vitesse != 0 else 0
+        self.price = price
         self.current_cooldown = 0
 
     def init_tower(self, f='main'):
@@ -81,8 +80,25 @@ class Tour():
     def avaible_upgrade(self):
         pass
 
-    def upgrade(self):
-        pass
+    def upgrade(self, upgrade_type):
+        if upgrade_type == "speed":
+            self.vitesse += 1
+            self.TTL = self.rayon/self.vitesse if self.vitesse != 0 else 0
+            print("Speed upgrade effectué.")
+        elif upgrade_type == "range":
+            self.rayon += 20
+            print("Range upgrade effectué.")
+            self.TTL = self.rayon/self.vitesse if self.vitesse != 0 else 0
+        elif upgrade_type == "damage":
+            self.damage += 1
+            self.TTL = self.rayon/self.vitesse if self.vitesse != 0 else 0
+            print("Damage upgrade effectué.")
+        elif upgrade_type == "cooldown":
+            # Réduction du temps de cooldown de 5% (multiplication par 0.95)
+            self.cooldown_time *= 0.95
+            print("Cooldown réduit de 5%")
+        else:
+            print("Type d'upgrade invalide.")
 
 class Projectiles():
     def __init__(self, ennemi, tour):
@@ -164,6 +180,33 @@ class Modele():
                 print(f"Tour vendue pour {remboursement} !")
                 return
         print("AAAAAAAAAAAAAAAAAAAAAAAH")
+        
+    def upgrade_tour(self, x, y, upgrade_type):
+        seuil = 20  # seuil de détection du clic sur la tour
+        for tour in self.tours:
+            if abs(tour.x - x) < seuil and abs(tour.y - y) < seuil:
+                if upgrade_type == "speed":
+                    cost = 30
+                elif upgrade_type == "range":
+                    cost = 40
+                elif upgrade_type == "damage":
+                    cost = 50
+                elif upgrade_type == "cooldown":
+                    cost = 40
+                else:
+                    print("Type d'upgrade invalide.")
+                    return
+
+                if self.argent >= cost:
+                    self.argent -= cost
+                    tour.upgrade(upgrade_type)
+                    print(f"Tour améliorée ({upgrade_type}). Coût: {cost} - Argent restant: {self.argent}")
+                    return
+                else:
+                    print("Argent insuffisant pour cet upgrade.")
+                    return
+        print("Aucune tour trouvée à cet emplacement pour upgrade.")
+
 
     def start_round(self):
         if len(self.ennemis) > 0:

@@ -139,6 +139,23 @@ class Vue():
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
                                 command=self.controleur.start_Round)
         self.button.pack()
+        
+        self.upgrade_frame = tk.Frame(self.UIinfo, bg="orange")
+        self.upgrade_frame.pack(pady=10)
+
+        self.btn_speed = tk.Button(self.upgrade_frame, text="Speed", width=8, command=self.selection_upgrade_speed)
+        self.btn_speed.pack(pady=5)  # par défaut, pack les widgets verticalement
+
+        self.btn_range = tk.Button(self.upgrade_frame, text="Range", width=8, command=self.selection_upgrade_range)
+        self.btn_range.pack(pady=5)
+
+        self.btn_damage = tk.Button(self.upgrade_frame, text="Damage", width=8, command=self.selection_upgrade_damage)
+        self.btn_damage.pack(pady=5)
+        
+        self.btn_cooldown = tk.Button(self.upgrade_frame, text="Cooldown", width=8, command=self.selection_upgrade_cooldown)
+        self.btn_cooldown.pack(pady=5)
+
+
 
         self.label_Round_nbr = tk.Label(Rframe, text="Round : 0", fg="black", font=("Italic", 20), bg="orange")
         self.label_Round_nbr.pack()
@@ -177,8 +194,6 @@ class Vue():
         else:
             self.canevas.unbind("<Button-1>")
 
-        
-    
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
 
@@ -191,7 +206,12 @@ class Vue():
             if self.verifier_tour(event):
                 self.controleur.clic_dans_vue_vendre(x, y)
             else:
-                print("Aucune tour")
+                print("Aucune tour présente pour vente.")
+        elif self.mode_actif == "upgrade":
+            if self.verifier_tour(event):
+                self.controleur.clic_dans_vue_upgrade(x, y)
+            else:
+                print("Aucune tour présente pour upgrade.")
         else:
             print("Mode non défini.")
     
@@ -210,6 +230,26 @@ class Vue():
     def selection_sell(self):
         self.mode_actif = "vente"
         print("Mode vente")
+
+    def selection_upgrade_speed(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "speed"
+        print("Mode upgrade activé: Speed")
+
+    def selection_upgrade_range(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "range"
+        print("Mode upgrade activé: Range")
+
+    def selection_upgrade_damage(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "damage"
+        print("Mode upgrade activé: Damage")
+        
+    def selection_upgrade_cooldown(self):
+        self.mode_actif = "upgrade"
+        self.upgrade_type = "cooldown"
+        print("Mode upgrade activé: cooldown réduit de 5%")
 
 
         

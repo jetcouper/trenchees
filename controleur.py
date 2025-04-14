@@ -15,9 +15,15 @@ class Controleur():
             self.modele.placer_tour(x, y)
         elif self.vue.mode_actif == "vente":
             self.clic_dans_vue_vendre(x, y)
+        elif self.vue.mode_actif == "upgrade":
+            self.clic_dans_vue_upgrade(x, y)
             
     def clic_dans_vue_vendre(self, x, y):
         self.modele.vendre_tour(x, y)
+        
+    def clic_dans_vue_upgrade(self, x, y):
+        # Antoine
+        self.modele.upgrade_tour(x, y, self.vue.upgrade_type)
 
     def start_Round(self):
         self.modele.start_round()
