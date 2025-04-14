@@ -141,8 +141,6 @@ class Modele():
         self.argent = self.default_argent
         self.life_joueur = self.default_life_joueur
         
-        
-        
     def placer_tour(self, x, y):
         
         # for tour in self.tours:
@@ -155,6 +153,17 @@ class Modele():
             self.argent -= t.price
             self.tours.append(t)
             print(self.argent)
+            
+    def vendre_tour(self, x, y):
+        seuil = 20  
+        for tour in self.tours:
+            if abs(tour.x - x) < seuil and abs(tour.y - y) < seuil:
+                self.tours.remove(tour)
+                remboursement = int(tour.price * 0.75)
+                self.argent += remboursement
+                print(f"Tour vendue pour {remboursement} !")
+                return
+        print("AAAAAAAAAAAAAAAAAAAAAAAH")
 
     def start_round(self):
         if len(self.ennemis) > 0:
