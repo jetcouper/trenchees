@@ -18,9 +18,12 @@ class Vue():
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
-        self.ennemi_image1 = Image.open("assets/avion.png")
-        self.ennemi_image1 = self.ennemi_image1.resize((30, 30))
-        self.ennemi_photo1 = ImageTk.PhotoImage(self.ennemi_image1)
+        # Load and resize the PIL image for the enemy
+        self.ennemi_image_pil = Image.open("assets/avion.png")
+        self.ennemi_image_pil = self.ennemi_image_pil.resize((30, 30))
+        # Create the initial PhotoImage (if needed elsewhere)
+        self.ennemi_photo1 = ImageTk.PhotoImage(self.ennemi_image_pil)
+
         
         self.ennemi_image2 = Image.open("assets/ennemi2.png")
         self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
@@ -146,20 +149,27 @@ class Vue():
     def dessiner_ennemi(self, liste):
         self.canevas.delete("ennemi")
         for ennemi in liste:
-            self.canevas.create_image(ennemi.x, ennemi.y, image=self.ennemi_photo1, tags="ennemi")
-            self.afficher_ennemi
+            self.afficher_ennemi(ennemi)
             
     def afficher_ennemi(self, ennemi):
-    
-        angle = -ennemi.angle * 360/ math.pi
-        image_rotate = self.ennemi_photo1.rotate(angle, expand=True)
-        tk_image = ImageTk.PhotoImage(image_rotate)
+        # Convert the enemy's angle from radians to degrees.
+        degrees = -math.degrees(ennemi.angle)
         
+        # Rotate the original PIL image by the computed degrees.
+        rotated_image = self.ennemi_image_pil.rotate(degrees, expand=True)
+        
+        # Convert the rotated PIL image to a Tkinter-compatible PhotoImage.
+        tk_image = ImageTk.PhotoImage(rotated_image)
+        
+        # Save a reference to prevent garbage collection.
         ennemi.tk_image = tk_image
         
+        # Draw the rotated image at the enemy's current position.
         self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
         
-        print("rotate")
+        print("Enemy rotated by", degrees, "degrees")
+
+
          
 
     def dessiner_tours(self, tours):
