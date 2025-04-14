@@ -1,4 +1,5 @@
 import tkinter as tk
+import math
 from PIL import Image, ImageTk
 
 ENNEMIS_COLOR = "Yellow"
@@ -146,14 +147,19 @@ class Vue():
         self.canevas.delete("ennemi")
         for ennemi in liste:
             self.canevas.create_image(ennemi.x, ennemi.y, image=self.ennemi_photo1, tags="ennemi")
-            self.deplacer_ennemi
+            self.afficher_ennemi
             
-    def deplacer_ennemi(self):
-        print("angle")
+    def afficher_ennemi(self, ennemi):
+    
+        angle = -ennemi.angle * 360/ math.pi
+        image_rotate = self.ennemi_photo1.rotate(angle, expand=True)
+        tk_image = ImageTk.PhotoImage(image_rotate)
         
-        self.angle += 90
+        ennemi.tk_image = tk_image
         
-        self.ennemi_photo1.rotate(self.angle)
+        self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
+        
+        print("rotate")
          
 
     def dessiner_tours(self, tours):

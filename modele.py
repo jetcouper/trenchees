@@ -276,12 +276,18 @@ class Ennemi():  # chemin
         self.index_path = index_path
         self.score = score
 
+
     def deplacer(self):
+        
         try:
+            
+            if self.index_path >= (len(self.path) - 1):
+                return False 
+            
             destination_X = self.path[self.index_path + 1][0]
             destination_Y = self.path[self.index_path + 1][1]
 
-            if self.x != destination_X or self.y != destination_Y:
+            #if self.x != destination_X or self.y != destination_Y:
                 
                
 
@@ -295,30 +301,36 @@ class Ennemi():  # chemin
             #     elif self.y > destination_Y:
             #         self.y -= self.vitesse  # déplace haut
 
-
-     
-
                 
-                #distance = Helper.calcDistance(self.x, self.y, destination_X, destination_Y)
+            distance = Helper.calcDistance(self.x, self.y, destination_X, destination_Y)
                     
-                # if distance < projectile.vitesse:
-                #     projectile.x = cible_x
-                #     projectile.y = cible_y
-                # else:
+            if distance < self.vitesse:
+                self.x = destination_X
+                self.y = destination_Y
+                self.index_path += 1 
+                print("change_direction")
+                
+            else:
                 angle = Helper.calcAngle(self.x, self.y, destination_X, destination_Y)
                 posx = math.cos(angle) * self.vitesse
                 posy = math.sin(angle) * self.vitesse
                 self.x += posx
                 self.y += posy
 
-            else:
-                self.index_path += 1
+            # else:
+            #     self.index_path += 1
 
-        except:
-            return False
+        # except:
+        #     return False
 
-        return True
+            return True
     
+        except Exception as e:
+            print("erreur: {e}")
+            return False
+        
+        
+        
 class Ennemi_glace(Ennemi): #ralentit la vitesse de projectile à proximité, donc diminue leur force d'impact de tirs? 
     def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
         #Appeler le constructeur de la super classe Ennemi
