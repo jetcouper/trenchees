@@ -12,11 +12,13 @@ class Controleur():
 
     def clic_dans_vue(self, x, y):
         if self.vue.mode_actif == "placement":
-            self.modele.placer_tour(x, y)
+            tower_type = getattr(self.vue, "selected_tower", "machinegun")
+            self.modele.placer_tour(x, y, tower_type)
         elif self.vue.mode_actif == "vente":
             self.clic_dans_vue_vendre(x, y)
         elif self.vue.mode_actif == "upgrade":
             self.clic_dans_vue_upgrade(x, y)
+
             
     def clic_dans_vue_vendre(self, x, y):
         self.modele.vendre_tour(x, y)
