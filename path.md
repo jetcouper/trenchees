@@ -61,4 +61,176 @@ self.path = [
     (400.0, 800.0),   # ↓ vers bas (fin sur un bord)
 ]
 
+self.path = [
+    # Point de départ
+    (75, -20),
+    
+    # Ligne droite vers le bas
+    (75, 130),
+    (75, 160),
+    
+    #======= PREMIER VIRAGE (vers la droite) =======
+    # Début de la courbe en S - première partie
+    (75, 180),
+    (75, 190),
+    (75, 200),
+    (76, 205),
+    (78, 210),
+    (81, 214),
+    (84, 217),
+    (88, 220),
+    (92, 222),
+    
+    # Inflexion de la courbe en S
+    (97, 223),
+    (102, 224),
+    (108, 225),
+    (114, 225),
+    (120, 225),
+    
+    # Seconde partie de la courbe en S
+    (127, 225),
+    (135, 225),
+    (143, 225),
+    (152, 225),
+    (160, 225),
+    (170, 225),
+    (180, 225),
+    
+    # Ligne droite horizontale
+    (200, 225),
+    (300, 225),
+    (400, 225),
+    (485, 225),
+    
+    #======= DEUXIÈME VIRAGE (léger vers le bas) =======
+    # Début de la courbe en S - première partie
+    (510, 225),
+    (525, 225),
+    (540, 224),
+    (550, 223),
+    (557, 221),
+    (563, 218),
+    (568, 215),
+    
+    # Inflexion de la courbe en S
+    (572, 211),
+    (574, 207),
+    (575, 203),
+    
+    # Seconde partie de la courbe en S
+    (575, 200),
+    (576, 198),
+    (577, 197),
+    (579, 196),
+    (581, 195),
+    (584, 195),
+    (588, 196),
+    (592, 197),
+    (596, 198),
+    (600, 199),
+    (605, 200),
+    
+    # Ligne droite horizontale
+    (620, 200),
+    (640, 200),
+    (660, 200),
+    
+    #======= TROISIÈME VIRAGE (vers le bas) =======
+    # Début de la courbe en S - première partie
+    (675, 200),
+    (685, 200),
+    (695, 201),
+    (702, 203),
+    (708, 206),
+    (713, 210),
+    (717, 215),
+    
+    # Inflexion de la courbe en S
+    (720, 220),
+    (722, 226),
+    (724, 233),
+    
+    # Seconde partie de la courbe en S
+    (725, 240),
+    (725, 247),
+    (725, 255),
+    (725, 263),
+    (725, 272),
+    (725, 280),
+    (725, 290),
+    
+    # Ligne droite verticale
+    (725, 320),
+    (725, 370),
+    (725, 420),
+    (725, 470),
+    (725, 520),
+    (725, 550),
+    
+    #======= QUATRIÈME VIRAGE (vers la gauche) =======
+    # Début de la courbe en S - première partie
+    (725, 570),
+    (725, 580),
+    (724, 590),
+    (722, 598),
+    (718, 605),
+    (713, 610),
+    (707, 613),
+    
+    # Inflexion de la courbe en S
+    (700, 615),
+    (692, 616),
+    (683, 616),
+    
+    # Seconde partie de la courbe en S
+    (673, 616),
+    (662, 616),
+    (650, 615),
+    (637, 615),
+    (622, 615),
+    (605, 615),
+    (585, 615),
+    
+    # Ligne droite horizontale
+    (560, 615),
+    (500, 615),
+    (450, 615),
+    (400, 615),
+    (350, 615),
+    (300, 615),
+    (260, 615),
+    (230, 615),
+    
+    #======= CINQUIÈME VIRAGE (vers le bas) =======
+    # Début de la courbe en S - première partie
+    (210, 615),
+    (195, 615),
+    (185, 615),
+    (175, 616),
+    (167, 619),
+    (160, 623),
+    (155, 628),
+    
+    # Inflexion de la courbe en S
+    (152, 635),
+    (150, 642),
+    (150, 650),
+    
+    # Seconde partie de la courbe en S
+    (150, 658),
+    (149, 667),
+    (149, 675),
+    (150, 684),
+    (150, 693),
+    (150, 700),
+    (150, 710),
+    
+    # Ligne droite finale vers le bas
+    (150, 730),
+    (150, 750),
+    (150, 770),
+    (150, 800)
+]
+
 ```
