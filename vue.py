@@ -19,16 +19,16 @@ class Vue():
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
-        # Load and resize the PIL image for the enemy
-        self.ennemi_image_pil = Image.open("assets/avion.png")
-        self.ennemi_image_pil = self.ennemi_image_pil.resize((30, 30))
-        # Create the initial PhotoImage (if needed elsewhere)
-        self.ennemi_photo1 = ImageTk.PhotoImage(self.ennemi_image_pil)
-
         
-        self.ennemi_image2 = Image.open("assets/ennemi2.png")
-        self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
-        self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
+        # Load and resize the PIL image for the enemy
+        # self.ennemi_img = Image.open("assets/avion.png")
+        # self.ennemi_img = self.ennemi_img.resize((75, 75))
+        # Create the initial PhotoImage (if needed elsewhere)
+        # self.ennemi_photo = ImageTk.PhotoImage(self.ennemi_img)
+        
+        # self.ennemi_image2 = Image.open("assets/ennemi2.png")
+        # self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
+        # self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
         
         self.placement_mode = False
         
@@ -48,7 +48,30 @@ class Vue():
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
+    def init_ennemis(self, type):
         
+        if type == "glace":
+            link_image = "assets/ice_item.png"
+        
+        elif type == "feu":
+           link_image = "assets/fire-explosion.png"
+        
+        elif type == "gaz":
+            link_image = "assets/toxic_gas.png"
+        
+        elif type == "avion":
+           link_image = "assets/avion.png"
+        
+        elif type == "tank":
+            link_image = "assets/tank.png"
+        
+        elif type == None:
+            link_image = "assets/ennemi1.png"
+        
+       
+        self.ennemi_img = Image.open(link_image)
+        self.ennemi_img = self.ennemi_img.resize((75, 75))
+        self.ennemi_photo = ImageTk.PhotoImage(self.ennemi_img)
         
         
     def reset(self):

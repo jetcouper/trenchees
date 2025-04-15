@@ -6,6 +6,7 @@ class Controleur():
     def __init__(self):
         self.modele = Modele(800, 800)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
+        self.vue.init_ennemis(self, "glace")
         self.vue.dessiner_chemin(self.modele.path)
         # self.modele.apparition_ennemis() Start round dès le début
         self.loop_jeu()
