@@ -2,6 +2,7 @@ import math
 import os
 import json
 import random
+from PIL import Image, ImageTk
 
 
 class Helper(object):
@@ -56,7 +57,6 @@ class Tour():
 
             for ennemi in ennemis:
                 distance = math.sqrt((ennemi.x - self.x)**2 + (ennemi.y - self.y)**2)
-                #distance = Helper.calcDistance(self.x, self.y,ennemi.x,ennemi.y)
                 
                 if distance <= self.rayon:
                     self.current_cooldown = self.cooldown_time
@@ -95,10 +95,78 @@ class Tour():
             print("Damage upgrade effectué.")
         elif upgrade_type == "cooldown":
             # Réduction du temps de cooldown de 5% (multiplication par 0.95)
-            self.cooldown_time *= 0.95
-            print("Cooldown réduit de 5%")
+            self.cooldown_time *= 0.90
+            print("Cooldown réduit de 10%")
         else:
-            print("Type d'upgrade invalide.")
+            print("Type d'upgrade ompissbbbble")
+            
+            
+# Dans modele.py, après la définition de la classe Tour
+
+class TourRapide(Tour):
+    def __init__(self, posX, posY):
+        super().__init__(posX, posY, vitesse=10, damage=1, rayon=120, cooldown_time=5, on_cooldown=False, angle=0, price=50)
+        self.image_path = "assets/tour1.png"
+        self.projectile_image_path = "assets/fire-explosion.png"
+        img = Image.open(self.projectile_image_path)
+        img = img.resize((10, 10))
+        self.projectile_photo = ImageTk.PhotoImage(img)
+
+    def tire(self, ennemis):
+        return super().tire(ennemis)
+
+
+class TourRange(Tour):
+    def __init__(self, posX, posY):
+        super().__init__(posX, posY, vitesse=5, damage=5, rayon=180, cooldown_time=20, on_cooldown=False, angle=0, price=80)
+        self.image_path = "assets/tour2.png"
+        self.projectile_image_path = "assets/fire-explosion.png"
+        img = Image.open(self.projectile_image_path)
+        img = img.resize((10, 10))
+        self.projectile_photo = ImageTk.PhotoImage(img)
+
+    def tire(self, ennemis):
+        return super().tire(ennemis)
+
+
+class TourDamage(Tour):
+    def __init__(self, posX, posY):
+        super().__init__(posX, posY, vitesse=4, damage=8, rayon=150, cooldown_time=25, on_cooldown=False, angle=0, price=100)
+        self.image_path = "assets/tour3.png"
+        self.projectile_image_path = "assets/fire-explosion.png"
+        img = Image.open(self.projectile_image_path)
+        img = img.resize((10, 10))
+        self.projectile_photo = ImageTk.PhotoImage(img)
+
+    def tire(self, ennemis):
+        return super().tire(ennemis)
+
+
+class Tour4(Tour):
+    def __init__(self, posX, posY):
+        super().__init__(posX, posY, vitesse=12, damage=2, rayon=140, cooldown_time=6, on_cooldown=False, angle=0, price=60)
+        self.image_path = "assets/tour4.png"
+        self.projectile_image_path = "assets/fire-explosion.png"
+        img = Image.open(self.projectile_image_path)
+        img = img.resize((10, 10))
+        self.projectile_photo = ImageTk.PhotoImage(img)
+
+    def tire(self, ennemis):
+        return super().tire(ennemis)
+
+
+class TourProf(Tour):
+    def __init__(self, posX, posY):
+        super().__init__(posX, posY, vitesse=3, damage=7, rayon=200, cooldown_time=30, on_cooldown=False, angle=0, price=110)
+        self.image_path = "assets/TOURULTIMEWOW.png"
+        self.projectile_image_path = "assets/fire-explosion.png"
+        img = Image.open(self.projectile_image_path)
+        img = img.resize((10, 10))
+        self.projectile_photo = ImageTk.PhotoImage(img)
+
+    def tire(self, ennemis):
+        return super().tire(ennemis)
+
 
 class Projectiles():
     def __init__(self, ennemi, tour):
@@ -110,8 +178,14 @@ class Projectiles():
         self.cible_x = ennemi.x
         self.cible_y = ennemi.y
         self.ennemi = ennemi
-        self.type = "tracing"  # temporairement hardcoder on attend le type par la tour normalement.
+        self.type = "tracing"
         self.TTL = tour.TTL
+        
+        try:
+            self.tk_image = tour.projectile_photo
+        except Exception as e:
+            print("OULALA:", e)
+            self.tk_image = None
 
 
 class Modele():
@@ -122,15 +196,8 @@ class Modele():
         self.default_score = score
         self.default_argent = argent
         self.default_life_joueur = life_joueur
-        
-        
         self.reset()
-        
-        ### NE PAS MERGE
-        #self.life_joueur = 1#nb de vies initiales du joueur
-        #self.experience_joueur = 1 #expérience initiale du joueur ???????
-        #self.selectON = False
-        
+    
        
         self.path = [
             (0, -20),
@@ -157,19 +224,27 @@ class Modele():
         self.argent = self.default_argent
         self.life_joueur = self.default_life_joueur
         
-    def placer_tour(self, x, y):
+    def placer_tour(self, x, y, type_tour="machinegun"):
         
-        # for tour in self.tours:
-        #     if (x != tour.x and y != tour.y)
+        towers = {
+            "machinegun": TourRapide,
+            "mortar": TourRange,
+            "antitank": TourDamage,
+            "antiair": Tour4,
+            "artillery": TourProf
+        }
             
-        t = Tour(x, y, 5, 2, 150, 25, False, 0, 50 )
+        if type_tour in towers:
+            t = towers[type_tour](x, y)
+        else:
+            t = Tour(x, y, 5, 2, 150, 25, False, 0, 50)
         if t.price > self.argent:
-            print("Too broke to play")
+            print("Pas assez d'argent")
         else:
             self.argent -= t.price
             self.tours.append(t)
             print(self.argent)
-            
+                
     def vendre_tour(self, x, y):
         seuil = 20  
         for tour in self.tours:
@@ -194,7 +269,7 @@ class Modele():
                 elif upgrade_type == "cooldown":
                     cost = 40
                 else:
-                    print("Type d'upgrade invalide.")
+                    print("Type d'upgrade pas possible")
                     return
 
                 if self.argent >= cost:
@@ -228,9 +303,9 @@ class Modele():
         p = Projectiles(tirs[0], tirs[1])  # [ennemi, tour] 
         self.projectiles.append(p)
 
+
     def mouvement_projectiles(self):
         for projectile in self.projectiles:
-            ### Methode pour chaque type de projectile
 
             projectile.TTL -= 1
             if projectile.TTL <= 0:
@@ -257,11 +332,7 @@ class Modele():
                 projectile.x += pasx
                 projectile.y += pasy
                 
-                
-              
-
-            # delete le projectile si y touch et gerer la logique de damage ici et tout 
-            # sort du rayon # timer
+            
     
     def apparition_ennemis(self):
         ennemi = Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0)
@@ -293,18 +364,6 @@ class Modele():
                 self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
                 self.argent += ennemi.score
                 self.ennemis.remove(ennemi)
-        
-    # def selection_tour(self):
-    #     for tour in self.tours:
-    #         if (tour == self.tours[i])         
-                
-    # def acheter_tour(self):
-        
-    #         if (self.score >= self.tours[self.selection_tour].price): # si le joueur peut acheter la tour avec son pointage, on soustrait du solde le montant de la tour 
-    #             self.score -= self.tours[self.selection_tour].price
-            
-    #         if (self.score < self.tours[self.selection_tour].price): # si le joueur n'a pas assez de fonds, un message avertit le joueur qu'il ne peut procéder à l'achat 
-    #             print("Pas assez de fonds pour l'achat de cette tour")
     
     def victoire_ennemi(self):
         self.life_joueur -=1 
