@@ -305,7 +305,7 @@ class Modele():
          for x in range(self.round_count):
             rnd_delay =  random.random()*(x+4)
             time.sleep(rnd_delay)
-            self.ennemis.append(Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0))
+            self.ennemis.append(Ennemi_glace(self.path[0][0], self.path[0][1]))
 
 
     def valider_tirs(self):
@@ -414,7 +414,7 @@ class Modele():
             
 
 class Ennemi():
-    def __init__(self, x, y, taille, type, life, vitesse, path, index_path=0, score=15):
+    def __init__(self, x, y, taille=1, type="normal", life=1, vitesse=1, path=None, index_path=0, score=15):
         self.x = x
         self.y = y
         self.taille = taille
@@ -465,33 +465,74 @@ class Ennemi():
             print(f"erreur: {e}")
             return False
 
+        # if type == "glace":
+        #     link_image = "assets/ice_item.png"
         
+        # elif type == "feu":
+        #    link_image = "assets/fire-explosion.png"
         
+        # elif type == "gaz":
+        #     link_image = "assets/toxic_gas.png"
+        
+        # elif type == "avion":
+        #    link_image = "assets/avion.png"
+        
+        # elif type == "tank":
+        #     link_image = "assets/tank.png"
+        
+        # elif type == None:
+        #     link_image = "assets/ennemi1.png"
+            
+        # self.image_path = "assets/tour1.png"
+        # self.projectile_image_path = "assets/fire-explosion.png"
+        # img = Image.open(self.projectile_image_path)
+        # img = img.resize((10, 10))
+        # self.projectile_photo = ImageTk.PhotoImage(img)
         
 class Ennemi_glace(Ennemi): #ralentit la vitesse de projectile à proximité, donc diminue leur force d'impact de tirs? 
-    def __init__(self):
+    def __init__(self,x,y):
        
-        super().__init__(self, type="glace", life=3, vitesse=2, score=20)           
+        super().__init__(x, y, type="glace", life=3, vitesse=2, score=20)    
+        self.link_img = "assets/ice_item.png"
+        self.image_pil = Image.open(self.link_img)
+        self.image_pil = self.image_pil.resize((75,75))    
+        # self.ennemi_photo = ImageTk.PhotoImage(image)  
     
 class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
-    def __init__(self):
+    def __init__(self,x,y):
        
-        super.__init__(self, type="feu", life=4, vitesse=3, score=25)           
+        super.__init__(x, y, type="feu", life=4, vitesse=3, score=25)
+        self.link_img = "assets/fire-explosion.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))    
+        # self.ennemi_photo = ImageTk.PhotoImage(image)             
     
 
 class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
-    def __init__(self):
+    def __init__(self,x,y):
       
-        super.__init__(self, type="gaz", life=2, vitesse=1, score=18)           
+        super.__init__(x, y, type="gaz", life=2, vitesse=1, score=18)           
+        self.link_img = "assets/toxic_gas.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))    
+        # self.ennemi_photo = ImageTk.PhotoImage(image)   
     
 class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
-    def __init__(self):
+    def __init__(self,x,y):
        
-        super.__init__(self, type="avion", life=5, vitesse=5, score=30)           
+        super.__init__(x, y, type="avion", life=5, vitesse=5, score=30) 
+        self.link_img = "assets/avion.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))   
+        # self.ennemi_photo = ImageTk.PhotoImage(image)            
     
     
 class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
-    def __init__(self):
+    def __init__(self,x,y):
        
-        super.__init__(self, type="tank", life=7, vitesse=2, score=35)           
+        super.__init__(x, y, type="tank", life=7, vitesse=2, score=35)  
+        self.link_img = "assets/tank.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))    
+        # self.ennemi_photo = ImageTk.PhotoImage(image)           
     

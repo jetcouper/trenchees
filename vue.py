@@ -48,30 +48,6 @@ class Vue():
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
-    def init_ennemis(self, type):
-        
-        if type == "glace":
-            link_image = "assets/ice_item.png"
-        
-        elif type == "feu":
-           link_image = "assets/fire-explosion.png"
-        
-        elif type == "gaz":
-            link_image = "assets/toxic_gas.png"
-        
-        elif type == "avion":
-           link_image = "assets/avion.png"
-        
-        elif type == "tank":
-            link_image = "assets/tank.png"
-        
-        elif type == None:
-            link_image = "assets/ennemi1.png"
-        
-       
-        self.ennemi_img = Image.open(link_image)
-        self.ennemi_img = self.ennemi_img.resize((75, 75))
-        self.ennemi_photo = ImageTk.PhotoImage(self.ennemi_img)
         
         
     def reset(self):
@@ -230,11 +206,18 @@ class Vue():
             self.afficher_ennemi(ennemi)
             
     def afficher_ennemi(self, ennemi):
+        
+        # if hasattr(ennemi, "ennemi_photo"):
+        #     img = Image.open(ennemi.link_img)    
+        #     img = img.resize((75,75))
+        #     ennemi.ennemi_photo = img
+        
         # Convert the enemy's angle from radians to degrees.
         degrees = -math.degrees(ennemi.angle)
         
         # Rotate the original PIL image by the computed degrees.
-        rotated_image = self.ennemi_image_pil.rotate(degrees, expand=True)
+        
+        rotated_image = ennemi.image_pil.rotate(degrees, expand=True)
         
         # Convert the rotated PIL image to a Tkinter-compatible PhotoImage.
         tk_image = ImageTk.PhotoImage(rotated_image)
