@@ -206,29 +206,18 @@ class Vue():
             self.afficher_ennemi(ennemi)
             
     def afficher_ennemi(self, ennemi):
-        
-        # if hasattr(ennemi, "ennemi_photo"):
-        #     img = Image.open(ennemi.link_img)    
-        #     img = img.resize((75,75))
-        #     ennemi.ennemi_photo = img
-        
-        # Convert the enemy's angle from radians to degrees.
+        # Calculer l'angle en degrés (négatif pour correspondre au sens de rotation de Tkinter)
         degrees = -math.degrees(ennemi.angle)
-        
-        # Rotate the original PIL image by the computed degrees.
-        
-        rotated_image = ennemi.image_pil.rotate(degrees, expand=True)
-        
-        # Convert the rotated PIL image to a Tkinter-compatible PhotoImage.
+        # Appliquer la rotation à partir de l'image de base chargée (pour conserver la qualité de l'image)
+        rotated_image = ennemi.image_base.rotate(degrees, expand=True)
+        # Convertir l'image PIL en PhotoImage Tkinter
         tk_image = ImageTk.PhotoImage(rotated_image)
-        
-        # Save a reference to prevent garbage collection.
+        # Conserver la référence dans l'objet ennemi pour éviter qu'elle soit supprimée par le garbage collector
         ennemi.tk_image = tk_image
-        
-        # Draw the rotated image at the enemy's current position.
+        # Afficher l'image sur le canevas aux coordonnées actuelles de l'ennemi
         self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
-        
         print("Enemy rotated by", degrees, "degrees")
+
 
 
     def dessiner_tours(self, tours):
