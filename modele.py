@@ -4,6 +4,8 @@ import json
 import random
 from PIL import Image, ImageTk
 
+import threading
+import time
 
 class Helper(object):
     def getAngledPoint(angle,longueur,cx,cy):
@@ -200,7 +202,7 @@ class Modele():
     
        
         self.path = [
-            (0, -20),
+            #(0, -20),
             (75, -20),
             (75, 225),
             (575, 225),
@@ -284,12 +286,26 @@ class Modele():
 
 
     def start_round(self):
+        rnd_delay = 0
+
         if len(self.ennemis) > 0:
             print("Round Can not start")
+            return
         else:
             self.round_count+=1
-            for x in range(self.round_count):
-                self.ennemis.append(Ennemi(self.path[0][0]-(x)*20, self.path[0][1], 10, 5, 1, self.path, 0))
+            
+            thread = threading.Thread(target=self.ajout_ennemi)
+            thread.daemon = True  # Permet au thread de se terminer quand le programme principal se termine
+            thread.start()    
+               
+                
+                
+                
+    def ajout_ennemi(self):
+         for x in range(self.round_count):
+            rnd_delay =  random.random()*(x+4)
+            time.sleep(rnd_delay)
+            self.ennemis.append(Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0))
 
 
     def valider_tirs(self):
