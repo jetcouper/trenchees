@@ -302,10 +302,12 @@ class Modele():
                 
                 
     def ajout_ennemi(self):
-         for x in range(self.round_count):
-            rnd_delay =  random.random()*(x+4)
+        for x in range(self.round_count):
+            rnd_delay = random.random() * (x + 4)
             time.sleep(rnd_delay)
-            self.ennemis.append(Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0))
+            self.apparition_ennemis("glace")
+
+
 
 
     def valider_tirs(self):
@@ -350,8 +352,29 @@ class Modele():
                 
             
     
-    def apparition_ennemis(self):
-        ennemi = Ennemi(self.path[0][0], self.path[0][1], 10, 5, 1, self.path, 0)
+    def apparition_ennemis(self, type):
+        
+        # if type == None:
+        #     ennemi = Ennemi(self.path[0][0], self.path[0][1])
+        
+        if type == "glace":
+            ennemi = Ennemi_glace(self.path[0][0], self.path[0][1], path=self.path)
+        
+        elif type == "feu":
+            ennemi = Ennemi_feu(self.path[0][0], self.path[0][1], path=self.path)
+        
+        elif type == "gaz":
+            ennemi = Ennemi_gaz(self.path[0][0], self.path[0][1], path=self.path)
+        
+        elif type == "avion":
+            ennemi = Ennemi_avion(self.path[0][0], self.path[0][1], path=self.path)
+        
+        elif type == "tank":
+            ennemi = Ennemi_tank(self.path[0][0], self.path[0][1], path=self.path)
+        
+        # else:
+        #     raise ValueError(f".Type d'ennemi inconnu: {type}")
+            
         self.ennemis.append(ennemi)
 
     def deplacer_ennemis(self):
@@ -393,16 +416,17 @@ class Modele():
             
 
 class Ennemi():
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
+    def __init__(self, x, y, taille=1, type="normal", life=1, vitesse=1, path=0, index_path=0, score=15):
         self.x = x
         self.y = y
         self.taille = taille
-        self.vitesse = vitesse
         self.life = life
+        self.vitesse = vitesse
         self.path = path
         self.index_path = index_path
         self.score = score
         self.angle = 0
+        self.type = type
 
 
 
@@ -442,46 +466,52 @@ class Ennemi():
         except Exception as e:
             print(f"erreur: {e}")
             return False
+        
+class Ennemi_glace(Ennemi):
+    def __init__(self, x, y, path):
+        super().__init__(x, y, path=path, type="glace", life=3, vitesse=2, score=20)
+        self.link_img = "assets/ice_item.png"
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75, 75))
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base)
 
-        
-        
-        
-class Ennemi_glace(Ennemi): #ralentit la vitesse de projectile à proximité, donc diminue leur force d'impact de tirs? 
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
-        #Appeler le constructeur de la super classe Ennemi
-        super.__init__(self, x, y, taille, life=3, vitesse=2, path=None, index_path=0, score=20)           
-    
-    #Ajouter les attributs propres à la glace ici
-        self.type = "glace"
     
 class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
-        #Appeler le constructeur de la super classe Ennemi
-        super.__init__(self, x, y, taille, life=4, vitesse=3, path=None, index_path=0, score=25)           
+    def __init__(self,x,y, path):
+       
+        super.__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
+        self.link_img = "assets/fire-explosion.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))    
+        # self.ennemi_photo = ImageTk.PhotoImage(image)             
     
-    #Ajouter les attributs propres à la glace ici
-        self.type = "feu"
 
 class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
-        #Appeler le constructeur de la super classe Ennemi
-        super.__init__(self, x, y, taille, life=2, vitesse=1, path=None, index_path=0, score=18)           
-    
-    #Ajouter les attributs propres à la glace ici
-        self.type = "gaz"
+    def __init__(self,x,y, path):
+      
+        super.__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
+        self.link_img = "assets/toxic_gas.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))    
+        # self.ennemi_photo = ImageTk.PhotoImage(image)   
     
 class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
-        #Appeler le constructeur de la super classe Ennemi
-        super.__init__(self, x, y, taille, life=5, vitesse=5, path=None, index_path=0, score=30)           
+    def __init__(self,x,y, path):
+       
+        super.__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30) 
+        self.link_img = "assets/avion.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))   
+        # self.ennemi_photo = ImageTk.PhotoImage(image)            
     
-    #Ajouter les attributs propres à la glace ici
-        self.type = "avion"
     
 class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
-    def __init__(self, x, y, taille, life, vitesse, path, index_path=0, score=15):
-        #Appeler le constructeur de la super classe Ennemi
-        super.__init__(self, x, y, taille, life=7, vitesse=2, path=None, index_path=0, score=35)           
+    def __init__(self,x,y, path):
+       
+        super.__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35)  
+        self.link_img = "assets/tank.png"
+        image_pil = Image.open(self.link_img)
+        image_pil = image_pil.resize((75,75))    
+        # self.ennemi_photo = ImageTk.PhotoImage(image)           
     
-    #Ajouter les attributs propres à la glace ici
-        self.type = "tank"

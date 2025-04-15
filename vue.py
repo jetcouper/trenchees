@@ -19,16 +19,16 @@ class Vue():
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
-        # Load and resize the PIL image for the enemy
-        self.ennemi_image_pil = Image.open("assets/avion.png")
-        self.ennemi_image_pil = self.ennemi_image_pil.resize((30, 30))
-        # Create the initial PhotoImage (if needed elsewhere)
-        self.ennemi_photo1 = ImageTk.PhotoImage(self.ennemi_image_pil)
-
         
-        self.ennemi_image2 = Image.open("assets/ennemi2.png")
-        self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
-        self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
+        # Load and resize the PIL image for the enemy
+        # self.ennemi_img = Image.open("assets/avion.png")
+        # self.ennemi_img = self.ennemi_img.resize((75, 75))
+        # Create the initial PhotoImage (if needed elsewhere)
+        # self.ennemi_photo = ImageTk.PhotoImage(self.ennemi_img)
+        
+        # self.ennemi_image2 = Image.open("assets/ennemi2.png")
+        # self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
+        # self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
         
         self.placement_mode = False
         
@@ -48,7 +48,6 @@ class Vue():
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
-        
         
         
     def reset(self):
@@ -207,22 +206,18 @@ class Vue():
             self.afficher_ennemi(ennemi)
             
     def afficher_ennemi(self, ennemi):
-        # Convert the enemy's angle from radians to degrees.
+        # Calculer l'angle en degrés (négatif pour correspondre au sens de rotation de Tkinter)
         degrees = -math.degrees(ennemi.angle)
-        
-        # Rotate the original PIL image by the computed degrees.
-        rotated_image = self.ennemi_image_pil.rotate(degrees, expand=True)
-        
-        # Convert the rotated PIL image to a Tkinter-compatible PhotoImage.
+        # Appliquer la rotation à partir de l'image de base chargée (pour conserver la qualité de l'image)
+        rotated_image = ennemi.image_base.rotate(degrees, expand=True)
+        # Convertir l'image PIL en PhotoImage Tkinter
         tk_image = ImageTk.PhotoImage(rotated_image)
-        
-        # Save a reference to prevent garbage collection.
+        # Conserver la référence dans l'objet ennemi pour éviter qu'elle soit supprimée par le garbage collector
         ennemi.tk_image = tk_image
-        
-        # Draw the rotated image at the enemy's current position.
+        # Afficher l'image sur le canevas aux coordonnées actuelles de l'ennemi
         self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
-        
         print("Enemy rotated by", degrees, "degrees")
+
 
 
     def dessiner_tours(self, tours):
