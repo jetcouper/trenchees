@@ -159,8 +159,43 @@ class Vue():
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
-        self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Poser Tour", height=5, width=12, bg="red", command=self.selection_tour)
-        self.cadreBoutonBtnTour.pack(padx=20, pady=10)
+        # self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Poser Tour", height=5, width=12, bg="red", command=self.selection_tour)
+        # self.cadreBoutonBtnTour.pack(padx=20, pady=10)
+        
+        # Dans la méthode creer_cadre_jeu() de votre classe Vue, après la création de self.UIinfo
+        self.tower_selection_frame = tk.Frame(self.UIinfo, bg="orange")
+        self.tower_selection_frame.pack(pady=10)
+
+        self.btn_machinegun = tk.Button(self.tower_selection_frame,
+                                        text="Machine Gun",
+                                        width=12,
+                                        command=lambda: self.selection_tower("machinegun"))
+        self.btn_machinegun.pack(pady=5)
+
+        self.btn_mortar = tk.Button(self.tower_selection_frame,
+                                    text="Mortar",
+                                    width=12,
+                                    command=lambda: self.selection_tower("mortar"))
+        self.btn_mortar.pack(pady=5)
+
+        self.btn_antitank = tk.Button(self.tower_selection_frame,
+                                    text="Anti-Tank",
+                                    width=12,
+                                    command=lambda: self.selection_tower("antitank"))
+        self.btn_antitank.pack(pady=5)
+
+        self.btn_antiair = tk.Button(self.tower_selection_frame,
+                                    text="Anti-Air",
+                                    width=12,
+                                    command=lambda: self.selection_tower("antiair"))
+        self.btn_antiair.pack(pady=5)
+
+        self.btn_artillery = tk.Button(self.tower_selection_frame,
+                                    text="Artillery",
+                                    width=12,
+                                    command=lambda: self.selection_tower("artillery"))
+        self.btn_artillery.pack(pady=5)
+
 
         self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=5, width=12, bg="green", command=self.selection_sell)
         self.cadreBoutonBtnVendre.pack(padx=20, pady=10)
@@ -213,20 +248,28 @@ class Vue():
         print("Enemy rotated by", degrees, "degrees")
 
 
-         
-
     def dessiner_tours(self, tours):
         self.canevas.delete("tour")
         for tour in tours:
-            self.canevas.create_image(tour.x, tour.y, image=self.tour_photo2, anchor="center", tags=("tour"))
-            
+            if not hasattr(tour, "photo_image"):
+                image = Image.open(tour.image_path)
+                image = image.resize((40, 40))
+                tour.photo_image = ImageTk.PhotoImage(image)
+            self.canevas.create_image(tour.x, tour.y, image=tour.photo_image, anchor="center", tags=("tour"))
 
     def dessiner_projectiles(self, projectiles):
         self.canevas.delete("projectile")
         for projectile in projectiles:
-            self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
-                                          projectile.x + 2, projectile.y + 2,
-                                          fill=PROJECTILES_COLOR, tags=("projectile",))
+            if hasattr(projectile, "tk_image") and projectile.tk_image is not None:
+                self.canevas.create_image(projectile.x, projectile.y,
+                                        image=projectile.tk_image,
+                                        tags=("projectile",))
+            else:
+                self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
+                                            projectile.x + 2, projectile.y + 2,
+                                            fill=PROJECTILES_COLOR,
+                                            tags=("projectile",))
+
 
     def dessiner_chemin(self, path):
         self.canevas.delete("chemin")
@@ -244,6 +287,13 @@ class Vue():
             self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         else:
             self.canevas.unbind("<Button-1>")
+            
+    def selection_tower(self, tower_type):
+        self.mode_actif = "placement"
+        self.selected_tower = tower_type
+        print(f"Tour sélectionnée : {tower_type}")
+        # Vous pouvez également mettre à jour l'UI (par exemple, changer la couleur du bouton sélectionné)
+
 
     def afficher_coordonnees(self, event):
         x, y = event.x, event.y
