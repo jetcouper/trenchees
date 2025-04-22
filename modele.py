@@ -452,6 +452,7 @@ class Ennemi():
         self.y = y
         self.taille = taille
         self.life = life
+        self.max_life = life
         self.vitesse = vitesse
         self.path = path
         self.index_path = index_path
