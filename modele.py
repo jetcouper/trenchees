@@ -302,7 +302,7 @@ class Modele():
         else:
             #self.round_count+=1
             self.nb_ennemis = self.calculer_nbEnnemis()
-            print(self.nb_ennemis)
+            print("nb ennemis : " + str(self.nb_ennemis))
             
             thread = threading.Thread(target=self.ajout_ennemi)
             thread.daemon = True  # Permet au thread de se terminer quand le programme principal se termine
@@ -317,7 +317,7 @@ class Modele():
     
     def calculer_tauxVie(self, bonus):
         
-        return math.floor(3 * math.sqrt(self.round_count * 2) + bonus)       
+        return math.floor(5 * math.sqrt(self.round_count * 2) + bonus)       
            
     def ajout_ennemi(self):
         for x in range(self.nb_ennemis):
@@ -411,7 +411,7 @@ class Modele():
         #ennemi.life = 2*math.sqrt(self.round_count)+3
         
         # int(ennemi.life + self.calculer_tauxVie()) #ajuste le taux de vie
-        print("taux: "+str(ennemi.life))
+        print("taux vie : "+str(ennemi.life))
         
         self.ennemis.append(ennemi)
 
