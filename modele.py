@@ -292,19 +292,21 @@ class Modele():
             print("Round Can not start")
             return
         else:
-            self.round_count+=1
+            self.round_count += 1
             
             thread = threading.Thread(target=self.ajout_ennemi)
             thread.daemon = True  # Permet au thread de se terminer quand le programme principal se termine
-            thread.start()    
+            thread.start()
                
                 
                 
                 
     def ajout_ennemi(self):
         for x in range(self.round_count):
-            rnd_delay = random.random() * (x + 4)
-            time.sleep(rnd_delay)
+
+            if len(self.ennemis) > 0:
+                rnd_delay = random.random() * (x + 4)
+                time.sleep(rnd_delay)
             self.apparition_ennemis("glace")
 
 
