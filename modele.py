@@ -202,12 +202,19 @@ class Modele():
     
        
         self.path = [
-            #(0, -20),
             (75, -20),
             (75, 225),
             (575, 225),
             (575, 200),
             (725, 200),
+            (725, 615),
+            (150, 615),
+            (150, 800)
+        ]
+        
+        self.path2 = [
+            (75, -20),
+            (75, 225),
             (725, 615),
             (150, 615),
             (150, 800)
@@ -357,20 +364,22 @@ class Modele():
         # if type == None:
         #     ennemi = Ennemi(self.path[0][0], self.path[0][1])
         
+        path_choisi = random.choice([self.path, self.path2])
+        
         if type == "glace":
-            ennemi = Ennemi_glace(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_glace(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "feu":
-            ennemi = Ennemi_feu(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_feu(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "gaz":
-            ennemi = Ennemi_gaz(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_gaz(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "avion":
-            ennemi = Ennemi_avion(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_avion(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "tank":
-            ennemi = Ennemi_tank(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_tank(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         # else:
         #     raise ValueError(f".Type d'ennemi inconnu: {type}")
