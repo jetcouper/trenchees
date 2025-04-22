@@ -305,7 +305,11 @@ class Modele():
         for x in range(self.round_count):
             rnd_delay = random.random() * (x + 4)
             time.sleep(rnd_delay)
-            self.apparition_ennemis("glace")
+            # self.apparition_ennemis("glace")
+            # self.apparition_ennemis("feu")
+            # self.apparition_ennemis("gaz")
+            # self.apparition_ennemis("avion")
+            self.apparition_ennemis("tank")
 
 
 
@@ -480,38 +484,46 @@ class Ennemi_glace(Ennemi):
 class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
     def __init__(self,x,y, path):
        
-        super.__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
+        super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
         self.link_img = "assets/fire-explosion.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))    
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base)
         # self.ennemi_photo = ImageTk.PhotoImage(image)             
     
 
 class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
     def __init__(self,x,y, path):
       
-        super.__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
+        super().__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
         self.link_img = "assets/toxic_gas.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))    
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base) 
         # self.ennemi_photo = ImageTk.PhotoImage(image)   
     
 class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
     def __init__(self,x,y, path):
        
-        super.__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30) 
+        super().__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30) 
         self.link_img = "assets/avion.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))   
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base) 
         # self.ennemi_photo = ImageTk.PhotoImage(image)            
     
     
 class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
     def __init__(self,x,y, path):
        
-        super.__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35)  
+        super().__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35)  
         self.link_img = "assets/tank.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))    
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base)
         # self.ennemi_photo = ImageTk.PhotoImage(image)           
     
