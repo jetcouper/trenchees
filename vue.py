@@ -243,13 +243,13 @@ class Vue():
                                             tags=("projectile",))
 
 
-    def dessiner_chemin(self, path):
-        self.canevas.delete("chemin")
+    def dessiner_chemin(self, path, couleur="gray"):
         if len(path) > 1:
             for i in range(len(path) - 1):
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
-                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
+                self.canevas.create_line(x1, y1, x2, y2, fill=couleur, width=5, tags=("chemin",))
+
                 
     def selection_tour(self):
         self.placement_mode = not self.placement_mode
