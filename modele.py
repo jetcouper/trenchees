@@ -317,8 +317,6 @@ class Modele():
         
         return int(3 * math.sqrt(self.round_count * 2))
 
-
-
     def calculer_tauxVie(self, bonus):
 
         return math.floor(5 * math.sqrt(self.round_count * 2) + bonus)
@@ -410,7 +408,7 @@ class Modele():
         # else:
         #     raise ValueError(f".Type d'ennemi inconnu: {type}")
 
-        #ennemi.life = 2*math.sqrt(self.round_count)+3
+        # ennemi.life = 2*math.sqrt(self.round_count)+3
 
         # int(ennemi.life + self.calculer_tauxVie()) #ajuste le taux de vie
         print("taux vie : "+str(ennemi.life))
