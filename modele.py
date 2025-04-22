@@ -222,6 +222,7 @@ class Modele():
         self.tours = []
         self.ennemis = []
         self.round_count = 0
+        self.nb_ennemis = 0
         self.score = self.default_score
         self.argent = self.default_argent
         self.life_joueur = self.default_life_joueur
@@ -292,17 +293,30 @@ class Modele():
             print("Round Can not start")
             return
         else:
-            self.round_count+=1
+            #self.round_count+=1
+            self.nb_ennemis = self.calculer_nbEnnemis()
+            print(self.nb_ennemis)
             
             thread = threading.Thread(target=self.ajout_ennemi)
             thread.daemon = True  # Permet au thread de se terminer quand le programme principal se termine
             thread.start()    
                
-                
+   
+    def calculer_nbEnnemis(self):
+        
+        self.round_count+=1
+        
+        return int(3 * math.sqrt(self.round_count * 2))
+    
+        
+        
+        
+        
+                     
                 
                 
     def ajout_ennemi(self):
-        for x in range(self.round_count):
+        for x in range(self.nb_ennemis):
             rnd_delay = random.random() * (x + 4)
             time.sleep(rnd_delay)
             # self.apparition_ennemis("glace")
