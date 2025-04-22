@@ -324,13 +324,17 @@ class Modele():
                 
     def ajout_ennemi(self):
         for x in range(self.nb_ennemis):
-            rnd_delay = random.random() * (x + 4)
-            time.sleep(rnd_delay)
-            # self.apparition_ennemis("glace")
-            # self.apparition_ennemis("feu")
-            # self.apparition_ennemis("gaz")
-            # self.apparition_ennemis("avion")
+
+            if len(self.ennemis) > 0:
+                rnd_delay = random.random() * (x + 4)
+                time.sleep(rnd_delay)
+                # self.apparition_ennemis("glace")
+                # self.apparition_ennemis("feu")
+                # self.apparition_ennemis("gaz")
+                # self.apparition_ennemis("avion")
             self.apparition_ennemis("tank")
+
+
 
 
 
