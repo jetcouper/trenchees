@@ -199,6 +199,7 @@ class Modele():
         self.default_argent = argent
         self.default_life_joueur = life_joueur
         self.reset()
+        self.countEnnemie = 0
     
        
         self.path = [
@@ -302,6 +303,7 @@ class Modele():
         else:
             #self.round_count+=1
             self.nb_ennemis = self.calculer_nbEnnemis()
+            self.countEnnemie = self.nb_ennemis
             print(self.nb_ennemis)
             
             thread = threading.Thread(target=self.ajout_ennemi)
@@ -434,6 +436,7 @@ class Modele():
                 self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
                 self.argent += ennemi.score
                 self.ennemis.remove(ennemi)
+                self.countEnnemie = self.countEnnemie - 1
     
     def victoire_ennemi(self):
         self.life_joueur -=1 

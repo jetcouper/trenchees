@@ -9,6 +9,7 @@ class Controleur():
         self.vue.dessiner_chemin(self.modele.path, "gray")
         self.vue.dessiner_chemin(self.modele.path2, "blue")
         # self.modele.apparition_ennemis() Start round dès le début
+        self.demarrerRound = False
         self.loop_jeu()
 
     def clic_dans_vue(self, x, y):
@@ -51,6 +52,12 @@ class Controleur():
             self.vue.root.after(16, self.loop_jeu)  # 16 pour 60 fps
         else:
             self.vue.afficher_game_over()
+
+        if(self.modele.countEnnemie == 0):
+            self.demarrerRound = False
+        else:
+            self.demarrerRound = True
+
             
             
     def init_game_values(self):

@@ -84,7 +84,8 @@ class Vue():
         self.label_Round_nbr.pack()
         if self.info[4] > 0:
             self.button.config(state="disabled")
-        else:
+            self.controleur.demarrerRound = True
+        elif self.info[4] == 0 and self.controleur.demarrerRound == False:
             self.button.config(state="normal")
 
     def creer_cadre_jeu(self, largeur, hauteur, info):
