@@ -1,4 +1,5 @@
 import tkinter as tk
+
 import math
 from PIL import Image, ImageTk
 
@@ -202,6 +203,9 @@ class Vue():
 
     def dessiner_ennemi(self, liste):
         self.canevas.delete("ennemi")
+        self.canevas.delete("vie")
+        self.canevas.delete("vie_max")
+
         for ennemi in liste:
             self.afficher_ennemi(ennemi)
             
@@ -214,11 +218,23 @@ class Vue():
         tk_image = ImageTk.PhotoImage(rotated_image)
         # Conserver la référence dans l'objet ennemi pour éviter qu'elle soit supprimée par le garbage collector
         ennemi.tk_image = tk_image
+        self.afficher_vie(ennemi)
         # Afficher l'image sur le canevas aux coordonnées actuelles de l'ennemi
         self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
-        print("Enemy rotated by", degrees, "degrees")
-
-
+        self.afficher_vie(ennemi)
+        #print("Enemy rotated by", degrees, "degrees")
+        
+    def afficher_vie(self,ennemi):
+        largeur_totale = 40
+        pourcentage_vie = ennemi.life / ennemi.max_life
+        largeur_actuelle = largeur_totale * pourcentage_vie
+        largeurtemp = largeur_totale - largeur_actuelle
+        
+        self.canevas.create_rectangle(ennemi.x-20, ennemi.y-25, ennemi.x+20, ennemi.y-20, fill='gray', tag="vie")
+        self.canevas.create_rectangle(ennemi.x-20, ennemi.y-25, ennemi.x+20-largeurtemp, ennemi.y-20, fill='green', tag="vie_max")
+        #self.canvas.coords(self.barre_vie, ennemi.x-20, ennemi.y-25, ennemi.x-20, self.y-20)
+        
+        
 
     def dessiner_tours(self, tours):
         self.canevas.delete("tour")
