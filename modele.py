@@ -202,12 +202,19 @@ class Modele():
     
        
         self.path = [
-            #(0, -20),
             (75, -20),
             (75, 225),
             (575, 225),
             (575, 200),
             (725, 200),
+            (725, 615),
+            (150, 615),
+            (150, 800)
+        ]
+        
+        self.path2 = [
+            (75, -20),
+            (75, 225),
             (725, 615),
             (150, 615),
             (150, 800)
@@ -222,6 +229,7 @@ class Modele():
         self.tours = []
         self.ennemis = []
         self.round_count = 0
+        self.nb_ennemis = 0
         self.score = self.default_score
         self.argent = self.default_argent
         self.life_joueur = self.default_life_joueur
@@ -292,22 +300,37 @@ class Modele():
             print("Round Can not start")
             return
         else:
-            self.round_count += 1
+            #self.round_count+=1
+            self.nb_ennemis = self.calculer_nbEnnemis()
+            print(self.nb_ennemis)
             
             thread = threading.Thread(target=self.ajout_ennemi)
             thread.daemon = True  # Permet au thread de se terminer quand le programme principal se termine
-            thread.start()
+            thread.start()    
                
-                
+   
+    def calculer_nbEnnemis(self):
+        
+        self.round_count+=1
+        
+        return int(3 * math.sqrt(self.round_count * 2))
+    
+        
+        
+        
+        
+                     
                 
                 
     def ajout_ennemi(self):
-        for x in range(self.round_count):
-
-            if len(self.ennemis) > 0:
-                rnd_delay = random.random() * (x + 4)
-                time.sleep(rnd_delay)
-            self.apparition_ennemis("glace")
+        for x in range(self.nb_ennemis):
+            rnd_delay = random.random() * (x + 4)
+            time.sleep(rnd_delay)
+            # self.apparition_ennemis("glace")
+            # self.apparition_ennemis("feu")
+            # self.apparition_ennemis("gaz")
+            # self.apparition_ennemis("avion")
+            self.apparition_ennemis("tank")
 
 
 
@@ -359,20 +382,22 @@ class Modele():
         # if type == None:
         #     ennemi = Ennemi(self.path[0][0], self.path[0][1])
         
+        path_choisi = random.choice([self.path, self.path2])
+        
         if type == "glace":
-            ennemi = Ennemi_glace(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_glace(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "feu":
-            ennemi = Ennemi_feu(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_feu(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "gaz":
-            ennemi = Ennemi_gaz(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_gaz(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "avion":
-            ennemi = Ennemi_avion(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_avion(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         elif type == "tank":
-            ennemi = Ennemi_tank(self.path[0][0], self.path[0][1], path=self.path)
+            ennemi = Ennemi_tank(self.path[0][0], path_choisi[0][1], path=path_choisi)
         
         # else:
         #     raise ValueError(f".Type d'ennemi inconnu: {type}")
@@ -482,38 +507,46 @@ class Ennemi_glace(Ennemi):
 class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
     def __init__(self,x,y, path):
        
-        super.__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
+        super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
         self.link_img = "assets/fire-explosion.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))    
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base)
         # self.ennemi_photo = ImageTk.PhotoImage(image)             
     
 
 class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
     def __init__(self,x,y, path):
       
-        super.__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
+        super().__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
         self.link_img = "assets/toxic_gas.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))    
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base) 
         # self.ennemi_photo = ImageTk.PhotoImage(image)   
     
 class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
     def __init__(self,x,y, path):
        
-        super.__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30) 
+        super().__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30) 
         self.link_img = "assets/avion.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))   
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base) 
         # self.ennemi_photo = ImageTk.PhotoImage(image)            
     
     
 class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
     def __init__(self,x,y, path):
        
-        super.__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35)  
+        super().__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35)  
         self.link_img = "assets/tank.png"
-        image_pil = Image.open(self.link_img)
-        image_pil = image_pil.resize((75,75))    
+        base_image = Image.open(self.link_img)
+        base_image = base_image.resize((75,75))    
+        self.image_base = base_image
+        self.tk_image = ImageTk.PhotoImage(self.image_base)
         # self.ennemi_photo = ImageTk.PhotoImage(image)           
     

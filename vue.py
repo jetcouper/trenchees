@@ -18,38 +18,38 @@ class Vue():
         self.root.wm_iconphoto(False, photo)
         self.info = []
         self.creer_cadre_jeu(largeur, hauteur, self.info)
-        self.switch = True;
-
+        self.switch = True; 
+        
         # Load and resize the PIL image for the enemy
         # self.ennemi_img = Image.open("assets/avion.png")
         # self.ennemi_img = self.ennemi_img.resize((75, 75))
         # Create the initial PhotoImage (if needed elsewhere)
         # self.ennemi_photo = ImageTk.PhotoImage(self.ennemi_img)
-
+        
         # self.ennemi_image2 = Image.open("assets/ennemi2.png")
         # self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
         # self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
-
+        
         self.placement_mode = False
-
+        
         self.tour_image1 = Image.open("assets/tour1.png")
         self.tour_image1 = self.tour_image1.resize((40,40))
         self.tour_photo1 = ImageTk.PhotoImage(self.tour_image1)
-
+        
         self.tour_image2 = Image.open("assets/tour2.png")
         self.tour_image2 = self.tour_image2.resize((40,40))
         self.tour_photo2 = ImageTk.PhotoImage(self.tour_image2)
-
+        
         self.tour_image3 = Image.open("assets/tour3.png")
         self.tour_image3 = self.tour_image3.resize((40,40))
         self.tour_photo3 = ImageTk.PhotoImage(self.tour_image3)
-
+        
         self.tour_image4 = Image.open("assets/tour4.png")
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
-
-
+        
+        
     def reset(self):
         self.canevas.delete("popup")
         print("Message de Reset")
@@ -66,7 +66,7 @@ class Vue():
         self.vie.config(text=(f"score {self.info[0]}"))
 
         self.Argent.config(text=(f"Argent {self.info[2]}"))
-
+        
         self.label_Round_nbr.config(text=(f"Round: {self.info[3]}"))
 
         self.nbennemis.config(text=(f"Ennemis restant: {self.info[4]}"))
@@ -78,14 +78,14 @@ class Vue():
         self.score.pack(anchor="w")
 
         self.Argent.pack(anchor="w")
-
+        
         self.nbennemis.pack(anchor="w")
-
+        
         self.label_Round_nbr.pack()
-        if self.info[4] == 0:
-            self.button.config(state="normal")
-        else:
+        if self.info[4] > 0:
             self.button.config(state="disabled")
+        else:
+            self.button.config(state="normal")
 
     def creer_cadre_jeu(self, largeur, hauteur, info):
 
@@ -106,9 +106,9 @@ class Vue():
         self.UIinfo.pack_propagate(False)
         self.UIinfo.pack(padx=2)
         ## ajouter le stock et les bouttons ici
-
-
-
+        
+        
+        
         self.label_score = tk.Label(self.UIinfo, text=("Info"), fg="black", font=("Italic", 40), bg="orange", padx=2)
         self.label_score.pack(pady=50)
 
@@ -120,24 +120,24 @@ class Vue():
 
         self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black", font=("Italic", 13, "bold"), bg="orange")
         self.Argent.pack()
-
+        
         self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Italic", 13, "bold"),bg="orange")
         self.nbennemis.pack()
-
-
+        
+        
         ### Initialisation de la frame Popup
         self.popup = tk.Frame(self.canevas, bg="gray", bd=2, relief="raised")
         tk.Label(self.popup, text="Game-OVER", font=("Arial", 14), bg="gray").pack(pady=10)
         tk.Button(self.popup, text="Réessayer", command=lambda: self.controleur.init_game_values()).pack(pady=10)
 
-
+        
 
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
         # self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Poser Tour", height=5, width=12, bg="red", command=self.selection_tour)
         # self.cadreBoutonBtnTour.pack(padx=20, pady=10)
-
+        
         # Dans la méthode creer_cadre_jeu() de votre classe Vue, après la création de self.UIinfo
         self.tower_selection_frame = tk.Frame(self.UIinfo, bg="orange")
         self.tower_selection_frame.pack(pady=10)
@@ -179,7 +179,7 @@ class Vue():
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
                                 command=self.controleur.start_Round)
         self.button.pack()
-
+        
         self.upgrade_frame = tk.Frame(self.UIinfo, bg="orange")
         self.upgrade_frame.pack(pady=10)
 
@@ -191,7 +191,7 @@ class Vue():
 
         self.btn_damage = tk.Button(self.upgrade_frame, text="Damage", width=8, command=self.selection_upgrade_damage)
         self.btn_damage.pack(pady=5)
-
+        
         self.btn_cooldown = tk.Button(self.upgrade_frame, text="Cooldown", width=8, command=self.selection_upgrade_cooldown)
         self.btn_cooldown.pack(pady=5)
 
@@ -204,7 +204,7 @@ class Vue():
         self.canevas.delete("ennemi")
         for ennemi in liste:
             self.afficher_ennemi(ennemi)
-
+            
     def afficher_ennemi(self, ennemi):
         # Calculer l'angle en degrés (négatif pour correspondre au sens de rotation de Tkinter)
         degrees = -math.degrees(ennemi.angle)
@@ -243,23 +243,23 @@ class Vue():
                                             tags=("projectile",))
 
 
-    def dessiner_chemin(self, path):
-        self.canevas.delete("chemin")
+    def dessiner_chemin(self, path, couleur="gray"):
         if len(path) > 1:
             for i in range(len(path) - 1):
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
-                self.canevas.create_line(x1, y1, x2, y2, fill="gray", width=5, tags=("chemin",))
+                self.canevas.create_line(x1, y1, x2, y2, fill=couleur, width=5, tags=("chemin",))
 
+                
     def selection_tour(self):
         self.placement_mode = not self.placement_mode
         print("Placement mode:", self.placement_mode)
-
+        
         if self.placement_mode:
             self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         else:
             self.canevas.unbind("<Button-1>")
-
+            
     def selection_tower(self, tower_type):
         self.mode_actif = "placement"
         self.selected_tower = tower_type
@@ -287,7 +287,7 @@ class Vue():
                 print("Aucune tour présente pour upgrade.")
         else:
             print("Mode non défini.")
-
+    
     def verifier_tour(self, event):
         items = self.canevas.find_overlapping(event.x - 10, event.y - 10, event.x + 10, event.y + 10)
         for item_id in items:
@@ -318,17 +318,17 @@ class Vue():
         self.mode_actif = "upgrade"
         self.upgrade_type = "damage"
         print("Mode upgrade activé: Damage")
-
+        
     def selection_upgrade_cooldown(self):
         self.mode_actif = "upgrade"
         self.upgrade_type = "cooldown"
         print("Mode upgrade activé: cooldown réduit de 5%")
 
 
-
+        
     def afficher_game_over(self):
         popup_window = self.canevas.create_window(400, 300, window=self.popup, tags="popup")
-
+        
     def verifier_emplacement(self, event):
 
         print("ici")
@@ -347,12 +347,12 @@ class Vue():
                 return False
 
         print("okay")
-
+       
 
         if "tour" in tags:
             print("tour")
             return False
-
+        
         if "chemin" in tags:
             print("chemin")
             return False
