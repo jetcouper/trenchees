@@ -302,9 +302,9 @@ class Modele():
             return
         else:
             #self.round_count+=1
-            self.nb_ennemis = self.calculer_nbEnnemis()
             self.countEnnemie = self.nb_ennemis
-            print(self.nb_ennemis)
+            self.nb_ennemis = self.calculer_nbEnnemis()
+            print("nb ennemis : " + str(self.nb_ennemis))
             
             thread = threading.Thread(target=self.ajout_ennemi)
             thread.daemon = True  # Permet au thread de se terminer quand le programme principal se termine
@@ -316,14 +316,15 @@ class Modele():
         self.round_count+=1
         
         return int(3 * math.sqrt(self.round_count * 2))
-    
-        
-        
-        
-        
-                     
-                
-                
+
+
+
+    def calculer_tauxVie(self, bonus):
+
+        return math.floor(5 * math.sqrt(self.round_count * 2) + bonus)
+
+
+
     def ajout_ennemi(self):
         for x in range(self.nb_ennemis):
 
@@ -392,22 +393,27 @@ class Modele():
         
         if type == "glace":
             ennemi = Ennemi_glace(self.path[0][0], path_choisi[0][1], path=path_choisi)
-        
+            ennemi.life = self.calculer_tauxVie(3)
         elif type == "feu":
             ennemi = Ennemi_feu(self.path[0][0], path_choisi[0][1], path=path_choisi)
-        
+            ennemi.life = self.calculer_tauxVie(4)
         elif type == "gaz":
             ennemi = Ennemi_gaz(self.path[0][0], path_choisi[0][1], path=path_choisi)
-        
+            ennemi.life = self.calculer_tauxVie(2)
         elif type == "avion":
             ennemi = Ennemi_avion(self.path[0][0], path_choisi[0][1], path=path_choisi)
-        
+            ennemi.life = self.calculer_tauxVie(5)
         elif type == "tank":
             ennemi = Ennemi_tank(self.path[0][0], path_choisi[0][1], path=path_choisi)
-        
+            ennemi.life = self.calculer_tauxVie(7)
+
         # else:
         #     raise ValueError(f".Type d'ennemi inconnu: {type}")
-            
+
+        #ennemi.life = 2*math.sqrt(self.round_count)+3
+
+        # int(ennemi.life + self.calculer_tauxVie()) #ajuste le taux de vie
+        print("taux vie : "+str(ennemi.life))
         self.ennemis.append(ennemi)
 
     def deplacer_ennemis(self):
@@ -436,7 +442,6 @@ class Modele():
                 self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
                 self.argent += ennemi.score
                 self.ennemis.remove(ennemi)
-                self.countEnnemie = self.countEnnemie - 1
     
     def victoire_ennemi(self):
         self.life_joueur -=1 
@@ -455,6 +460,7 @@ class Ennemi():
         self.y = y
         self.taille = taille
         self.life = life
+        self.max_life = life
         self.vitesse = vitesse
         self.path = path
         self.index_path = index_path
