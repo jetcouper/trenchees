@@ -485,9 +485,13 @@ class Ennemi():
             print(f"erreur: {e}")
             return False
         
+    def calculer_tauxVie(self):
+        
+        return int(2 * math.sqrt(self.round_count))
+        
 class Ennemi_glace(Ennemi):
     def __init__(self, x, y, path):
-        super().__init__(x, y, path=path, type="glace", life=3, vitesse=2, score=20)
+        super().__init__(x, y, path=path, type="glace", life=self.calculer_tauxVie+3, vitesse=2, score=20)
         self.link_img = "assets/ice_item.png"
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 75))
@@ -498,7 +502,7 @@ class Ennemi_glace(Ennemi):
 class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
     def __init__(self,x,y, path):
        
-        super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
+        super().__init__(x, y, path=path, type="feu", life=self.calculer_tauxVie+4, vitesse=3, score=25)
         self.link_img = "assets/fire-explosion.png"
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75,75))    
