@@ -216,7 +216,6 @@ class Vue():
         ennemi.tk_image = tk_image
         # Afficher l'image sur le canevas aux coordonnées actuelles de l'ennemi
         self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
-        print("Enemy rotated by", degrees, "degrees")
 
 
 
