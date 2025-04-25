@@ -391,19 +391,19 @@ class Modele():
         
         if type == "glace":
             ennemi = Ennemi_glace(self.path[0][0], path_choisi[0][1], path=path_choisi)
-            ennemi.life = self.calculer_tauxVie(3)
+            ennemi.set_life(self.calculer_tauxVie(3))  
         elif type == "feu":
             ennemi = Ennemi_feu(self.path[0][0], path_choisi[0][1], path=path_choisi)
-            ennemi.life = self.calculer_tauxVie(4)
+            ennemi.set_life(self.calculer_tauxVie(4))
         elif type == "gaz":
             ennemi = Ennemi_gaz(self.path[0][0], path_choisi[0][1], path=path_choisi)
-            ennemi.life = self.calculer_tauxVie(2)
+            ennemi.set_life(self.calculer_tauxVie(2))
         elif type == "avion":
             ennemi = Ennemi_avion(self.path[0][0], path_choisi[0][1], path=path_choisi)
-            ennemi.life = self.calculer_tauxVie(5)
+            ennemi.set_life(self.calculer_tauxVie(5))
         elif type == "tank":
             ennemi = Ennemi_tank(self.path[0][0], path_choisi[0][1], path=path_choisi)
-            ennemi.life = self.calculer_tauxVie(7)
+            ennemi.set_life(self.calculer_tauxVie(7))
 
         # else:
         #     raise ValueError(f".Type d'ennemi inconnu: {type}")
@@ -459,7 +459,7 @@ class Ennemi():
         self.y = y
         self.taille = taille
         self.life = life
-        self.max_life = life
+        self.max_life = self.life
         self.vitesse = vitesse
         self.path = path
         self.index_path = index_path
@@ -467,7 +467,9 @@ class Ennemi():
         self.angle = 0
         self.type = type
 
-
+    def set_life(self, life):
+        self.life = life
+        self.max_life = life
 
     def deplacer(self):
         try:
