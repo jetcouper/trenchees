@@ -7,6 +7,8 @@ from PIL import Image, ImageTk
 import threading
 import time
 
+
+
 class Helper(object):
     def getAngledPoint(angle,longueur,cx,cy):
         x = (math.cos(angle)*longueur)+cx
@@ -190,7 +192,7 @@ class Projectiles():
             self.tk_image = None
 
 
-class Modele():
+class Partie():
     def __init__(self, largeur, hauteur, score=0, argent=500, life_joueur=100):
         self.largeur = largeur
         self.hauteur = hauteur
@@ -421,6 +423,7 @@ class Modele():
                 ennemi.life = 0
                 self.victoire_ennemi() # on enleve 1 pts de vie par bebitte tant que joueur a plus de 1 points de vie sinon crash le jeu ! 
                 self.ennemis.remove(ennemi)
+                self.countEnnemie = self.countEnnemie - 1
                 
     def vie_restante_ennemi(self):
         for ennemi in self.ennemis:
