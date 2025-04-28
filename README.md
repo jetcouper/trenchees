@@ -1,10 +1,84 @@
 # Tower Defense
 
+
+
 # Introduction
 - **Avertissement:** Ce jeux est une version préliminaire (Béta). 
 
 Ce document explique comment ce projet est fait, par qui et avec quels moyens utilisés. 
 Ce jeu est basé sur un style Tower Defense dont le but du joueur est d'empêcher l'ennemi d'atteindre la fin du chemin en placant des tours sur la carte.
+
+## Mise à jour V0.2
+- ### **Interface**
+    Boutons de tours pour séléctionner les nouvelles tours ajoutées.\
+    Boutons de habileté pour améliorer les tours.\
+    Bouton pour vendre une tour.
+    Barre de vie pour afficher la vie des ennemis.
+
+- ### **Mécanique de jeu**
+
+    **Choix tours:**\
+    Pour placer les tours, il faut cliqué sur le bouton concerné et puis on choisi l'endroit où le placer avec un autre clique.
+
+    **Choix amélioration:**\
+    Pour améliorer une tour, il faut cliqué sur l'habileté concerné et ensuite choisi sur quelle tour appliqué l'habileté en cliquant dessus.
+
+    **Vendre des tours:**\
+    Pour vendre une tour, il suffit de cliqué sur le bouton et cliqué sur la tour à effacer.\
+    **/!\ Attention**: Une fois cliqué, il faut réappuyer sur un autre bouton pour désactiver la fonctionnalité.
+
+    **Difficulté progressive:**\
+    Au fur et à mesure des rounds, les ennemis augmente leurs capacité (ex. leur vie et leur nombres.)
+
+    **Dynamisme des déplacement des ennemis**\
+    Les ennemis peuvent choisir un chemin pour donner des nouvelles possibilité de stratégie de jeu.
+
+
+- ### **Ennemis**
+  Nouveaux ennemis ajoutés.
+
+  **Ennemi de Glace:** Caractéristiques de base\
+  ![value](./assets/info/value.png)    -> **20** (Valeurs en crédit)\
+  ![speed](./assets/info/speed.png) -> **2** (vitesse, par pixel)\
+  ![life](./assets/info/life.png)      ->  **3**(point de valeur de vie)\
+  **Ennemi de Feu** \
+  ![value](./assets/info/value.png)-> **25**\
+  ![speed](./assets/info/speed.png)-> **3**\
+  ![life](./assets/info/life.png)  ->  **4**\
+  **Ennemi de gaz** \
+  ![value](./assets/info/value.png)-> **18**\
+  ![speed](./assets/info/speed.png)-> **1**\
+  ![life](./assets/info/life.png)->  **2**\
+  **Avions**\
+  ![value](./assets/info/value.png)-> **30**\
+  ![speed](./assets/info/speed.png)-> **5**\
+  ![life](./assets/info/life.png)->  **5**\
+  **Tank**\
+  ![value](./assets/info/value.png)-> **35**\
+  ![speed](./assets/info/speed.png)-> **2**\
+  ![life](./assets/info/life.png)->  **7**
+
+
+- ### **Tours**
+  Nouvelles Tours
+
+  **Machine Gun**\
+  ![speed](./assets/info/speed.png) ->**10** (vitesse, en pixel)\
+  ![strenght](./assets/info/strength.png) -> **1** (dégats, en points de dégats)\
+  **Mortar**\
+  ![speed](./assets/info/speed.png) ->**5**\
+  ![strenght](./assets/info/strength.png) -> **5**\
+  **Anti-Tank**\
+  ![speed](./assets/info/speed.png) ->**4**\
+  ![strenght](./assets/info/strength.png) -> **8**\
+  **Anti-Air**\
+  ![speed](./assets/info/speed.png) ->**12**\
+  ![strenght](./assets/info/strength.png) -> **2**\
+  **Artillery**\
+  ![speed](./assets/info/speed.png) ->**3**\
+  ![strenght](./assets/info/strength.png) -> **7**
+
+
 
 ## Languages utilisés
 - **Python:** Le language Python est utilisé principalement pour ce projet. Ce language peut être lu sur plusieurs appareils tel que Linux, Windows, 
