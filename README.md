@@ -1,10 +1,43 @@
 # Tower Defense
 
+
+
 # Introduction
 - **Avertissement:** Ce jeux est une version préliminaire (Béta). 
 
 Ce document explique comment ce projet est fait, par qui et avec quels moyens utilisés. 
 Ce jeu est basé sur un style Tower Defense dont le but du joueur est d'empêcher l'ennemi d'atteindre la fin du chemin en placant des tours sur la carte.
+
+## Mise à jour V0.2
+- ### **Interface**
+    Boutons de tours pour séléctionner les nouvelles tours ajoutées.\
+    Boutons de habileté pour améliorer les tours.\
+    Bouton pour vendre une tour.
+
+- ### **Mécanique de jeu**
+
+    **Choix tours:**\
+    Pour placer les tours, il faut cliqué sur le bouton concerné et puis on choisi l'endroit où le placer avec un autre clique.
+
+    **Choix amélioration:**\
+    Pour améliorer une tour, il faut cliqué sur l'habileté concerné et ensuite choisi sur quelle tour appliqué l'habileté en cliquant dessus.
+
+    **Vendre des tours:**\
+    Pour vendre une tour, il suffit de cliqué sur le bouton et cliqué sur la tour à effacer.\
+    **/!\ Attention**: Une fois cliqué, il faut réappuyer sur un autre bouton pour désactiver la fonctionnalité.
+
+- ### **Ennemis**
+  Nouveaux ennemis ajoutés.
+
+  **Machine Gun**
+  <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
+
+  **Mortar**
+  **Anti-Tank**
+  **Anti-Air**
+  **Artillery**
+
+
 
 ## Languages utilisés
 - **Python:** Le language Python est utilisé principalement pour ce projet. Ce language peut être lu sur plusieurs appareils tel que Linux, Windows, 
