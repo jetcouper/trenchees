@@ -342,7 +342,7 @@ class Modele():
             # print(choix)
             # print(index)
             
-            if self.round_count > 1 and self.round_count < 10:
+            if self.round_count == 1 and self.round_count < 10:
                 
                 probability1 = [0.7, 0.5, 0.3, 0, 0]
                 self.current_ennemi = random.choices(self.liste_ennemis, weights = probability1, k = 1)[0]
@@ -362,7 +362,6 @@ class Modele():
                 self.current_ennemi = random.choices(self.liste_ennemis, weights = probability4, k = 1)[0]
                 
                 
-            
             self.apparition_ennemis(self.current_ennemi)
               
             print(self.current_ennemi)
@@ -437,13 +436,15 @@ class Modele():
             ennemi = Ennemi_tank(self.path[0][0], path_choisi[0][1], path=path_choisi)
             ennemi.set_life(self.calculer_tauxVie(7))
 
+        else:
+            return 
         # else:
         #     raise ValueError(f".Type d'ennemi inconnu: {type}")
 
         # ennemi.life = 2*math.sqrt(self.round_count)+3
 
         # int(ennemi.life + self.calculer_tauxVie()) #ajuste le taux de vie
-        print("taux vie : "+str(ennemi.life))
+        #print("taux vie : "+str(ennemi.life))
         self.ennemis.append(ennemi)
         
 
