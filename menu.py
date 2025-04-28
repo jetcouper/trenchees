@@ -36,7 +36,7 @@ class Vue():
         ]
         
         # Types/noms des nœuds (association avec les couleurs)
-        self.node_types = ["Créer", "Modifier", "Supprimer", "Déplacer", "Copier", "Coller", "Option", "Aide"]
+        self.node_types = ["Jouer", "Profil", "Parametres", "non-défini", "Quitter", "non-dénfini", "non-défini", "Tutorial"]
         
         # Positions angulaires (en radians, partant de -π/2 pour le Nord, sens horaire)
         self.positions = [
@@ -51,7 +51,7 @@ class Vue():
         ]
         
         # Noms des positions
-        self.position_names = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        #self.position_names = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
         
         # Variables d'animation
         self.current_rotation = 0  # Angle de rotation actuel
@@ -86,10 +86,10 @@ class Vue():
         
         # Cercle de fond
         self.center_circle = self.menu_frame.create_oval(
-            center_x - 50, center_y - 50, 
-            center_x + 50, center_y + 50, 
+            center_x - 70, center_y - 70, 
+            center_x + 70, center_y + 70, 
             fill="#333333",
-            outline="white",
+            outline="black",
             width=2
         )
         
@@ -123,7 +123,7 @@ class Vue():
         center_x = self.largeur / 2
         center_y = self.hauteur / 2
         radius = 200    # Distance du centre
-        node_size = 25  # Taille du nœud
+        node_size = 40  # Taille du nœud
         
         # Créer 8 nœuds avec leurs positions et étiquettes
         for i in range(8):
@@ -146,7 +146,7 @@ class Vue():
             # Ajouter l'étiquette de position
             text_id = self.menu_frame.create_text(
                 x, y,
-                text=self.position_names[i],
+                text="",
                 fill="white",
                 font=("Arial", 12, "bold")
             )
@@ -203,7 +203,7 @@ class Vue():
             return
         
         # Vitesse de rotation (en radians par étape)
-        step_size = 0.05
+        step_size = 0.1
         
         # Si on est presque à la fin, ajuster précisément
         if self.remaining_angle < step_size:
