@@ -200,7 +200,7 @@ class Modele():
         self.default_life_joueur = life_joueur
         self.reset()
         self.countEnnemie = 0
-        
+        self.current_ennemi = None
         self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
     
        
@@ -336,8 +336,35 @@ class Modele():
                 # self.apparition_ennemis("gaz")
                 # self.apparition_ennemis("avion")
                 
-            self.current_ennemi = random.choice(self.liste_ennemis)
+                
+            # choix = random.choice(self.liste_ennemis) 
+            # index = self.liste_ennemis.index(choix) #indice de la liste ennemi pour retrouver le % 
+            # print(choix)
+            # print(index)
+            
+            if self.round_count > 1 and self.round_count < 10:
+                
+                probability1 = [0.7, 0.5, 0.3, 0, 0]
+                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability1, k = 1)[0]
+            
+            elif self.round_count > 10 and self.round_count < 20:
+                
+                probability2 = [0.3, 0.7, 0.4, 0, 0.01]
+                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability2, k = 1)[0]
+                
+            elif self.round_count > 20 and self.round_count < 30:    
+                
+                probability3 = [0.2, 0.4, 0.5, 0.1, 0.2]
+                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability3, k = 1)[0]
+                
+            elif self.round_count > 30 and self.round_count < 40:   
+                probability4 = [0.1, 0.3, 0.4, 0.3, 0.3]
+                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability4, k = 1)[0]
+                
+                
+            
             self.apparition_ennemis(self.current_ennemi)
+              
             print(self.current_ennemi)
 
 
@@ -418,6 +445,7 @@ class Modele():
         # int(ennemi.life + self.calculer_tauxVie()) #ajuste le taux de vie
         print("taux vie : "+str(ennemi.life))
         self.ennemis.append(ennemi)
+        
 
     def deplacer_ennemis(self):
         for ennemi in self.ennemis:
