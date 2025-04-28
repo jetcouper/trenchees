@@ -200,6 +200,8 @@ class Modele():
         self.default_life_joueur = life_joueur
         self.reset()
         self.countEnnemie = 0
+        
+        self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
     
        
         self.path = [
@@ -333,7 +335,10 @@ class Modele():
                 # self.apparition_ennemis("feu")
                 # self.apparition_ennemis("gaz")
                 # self.apparition_ennemis("avion")
-            self.apparition_ennemis("tank")
+                
+            self.current_ennemi = random.choice(self.liste_ennemis)
+            self.apparition_ennemis(self.current_ennemi)
+            print(self.current_ennemi)
 
 
 
