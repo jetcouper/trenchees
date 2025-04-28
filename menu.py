@@ -1,5 +1,8 @@
 import tkinter as Tk
 import math as M
+from PIL import ImageTk,Image
+
+
 
 class controleur():
     def __init__(self):
@@ -33,6 +36,17 @@ class Vue():
             "#4B0082",  # Indigo (SW)
             "#9400D3",  # Violet (W)
             "#FF1493"   # Rose (NW)
+        ]
+        
+        self.node_image = [
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
         ]
         
         # Types/noms des nœuds (association avec les couleurs)
@@ -140,8 +154,9 @@ class Vue():
                 x + node_size, y + node_size,
                 fill=self.node_colors[i],
                 outline="black",
-                width=2
+                width=0
             )
+            
             
             # Ajouter l'étiquette de position
             text_id = self.menu_frame.create_text(
@@ -149,6 +164,11 @@ class Vue():
                 text="",
                 fill="white",
                 font=("Arial", 12, "bold")
+            )
+            
+            text_id = self.menu_frame.create_image(
+                x,y,
+                image=self.node_image[i]
             )
             
             # Associer un gestionnaire d'événements au clic
