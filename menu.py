@@ -259,6 +259,7 @@ class Vue():
             target = self.target_position
             self.node_colors = self.node_colors[target:] + self.node_colors[:target]
             self.node_types = self.node_types[target:] + self.node_types[:target]
+            self.node_image = self.node_image[target:] + self.node_image[:target]
             self.target_position = None
         
         # Réinitialiser l'angle de rotation
