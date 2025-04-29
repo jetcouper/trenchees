@@ -38,16 +38,16 @@ class Vue():
             "#FF1493"   # Rose (NW)
         ]
         
-        # self.node_image = [
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        # ]
+        self.node_image = [
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\play.png").resize((70,70))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+        ]
         
         # Types/noms des nœuds (association avec les couleurs)
         self.node_types = ["Jouer", "Profil", "Parametres", "non-défini", "Quitter", "non-dénfini", "non-défini", "Tutorial"]
@@ -159,20 +159,22 @@ class Vue():
             
             
             # Ajouter l'étiquette de position
-            text_id = self.menu_frame.create_text(
-                x, y,
-                text="",
-                fill="white",
-                font=("Arial", 12, "bold")
-            )
-            
-            # text_id = self.menu_frame.create_image(
-            #     x,y,
-            #     image=self.node_image[i]
+            # text_id = self.menu_frame.create_text(
+            #     x, y,
+            #     text="",
+            #     fill="white",
+            #     font=("Arial", 12, "bold")
             # )
             
+            text_id = self.menu_frame.create_image(
+                x,y,
+                image=self.node_image[i]
+            )
+            
+            
+            
             # Associer un gestionnaire d'événements au clic
-            self.menu_frame.tag_bind(node_id, "<Button-1>", lambda event, idx=i: self.rotate_to_north(idx))
+            self.menu_frame.tag_bind(text_id, "<Button-1>", lambda event, idx=i: self.rotate_to_north(idx))
             
             # Stocker le nœud et son texte
             self.node_objects.append((node_id, text_id))
