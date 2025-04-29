@@ -50,7 +50,7 @@ class Vue():
         ]
         
         # Types/noms des nœuds (association avec les couleurs)
-        self.node_types = ["Jouer", "Profil", "Parametres", "MAPS", "Quitter", "Achievements", "Crédits", "Tutorial"]
+        self.node_types = ["Play !", "Profil", "Parameters", "Map\nMaker", "Exit", "Achievements", "Credits", "Tutorial"]
         
         # Positions angulaires (en radians, partant de -π/2 pour le Nord, sens horaire)
         self.positions = [
