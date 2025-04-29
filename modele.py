@@ -200,7 +200,6 @@ class Modele():
         self.default_life_joueur = life_joueur
         self.reset()
         self.countEnnemie = 0
-        self.current_ennemi = None
         self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
     
        
@@ -326,6 +325,7 @@ class Modele():
 
 
     def ajout_ennemi(self):
+        
         for x in range(self.nb_ennemis):
 
             if len(self.ennemis) > 0:
@@ -344,27 +344,28 @@ class Modele():
             
             if self.round_count == 1 and self.round_count < 10:
                 
-                probability1 = [0.7, 0.5, 0.3, 0, 0]
-                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability1, k = 1)[0]
+                probability1 = [0.5, 0.5, 0.3, 0, 0]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability1, k = 1)[0]
             
             elif self.round_count > 10 and self.round_count < 20:
                 
-                probability2 = [0.3, 0.7, 0.4, 0, 0.01]
-                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability2, k = 1)[0]
+                probability2 = [0.3, 0.5, 0.4, 0, 0.01]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability2, k = 1)[0]
                 
             elif self.round_count > 20 and self.round_count < 30:    
                 
                 probability3 = [0.2, 0.4, 0.5, 0.1, 0.2]
-                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability3, k = 1)[0]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability3, k = 1)[0]
                 
             elif self.round_count > 30 and self.round_count < 40:   
                 probability4 = [0.1, 0.3, 0.4, 0.3, 0.3]
-                self.current_ennemi = random.choices(self.liste_ennemis, weights = probability4, k = 1)[0]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability4, k = 1)[0]
+            else:
+                current_ennemi = random.choice(self.liste_ennemis)
                 
-                
-            self.apparition_ennemis(self.current_ennemi)
+            self.apparition_ennemis(current_ennemi)
               
-            print(self.current_ennemi)
+            print(current_ennemi)
 
 
 
