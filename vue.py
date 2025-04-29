@@ -21,15 +21,7 @@ class Vue():
         self.creer_cadre_jeu(largeur, hauteur, self.info)
         self.switch = True; 
         
-        # Load and resize the PIL image for the enemy
-        # self.ennemi_img = Image.open("assets/avion.png")
-        # self.ennemi_img = self.ennemi_img.resize((75, 75))
-        # Create the initial PhotoImage (if needed elsewhere)
-        # self.ennemi_photo = ImageTk.PhotoImage(self.ennemi_img)
         
-        # self.ennemi_image2 = Image.open("assets/ennemi2.png")
-        # self.ennemi_image2 = self.ennemi_image2.resize((30, 30))
-        # self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
         
         self.placement_mode = False
         
@@ -53,7 +45,7 @@ class Vue():
         
     def reset(self):
         self.canevas.delete("popup")
-        print("Message de Reset")
+        
         self.button.config(state="normal")
 
     def update_vue(self, vie, score, argent, round, nbennemis):
@@ -212,21 +204,21 @@ class Vue():
             self.afficher_ennemi(ennemi)
             
     def afficher_ennemi(self, ennemi):
-        # Calculer l'angle en degrés (négatif pour correspondre au sens de rotation de Tkinter)
+        
         degrees = -math.degrees(ennemi.angle)
-        # Appliquer la rotation à partir de l'image de base chargée (pour conserver la qualité de l'image)
+        
         rotated_image = ennemi.image_base.rotate(degrees, expand=True)
-        # Convertir l'image PIL en PhotoImage Tkinter
+        
         tk_image = ImageTk.PhotoImage(rotated_image)
-        # Conserver la référence dans l'objet ennemi pour éviter qu'elle soit supprimée par le garbage collector
+        
         ennemi.tk_image = tk_image
         self.afficher_vie(ennemi)
-        # Afficher l'image sur le canevas aux coordonnées actuelles de l'ennemi
+        
         self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
 
 
         self.afficher_vie(ennemi)
-        #print("Enemy rotated by", degrees, "degrees")
+        
         
     def afficher_vie(self,ennemi):
         largeur_totale = 40
@@ -286,7 +278,6 @@ class Vue():
         self.mode_actif = "placement"
         self.selected_tower = tower_type
         print(f"Tour sélectionnée : {tower_type}")
-        # Vous pouvez également mettre à jour l'UI (par exemple, changer la couleur du bouton sélectionné)
 
 
     def afficher_coordonnees(self, event):
@@ -353,7 +344,7 @@ class Vue():
         
     def verifier_emplacement(self, event):
 
-        print("ici")
+        
         # https://tkinter-docs.readthedocs.io/en/latest/widgets/canvas.html
         # find_overlapping(x1, y1, x2, y2)
         # Returns every item overlapping the rectangular region given by x1, y1, x2, and y2. (x1, y1)
@@ -365,22 +356,22 @@ class Vue():
         for item_id in tempTour:
             tags = self.canevas.gettags(item_id)
             if "tour" in tags or "chemin" in tags:
-                print("not good")
+                
                 return False
 
-        print("okay")
+        
        
 
         if "tour" in tags:
-            print("tour")
+            
             return False
         
         if "chemin" in tags:
-            print("chemin")
+            
             return False
 
         else:
-            print("okay")
+            
             return True
 
 

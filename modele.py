@@ -461,6 +461,7 @@ class Partie():
                 self.victoire_ennemi() # on enleve 1 pts de vie par bebitte tant que joueur a plus de 1 points de vie sinon crash le jeu ! 
                 self.ennemis.remove(ennemi)
                 self.countEnnemie = self.countEnnemie - 1
+                # Je suis Alexandre :) -antoine D.
                 
     def vie_restante_ennemi(self):
         for ennemi in self.ennemis:
@@ -485,7 +486,7 @@ class Partie():
     def victoire_ennemi(self):
         self.life_joueur -=1 
         if self.life_joueur <= 0:
-            print("game terminer on ferme le loop ici") ## ici faut crash le jeu
+
             self.player_alive = False
             #quit()
             # ici vue et ferme loop
@@ -520,23 +521,23 @@ class Ennemi():
             destination_Y = self.path[self.index_path + 1][1]
             distance = Helper.calcDistance(self.x, self.y, destination_X, destination_Y)
             
-            # Compute the angle toward the destination
+
             self.angle = Helper.calcAngle(self.x, self.y, destination_X, destination_Y)
             
             if distance < self.vitesse:
-                # Snap enemy to destination and update path index
+
                 self.x = destination_X
                 self.y = destination_Y
                 self.index_path += 1
                 
-                # Optionally, update angle for the next segment if available:
+
                 if self.index_path < len(self.path) - 1:
                     next_destX = self.path[self.index_path + 1][0]
                     next_destY = self.path[self.index_path + 1][1]
                     self.angle = Helper.calcAngle(self.x, self.y, next_destX, next_destY)
                 print("change_direction")
             else:
-                # Increment position along the direction
+
                 posx = math.cos(self.angle) * self.vitesse
                 posy = math.sin(self.angle) * self.vitesse
                 self.x += posx
@@ -604,3 +605,4 @@ class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
         self.tk_image = ImageTk.PhotoImage(self.image_base)
         # self.ennemi_photo = ImageTk.PhotoImage(image)           
     
+# Antoine
