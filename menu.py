@@ -7,7 +7,7 @@ from PIL import ImageTk,Image
 class controleur():
     def __init__(self):
         self.root = Tk.Tk()
-        self.root.title("Jeu de la vie")
+        self.root.title("Jeu de Samuel Bergeron (BS)")
         self.modele = Modele(800, 600)
         self.vue = Vue(self, self.modele, self.modele.largeur, self.modele.hauteur, self.root)
         self.root.mainloop()
@@ -39,18 +39,18 @@ class Vue():
         # ]
         
         self.node_image = [
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\play.png").resize((70,70))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\play.png").resize((70,70))), #Image de Play
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\profil.png").resize((70,70))), #Image de profil
             ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png").resize((120,120))), #Image de parametres
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\map.png").resize((70,70))), #Image de Map Maker
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\leave.png").resize((60,60))), #Image de Quitter
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\achievements.png").resize((70,70))), #Image de Achievement
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\credits.png").resize((80,80))), #Image de Crédits
+            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\tutorial.png").resize((80,80))), #Image de Tutorial
         ]
         
         # Types/noms des nœuds (association avec les couleurs)
-        self.node_types = ["Jouer", "Profil", "Parametres", "non-défini", "Quitter", "non-dénfini", "non-défini", "Tutorial"]
+        self.node_types = ["Jouer", "Profil", "Parametres", "MAPS", "Quitter", "Achievements", "Crédits", "Tutorial"]
         
         # Positions angulaires (en radians, partant de -π/2 pour le Nord, sens horaire)
         self.positions = [
