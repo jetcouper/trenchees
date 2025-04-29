@@ -54,6 +54,7 @@ class Vue():
     def reset(self):
         self.canevas.delete("popup")
         print("Message de Reset")
+        self.button.config(state="normal")
 
     def update_vue(self, vie, score, argent, round, nbennemis):
         self.info = [vie, score, argent, round, nbennemis]
