@@ -553,7 +553,7 @@ class Ennemi_glace(Ennemi):
         super().__init__(x, y, path=path, type="glace", life=3, vitesse=2, score=20)
         self.link_img = "assets/char_silver1.png"
         base_image = Image.open(self.link_img)
-        base_image = base_image.resize((75, 75))
+        base_image = base_image.resize((75, 50))
         self.image_base = base_image
         self.tk_image = ImageTk.PhotoImage(self.image_base)
 
@@ -564,7 +564,7 @@ class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
         super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
         self.link_img = "assets/tank_vert1.png"
         base_image = Image.open(self.link_img)
-        base_image = base_image.resize((75,75))    
+        base_image = base_image.resize((75, 50))  
         self.image_base = base_image
         self.tk_image = ImageTk.PhotoImage(self.image_base)
         # self.ennemi_photo = ImageTk.PhotoImage(image)             
@@ -576,7 +576,7 @@ class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
         super().__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
         self.link_img = "assets/char_silver1.png"
         base_image = Image.open(self.link_img)
-        base_image = base_image.resize((75,75))    
+        base_image = base_image.resize((75, 50))  
         self.image_base = base_image
         self.tk_image = ImageTk.PhotoImage(self.image_base) 
         # self.ennemi_photo = ImageTk.PhotoImage(image)   
@@ -587,7 +587,7 @@ class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
         super().__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30) 
         self.link_img = "assets/avion.png"
         base_image = Image.open(self.link_img)
-        base_image = base_image.resize((75,75))    
+        base_image = base_image.resize((75, 50))   
         self.image_base = base_image
         self.tk_image = ImageTk.PhotoImage(self.image_base) 
         # self.ennemi_photo = ImageTk.PhotoImage(image)            
@@ -599,7 +599,7 @@ class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
         super().__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35)  
         self.link_img = "assets/tank.png"
         base_image = Image.open(self.link_img)
-        base_image = base_image.resize((75,75))    
+        base_image = base_image.resize((75, 50)) 
         self.image_base = base_image
         self.tk_image = ImageTk.PhotoImage(self.image_base)
         # self.ennemi_photo = ImageTk.PhotoImage(image)           
