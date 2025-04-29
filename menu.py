@@ -27,16 +27,16 @@ class Vue():
         self.create_menu_frame()
         
         # Couleurs des nœuds
-        self.node_colors = [
-            "#FF0000",  # Rouge (N)
-            "#FF7F00",  # Orange (NE)
-            "#FFFF00",  # Jaune (E)
-            "#00FF00",  # Vert (SE)
-            "#0000FF",  # Bleu (S)
-            "#4B0082",  # Indigo (SW)
-            "#9400D3",  # Violet (W)
-            "#FF1493"   # Rose (NW)
-        ]
+        # self.node_colors = [
+        #     "#FF0000",  # Rouge (N)
+        #     "#FF7F00",  # Orange (NE)
+        #     "#FFFF00",  # Jaune (E)
+        #     "#00FF00",  # Vert (SE)
+        #     "#0000FF",  # Bleu (S)
+        #     "#4B0082",  # Indigo (SW)
+        #     "#9400D3",  # Violet (W)
+        #     "#FF1493"   # Rose (NW)
+        # ]
         
         self.node_image = [
             ImageTk.PhotoImage(Image.open(".\\assets\\icons\\play.png").resize((70,70))), #Image de parametres
@@ -125,8 +125,13 @@ class Vue():
     
     def clear_nodes(self):
         """Efface tous les nœuds et textes existants."""
-        for node_id, text_id in self.node_objects:
-            self.menu_frame.delete(node_id)
+        # for node_id, text_id in self.node_objects:
+        #     self.menu_frame.delete(node_id)
+        #     self.menu_frame.delete(text_id)
+        # self.node_objects = []
+        
+        for text_id in self.node_objects:
+            # self.menu_frame.delete(node_id)
             self.menu_frame.delete(text_id)
         self.node_objects = []
     
@@ -149,13 +154,13 @@ class Vue():
             y = center_y + radius * M.sin(angle)
             
             # Créer le nœud
-            node_id = self.menu_frame.create_oval(
-                x - node_size, y - node_size,
-                x + node_size, y + node_size,
-                fill=self.node_colors[i],
-                outline="black",
-                width=0
-            )
+            # node_id = self.menu_frame.create_oval(
+            #     x - node_size, y - node_size,
+            #     x + node_size, y + node_size,
+            #     # fill=self.node_colors[i],
+            #     outline="black",
+            #     width=0
+            # )
             
             
             # Ajouter l'étiquette de position
@@ -177,7 +182,8 @@ class Vue():
             self.menu_frame.tag_bind(text_id, "<Button-1>", lambda event, idx=i: self.rotate_to_north(idx))
             
             # Stocker le nœud et son texte
-            self.node_objects.append((node_id, text_id))
+            # self.node_objects.append((node_id, text_id))
+            self.node_objects.append((text_id))
     
     def rotate_to_north(self, node_index):
         """Initie la rotation pour amener le nœud cliqué à la position Nord."""
@@ -257,7 +263,7 @@ class Vue():
         if self.target_position is not None:
             # Déplacer la couleur et le type du nœud cliqué à la position Nord
             target = self.target_position
-            self.node_colors = self.node_colors[target:] + self.node_colors[:target]
+            #self.node_colors = self.node_colors[target:] + self.node_colors[:target]
             self.node_types = self.node_types[target:] + self.node_types[:target]
             self.node_image = self.node_image[target:] + self.node_image[:target]
             self.target_position = None
