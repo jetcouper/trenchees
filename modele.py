@@ -562,7 +562,7 @@ class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
     def __init__(self,x,y, path):
        
         super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
-        self.link_img = "assets/tank1.png"
+        self.link_img = "assets/tank_vert1.png"
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75,75))    
         self.image_base = base_image
