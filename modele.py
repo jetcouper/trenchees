@@ -53,6 +53,8 @@ class Tour():
             # if(filename[0] = f):
             # print("fichier trouvé : ")
             # pass
+            
+    #antoine
 
     def tire(self, ennemis):
             if self.current_cooldown > 0:
