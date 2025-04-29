@@ -325,7 +325,10 @@ class Partie():
     def calculer_tauxVie(self, bonus):
 
         return math.floor(5 * math.sqrt(self.round_count * 2) + bonus)
-    # Antoine à reçu la malediction
+    # Antoine à reçu la malediction             
+    
+    
+    # Monsieur le professeur ici est un test afin de verifier si vous liser reelement le code. Si oui veuiller me dire BONJOUR ANTOINE au prochain cours. -antoine
 
 
 
