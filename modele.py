@@ -551,7 +551,7 @@ class Ennemi():
 class Ennemi_glace(Ennemi):
     def __init__(self, x, y, path):
         super().__init__(x, y, path=path, type="glace", life=3, vitesse=2, score=20)
-        self.link_img = "assets/ice_item.png"
+        self.link_img = "assets/char_silver1.png"
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 75))
         self.image_base = base_image
@@ -562,7 +562,7 @@ class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
     def __init__(self,x,y, path):
        
         super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
-        self.link_img = "assets/fire-explosion.png"
+        self.link_img = "assets/tank1.png"
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75,75))    
         self.image_base = base_image
@@ -574,7 +574,7 @@ class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
     def __init__(self,x,y, path):
       
         super().__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
-        self.link_img = "assets/toxic_gas.png"
+        self.link_img = "assets/char_silver1.png"
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75,75))    
         self.image_base = base_image
