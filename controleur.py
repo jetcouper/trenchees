@@ -4,7 +4,7 @@ from vue import Vue
 
 class Controleur():
     def __init__(self):
-        self.modele = Modele(800, 800)
+        self.modele = Partie(800, 800)
         self.vue = Vue(self, self.modele.largeur, self.modele.hauteur)
         self.vue.dessiner_chemin(self.modele.path, "gray")
         self.vue.dessiner_chemin(self.modele.path2, "blue")

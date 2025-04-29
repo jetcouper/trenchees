@@ -54,6 +54,7 @@ class Vue():
     def reset(self):
         self.canevas.delete("popup")
         print("Message de Reset")
+        self.button.config(state="normal")
 
     def update_vue(self, vie, score, argent, round, nbennemis):
         self.info = [vie, score, argent, round, nbennemis]
@@ -256,11 +257,12 @@ class Vue():
                 self.canevas.create_image(projectile.x, projectile.y,
                                         image=projectile.tk_image,
                                         tags=("projectile",))
-            else:
-                self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
-                                            projectile.x + 2, projectile.y + 2,
-                                            fill=PROJECTILES_COLOR,
-                                            tags=("projectile",))
+
+            # else:
+            #     self.canevas.create_rectangle(projectile.x - 2, projectile.y - 2,
+            #                                 projectile.x + 2, projectile.y + 2,
+            #                                 fill=PROJECTILES_COLOR,
+            #                                 tags=("projectile",))
 
 
     def dessiner_chemin(self, path, couleur="gray"):
