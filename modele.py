@@ -204,6 +204,7 @@ class Partie():
         self.default_life_joueur = life_joueur
         self.reset()
         self.countEnnemie = 0
+        self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
     
        
         self.path = [
@@ -328,6 +329,7 @@ class Partie():
 
 
     def ajout_ennemi(self):
+        
         for x in range(self.nb_ennemis):
 
             if len(self.ennemis) > 0:
@@ -337,7 +339,37 @@ class Partie():
                 # self.apparition_ennemis("feu")
                 # self.apparition_ennemis("gaz")
                 # self.apparition_ennemis("avion")
-            self.apparition_ennemis("tank")
+                
+                
+            # choix = random.choice(self.liste_ennemis) 
+            # index = self.liste_ennemis.index(choix) #indice de la liste ennemi pour retrouver le % 
+            # print(choix)
+            # print(index)
+            
+            if self.round_count == 1 and self.round_count < 10:
+                
+                probability1 = [0.5, 0.5, 0.3, 0, 0]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability1, k = 1)[0]
+            
+            elif self.round_count > 10 and self.round_count < 20:
+                
+                probability2 = [0.3, 0.5, 0.4, 0, 0.01]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability2, k = 1)[0]
+                
+            elif self.round_count > 20 and self.round_count < 30:    
+                
+                probability3 = [0.2, 0.4, 0.5, 0.1, 0.2]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability3, k = 1)[0]
+                
+            elif self.round_count > 30 and self.round_count < 40:   
+                probability4 = [0.1, 0.3, 0.4, 0.3, 0.3]
+                current_ennemi = random.choices(self.liste_ennemis, weights = probability4, k = 1)[0]
+            else:
+                current_ennemi = random.choice(self.liste_ennemis)
+                
+            self.apparition_ennemis(current_ennemi)
+              
+            print(current_ennemi)
 
 
 
@@ -409,14 +441,17 @@ class Partie():
             ennemi = Ennemi_tank(self.path[0][0], path_choisi[0][1], path=path_choisi)
             ennemi.set_life(self.calculer_tauxVie(7))
 
+        else:
+            return 
         # else:
         #     raise ValueError(f".Type d'ennemi inconnu: {type}")
 
         # ennemi.life = 2*math.sqrt(self.round_count)+3
 
         # int(ennemi.life + self.calculer_tauxVie()) #ajuste le taux de vie
-        print("taux vie : "+str(ennemi.life))
+        #print("taux vie : "+str(ennemi.life))
         self.ennemis.append(ennemi)
+        
 
     def deplacer_ennemis(self):
         for ennemi in self.ennemis:
