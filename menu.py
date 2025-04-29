@@ -1,20 +1,13 @@
 import tkinter as Tk
 import math as M
-<<<<<<< Updated upstream
 from PIL import ImageTk,Image
 
 
-=======
->>>>>>> Stashed changes
 
 class controleur():
     def __init__(self):
         self.root = Tk.Tk()
-<<<<<<< Updated upstream
         self.root.title("Jeu de la vie")
-=======
-        self.root.title("Trenches")
->>>>>>> Stashed changes
         self.modele = Modele(800, 600)
         self.vue = Vue(self, self.modele, self.modele.largeur, self.modele.hauteur, self.root)
         self.root.mainloop()
@@ -45,24 +38,19 @@ class Vue():
             "#FF1493"   # Rose (NW)
         ]
         
-<<<<<<< Updated upstream
-        self.node_image = [
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-            ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
-        ]
+        # self.node_image = [
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        #     ImageTk.PhotoImage(Image.open(".\\assets\\icons\\parameters.png")), #Image de parametres
+        # ]
         
         # Types/noms des nœuds (association avec les couleurs)
         self.node_types = ["Jouer", "Profil", "Parametres", "non-défini", "Quitter", "non-dénfini", "non-défini", "Tutorial"]
-=======
-        # Types/noms des nœuds (association avec les couleurs)
-        self.node_types = ["Créer", "Modifier", "Supprimer", "Déplacer", "Copier", "Coller", "Option", "Aide"]
->>>>>>> Stashed changes
         
         # Positions angulaires (en radians, partant de -π/2 pour le Nord, sens horaire)
         self.positions = [
@@ -111,23 +99,12 @@ class Vue():
         center_y = self.hauteur / 2
         
         # Cercle de fond
-<<<<<<< Updated upstream
         self.center_circle = self.menu_frame.create_oval(
             center_x - 70, center_y - 70, 
             center_x + 70, center_y + 70, 
             fill="#333333",
             outline="black",
             width=2
-=======
-        rayon = 70
-        self.center_circle = self.menu_frame.create_oval(
-            center_x - rayon, center_y - rayon, 
-            center_x + rayon, center_y + rayon, 
-            fill="#333333",
-            outline="black",
-            width=2,
-            tags="center_circle"
->>>>>>> Stashed changes
         )
         
         # Label du type de nœud
@@ -160,11 +137,7 @@ class Vue():
         center_x = self.largeur / 2
         center_y = self.hauteur / 2
         radius = 200    # Distance du centre
-<<<<<<< Updated upstream
         node_size = 40  # Taille du nœud
-=======
-        node_size = 25  # Taille du nœud
->>>>>>> Stashed changes
         
         # Créer 8 nœuds avec leurs positions et étiquettes
         for i in range(8):
@@ -181,7 +154,6 @@ class Vue():
                 x + node_size, y + node_size,
                 fill=self.node_colors[i],
                 outline="black",
-<<<<<<< Updated upstream
                 width=0
             )
             
@@ -189,28 +161,16 @@ class Vue():
             # Ajouter l'étiquette de position
             text_id = self.menu_frame.create_text(
                 x, y,
-=======
-                width=2
-            )
-            
-            # Ajouter l'étiquette de position
-            text_id = self.menu_frame.create_text(
-                x, y,
-                #text=self.position_names[i]
->>>>>>> Stashed changes
                 text="",
                 fill="white",
                 font=("Arial", 12, "bold")
             )
             
-<<<<<<< Updated upstream
-            text_id = self.menu_frame.create_image(
-                x,y,
-                image=self.node_image[i]
-            )
+            # text_id = self.menu_frame.create_image(
+            #     x,y,
+            #     image=self.node_image[i]
+            # )
             
-=======
->>>>>>> Stashed changes
             # Associer un gestionnaire d'événements au clic
             self.menu_frame.tag_bind(node_id, "<Button-1>", lambda event, idx=i: self.rotate_to_north(idx))
             
