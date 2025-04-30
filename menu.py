@@ -50,8 +50,24 @@ class Vue():
         ]
         
         # Types/noms des nœuds (association avec les couleurs)
-        self.node_types = ["Play !", "Profil", "Parameters", "Map\nMaker", "Exit", "Achievements", "Credits", "Tutorial"]
+        # self.node_types = ["Play !",
+        #                     "Profil",
+        #                     "Parameters",
+        #                     "Map\nMaker",
+        #                     "Exit",
+        #                     "Achievements",
+        #                     "Credits",
+        #                     "Tutorial"]
         
+        self.node_types = [{"text": "Play !", "int": 0},
+                           {"text": "Profil", "int": 1},
+                           {"text": "Parameters", "int": 2},
+                           {"text": "Map\nMaker", "int": 3},
+                           {"text": "Exit", "int": 4},
+                           {"text": "Achievements", "int": 5},
+                           {"text": "Credits", "int": 6},
+                           {"text": "Tutorial", "int": 7}]
+
         # Positions angulaires (en radians, partant de -π/2 pour le Nord, sens horaire)
         self.positions = [
             -M.pi/2,        # N
@@ -110,10 +126,14 @@ class Vue():
         # Label du type de nœud
         self.center_text = self.menu_frame.create_text(
             center_x, center_y,
-            text=self.node_types[0],  # Type du nœud en position Nord
+            text=self.node_types[0]["text"],  # Utilise la clé "text" du dictionnaire node_types
             fill="white",
             font=("Arial", 14, "bold")
         )
+
+        self.menu_frame.tag_bind(self.center_text, "<Button-1>", lambda event : self.click_center_label())
+        self.menu_frame.tag_bind(self.center_circle, "<Button-1>", lambda event: self.click_center_label())
+
     
     def update_center_label(self):
         """Met à jour le texte du label central avec le type du nœud en position Nord."""
@@ -121,7 +141,32 @@ class Vue():
         north_index = 0  # Par défaut, le premier nœud est au Nord
         
         # Mettre à jour le texte
-        self.menu_frame.itemconfig(self.center_text, text=self.node_types[north_index])
+        self.menu_frame.itemconfig(self.center_text, text=self.node_types[north_index]["text"])
+
+        
+    def click_center_label(self):
+        """Gérer le clic sur le label central."""
+        
+        match self.node_types[0]["int"]:
+            case 0:
+                print("Lancement du jeu !")
+            case 1:
+                print("Accéder au profil !")
+            case 2:
+                print("Accéder aux paramètres !")
+            case 3:
+                print("Accéder au Map Maker !")
+            case 4:
+                print("Quitter le jeu !")
+                self.root.quit()
+            case 5:
+                print("Accéder aux réalisations !")
+            case 6:
+                print("Accéder aux crédits !")
+            case 7:
+                print("Accéder au tutoriel !")
+            
+        
     
     def clear_nodes(self):
         """Efface tous les nœuds et textes existants."""
@@ -231,7 +276,7 @@ class Vue():
             return
         
         # Vitesse de rotation (en radians par étape)
-        step_size = 0.1
+        step_size = 0.15
         
         # Si on est presque à la fin, ajuster précisément
         if self.remaining_angle < step_size:
