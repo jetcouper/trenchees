@@ -49,15 +49,7 @@ class Vue():
             ImageTk.PhotoImage(Image.open(".\\assets\\icons\\tutorial.png").resize((80,80))), #Image de Tutorial
         ]
         
-        # Types/noms des nœuds (association avec les couleurs)
-        # self.node_types = ["Play !",
-        #                     "Profil",
-        #                     "Parameters",
-        #                     "Map\nMaker",
-        #                     "Exit",
-        #                     "Achievements",
-        #                     "Credits",
-        #                     "Tutorial"]
+        
         
         self.node_types = [{"text": "Play !", "int": 0},
                            {"text": "Profil", "int": 1},
@@ -80,8 +72,7 @@ class Vue():
             -3*M.pi/4       # NW
         ]
         
-        # Noms des positions
-        #self.position_names = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        
         
         # Variables d'animation
         self.current_rotation = 0  # Angle de rotation actuel
@@ -96,9 +87,9 @@ class Vue():
         self.draw_nodes()
         
         # Bouton rotation continue
-        self.rotation_active = False
-        self.toggle_button = Tk.Button(self.main_frame, text="Rotation Continue", command=self.toggle_continuous_rotation)
-        self.toggle_button.pack(side=Tk.BOTTOM, pady=10)
+        # self.rotation_active = False
+        # self.toggle_button = Tk.Button(self.main_frame, text="Rotation Continue", command=self.toggle_continuous_rotation)
+        # self.toggle_button.pack(side=Tk.BOTTOM, pady=10)
     
     def create_mainFrame(self):
         self.main_frame = Tk.Frame(self.root, bg="blue")
@@ -170,10 +161,7 @@ class Vue():
     
     def clear_nodes(self):
         """Efface tous les nœuds et textes existants."""
-        # for node_id, text_id in self.node_objects:
-        #     self.menu_frame.delete(node_id)
-        #     self.menu_frame.delete(text_id)
-        # self.node_objects = []
+        
         
         for text_id in self.node_objects:
             # self.menu_frame.delete(node_id)
@@ -208,14 +196,6 @@ class Vue():
             # )
             
             
-            # Ajouter l'étiquette de position
-            # text_id = self.menu_frame.create_text(
-            #     x, y,
-            #     text="",
-            #     fill="white",
-            #     font=("Arial", 12, "bold")
-            # )
-            
             text_id = self.menu_frame.create_image(
                 x,y,
                 image=self.node_image[i]
@@ -232,8 +212,8 @@ class Vue():
     
     def rotate_to_north(self, node_index):
         """Initie la rotation pour amener le nœud cliqué à la position Nord."""
-        if self.is_animating or self.rotation_active:
-            return  # Éviter les clics multiples pendant une animation
+        # if self.is_animating or self.rotation_active:
+        #     return  # Éviter les clics multiples pendant une animation
         
         # Si le nœud est déjà en position Nord, rien à faire
         if node_index == 0:
@@ -322,29 +302,29 @@ class Vue():
         # Redessiner les nœuds
         self.draw_nodes()
     
-    def toggle_continuous_rotation(self):
-        """Active/désactive la rotation continue."""
-        self.rotation_active = not self.rotation_active
+    # def toggle_continuous_rotation(self):
+    #     """Active/désactive la rotation continue."""
+    #     self.rotation_active = not self.rotation_active
         
-        if self.rotation_active:
-            self.toggle_button.config(text="Arrêter Rotation")
-            self.continuous_rotation()
-        else:
-            self.toggle_button.config(text="Rotation Continue")
+    #     if self.rotation_active:
+    #         self.toggle_button.config(text="Arrêter Rotation")
+    #         self.continuous_rotation()
+    #     else:
+    #         self.toggle_button.config(text="Rotation Continue")
     
-    def continuous_rotation(self):
-        """Effectue une rotation continue des nœuds."""
-        if not self.rotation_active:
-            return
+    # def continuous_rotation(self):
+    #     """Effectue une rotation continue des nœuds."""
+    #     if not self.rotation_active:
+    #         return
         
-        # Incrémenter l'angle de rotation
-        self.current_rotation = (self.current_rotation + 0.05) % (2 * M.pi)
+    #     # Incrémenter l'angle de rotation
+    #     self.current_rotation = (self.current_rotation + 0.05) % (2 * M.pi)
         
-        # Redessiner les nœuds
-        self.draw_nodes()
+    #     # Redessiner les nœuds
+    #     self.draw_nodes()
         
-        # Programmer la prochaine étape
-        self.root.after(30, self.continuous_rotation)
+    #     # Programmer la prochaine étape
+    #     self.root.after(30, self.continuous_rotation)
 
 class Modele():
     def __init__(self, largeur, hauteur):
