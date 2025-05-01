@@ -8,7 +8,7 @@ class controleur():
     def __init__(self):
         self.root = Tk.Tk()
         self.root.title("Jeu de Samuel Bergeron (BS)")
-        self.modele = Modele(800, 600)
+        self.modele = Modele(1000, 800)
         self.vue = Vue(self, self.modele, self.modele.largeur, self.modele.hauteur, self.root)
         self.root.mainloop()
 
@@ -26,17 +26,7 @@ class Vue():
         self.create_mainFrame()
         self.create_menu_frame()
         
-        # Couleurs des nœuds
-        # self.node_colors = [
-        #     "#FF0000",  # Rouge (N)
-        #     "#FF7F00",  # Orange (NE)
-        #     "#FFFF00",  # Jaune (E)
-        #     "#00FF00",  # Vert (SE)
-        #     "#0000FF",  # Bleu (S)
-        #     "#4B0082",  # Indigo (SW)
-        #     "#9400D3",  # Violet (W)
-        #     "#FF1493"   # Rose (NW)
-        # ]
+        
         
         self.node_image = [
             ImageTk.PhotoImage(Image.open(".\\assets\\icons\\play.png").resize((70,70))), #Image de Play
@@ -86,10 +76,7 @@ class Vue():
         # Dessiner les nœuds
         self.draw_nodes()
         
-        # Bouton rotation continue
-        # self.rotation_active = False
-        # self.toggle_button = Tk.Button(self.main_frame, text="Rotation Continue", command=self.toggle_continuous_rotation)
-        # self.toggle_button.pack(side=Tk.BOTTOM, pady=10)
+        
     
     def create_mainFrame(self):
         self.main_frame = Tk.Frame(self.root, bg="blue")
@@ -149,13 +136,27 @@ class Vue():
                 print("Accéder au Map Maker !")
             case 4:
                 print("Quitter le jeu !")
-                self.root.quit()
+                self.validation_exit()
+                # self.root.quit()
             case 5:
                 print("Accéder aux réalisations !")
             case 6:
                 print("Accéder aux crédits !")
             case 7:
                 print("Accéder au tutoriel !")
+                
+                
+    def validation_exit(self):
+        popup = Tk.Frame(self.main_frame, bg="gray", bd=2, relief="raised")
+        Tk.Label(popup, text="Êtes vous sûr de vouloir quitter", font=("Arial", 14), bg="gray").pack(pady=10)
+        Tk.Button(popup, text="NON", command= self.validation_exit2 ).pack(pady=10)
+        Tk.Button(popup,text= "Je suis pas trop sûr",command= self.validation_exit2).pack(pady=10)
+        popup_window = self.menu_frame.create_window(self.largeur/2, self.hauteur/2, window=popup, tags="popup")
+        
+    def validation_exit2(self):
+        self.menu_frame.delete("popup")
+        
+    
             
         
     
@@ -185,15 +186,6 @@ class Vue():
             # Calculer les coordonnées
             x = center_x + radius * M.cos(angle)
             y = center_y + radius * M.sin(angle)
-            
-            # Créer le nœud
-            # node_id = self.menu_frame.create_oval(
-            #     x - node_size, y - node_size,
-            #     x + node_size, y + node_size,
-            #     # fill=self.node_colors[i],
-            #     outline="black",
-            #     width=0
-            # )
             
             
             text_id = self.menu_frame.create_image(
@@ -288,7 +280,7 @@ class Vue():
         if self.target_position is not None:
             # Déplacer la couleur et le type du nœud cliqué à la position Nord
             target = self.target_position
-            #self.node_colors = self.node_colors[target:] + self.node_colors[:target]
+            
             self.node_types = self.node_types[target:] + self.node_types[:target]
             self.node_image = self.node_image[target:] + self.node_image[:target]
             self.target_position = None
@@ -302,29 +294,7 @@ class Vue():
         # Redessiner les nœuds
         self.draw_nodes()
     
-    # def toggle_continuous_rotation(self):
-    #     """Active/désactive la rotation continue."""
-    #     self.rotation_active = not self.rotation_active
-        
-    #     if self.rotation_active:
-    #         self.toggle_button.config(text="Arrêter Rotation")
-    #         self.continuous_rotation()
-    #     else:
-    #         self.toggle_button.config(text="Rotation Continue")
     
-    # def continuous_rotation(self):
-    #     """Effectue une rotation continue des nœuds."""
-    #     if not self.rotation_active:
-    #         return
-        
-    #     # Incrémenter l'angle de rotation
-    #     self.current_rotation = (self.current_rotation + 0.05) % (2 * M.pi)
-        
-    #     # Redessiner les nœuds
-    #     self.draw_nodes()
-        
-    #     # Programmer la prochaine étape
-    #     self.root.after(30, self.continuous_rotation)
 
 class Modele():
     def __init__(self, largeur, hauteur):
