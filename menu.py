@@ -4,27 +4,32 @@ from PIL import ImageTk,Image
 
 
 
-class controleur():
-    def __init__(self):
-        self.root = Tk.Tk()
-        self.root.title("Jeu de Samuel Bergeron (BS)")
-        self.modele = Modele(1000, 800)
-        self.vue = Vue(self, self.modele, self.modele.largeur, self.modele.hauteur, self.root)
-        self.root.mainloop()
+# class controleur():
+#     def __init__(self):
+#         self.root = Tk.Tk()
+#         self.root.title("Jeu de Samuel Bergeron (BS)")
+#         self.modele = Modele(1000, 800)
+#         self.vue = Menu(self, self.modele, self.modele.largeur, self.modele.hauteur, self.root)
+#         self.root.mainloop()
 
-class Vue():
-    def __init__(self, controleur, modele, largeur, hauteur, root):
+class Menu():
+    def __init__(self, controleur,root, largeur, hauteur):
+        self.controleur = controleur
         self.root = root
+        self.root.title("Jeu de Samuel Bergeron (BS)")
         self.root.geometry(f"{largeur}x{hauteur}")
         self.root.minsize(largeur, hauteur)
-        self.controleur = controleur
-        self.modele = modele
+        # self.controleur = controleur
+        # self.modele = modele
         self.largeur = largeur
         self.hauteur = hauteur
         
         # Configuration initiale
         self.create_mainFrame()
         self.create_menu_frame()
+
+
+        
         
         
         
@@ -76,6 +81,15 @@ class Vue():
         # Dessiner les nœuds
         self.draw_nodes()
         
+    # Dans la classe Menu
+
+    def afficher(self):
+        # Afficher le frame principal
+        self.main_frame.pack(expand=True, fill="both")
+        
+    def cacher(self):
+        # Cacher le frame principal
+        self.main_frame.pack_forget()
         
     
     def create_mainFrame(self):
@@ -128,6 +142,8 @@ class Vue():
         match self.node_types[0]["int"]:
             case 0:
                 print("Lancement du jeu !")
+                self.controleur.clic_start()
+                # self.root.destroy()
             case 1:
                 print("Accéder au profil !")
             case 2:

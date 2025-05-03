@@ -9,9 +9,17 @@ PROJECTILES_COLOR = "Red"
 
 
 class Vue():
-    def __init__(self, controleur, largeur, hauteur):
+    def __init__(self, controleur, largeur, hauteur, root):
         self.controleur = controleur
-        self.root = tk.Tk()
+        self.root = root
+        self.largeur = largeur
+        self.hauteur = hauteur
+        
+        # Utiliser controleur.modele au lieu de self.modele
+        # Ou ajouter cette ligne si vous préférez accéder directement au modèle
+        self.modele = self.controleur.modele
+        
+        self.root.geometry(f"{largeur + 200}x{hauteur}")  # +200 pour la barre latérale
         self.root.title("Tower Defense")
         self.mode_actif = "placement"
         ico = Image.open("assets/Machine_Gun.png")
@@ -32,6 +40,9 @@ class Vue():
         # self.ennemi_photo2 = ImageTk.PhotoImage(self.ennemi_image2)
         
         self.placement_mode = False
+
+        self.dessiner_chemin(self.modele.path, "gray")
+        self.dessiner_chemin(self.modele.path2, "blue")
         
         self.tour_image1 = Image.open("assets/tour1.png")
         self.tour_image1 = self.tour_image1.resize((40,40))
@@ -49,10 +60,30 @@ class Vue():
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
+    def afficher(self):
+        # Configurer la fenêtre
+        self.root.title("Tower Defense - Jeu")
+        self.root.geometry(f"{self.largeur + 200}x{self.hauteur}")  # +200 pour la barre latérale
         
+        # S'assurer que les frames sont visibles
+        self.cadrePrincipal.grid(column=0, row=0)
+        self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
+        
+        # Redessiner les chemins au cas où
+        if hasattr(self.controleur.modele, 'path'):
+            self.dessiner_chemin(self.controleur.modele.path, "gray")
+        if hasattr(self.controleur.modele, 'path2'):
+            self.dessiner_chemin(self.controleur.modele.path2, "blue")
+    
+    def cacher(self):
+        # Cacher les frames principales
+        self.cadrePrincipal.grid_remove()
+        self.cadreSecondaire.grid_remove()
+
         
     def reset(self):
         self.canevas.delete("popup")
+        self.button.config(state="normal")
         print("Message de Reset")
 
     def update_vue(self, vie, score, argent, round, nbennemis):
