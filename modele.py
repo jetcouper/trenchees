@@ -481,7 +481,7 @@ class Partie():
                     ennemi.death_time = time.time()
                     ennemi.is_alive = False
                     ennemi.link_img = "assets/fire-explosion.png"
-                    base_image = Image.open(self.link_img)
+                    base_image = Image.open(ennemi.link_img)
                     base_image = base_image.resize((75, 50))
                     ennemi.image_base = base_image
                     ennemi.tk_image = ImageTk.PhotoImage(ennemi.image_base)
