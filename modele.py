@@ -117,6 +117,7 @@ class TourRapide(Tour):
         img = Image.open(self.projectile_image_path)
         img = img.resize((10, 10))
         self.projectile_photo = ImageTk.PhotoImage(img)
+        self.effet = "ralenti"
 
     def tire(self, ennemis):
         return super().tire(ennemis)
@@ -130,6 +131,7 @@ class TourRange(Tour):
         img = Image.open(self.projectile_image_path)
         img = img.resize((10, 10))
         self.projectile_photo = ImageTk.PhotoImage(img)
+        self.effet = "dot"
 
     def tire(self, ennemis):
         return super().tire(ennemis)
@@ -143,6 +145,7 @@ class TourDamage(Tour):
         img = Image.open(self.projectile_image_path)
         img = img.resize((10, 10))
         self.projectile_photo = ImageTk.PhotoImage(img)
+        self.effet = "repousse"
 
     def tire(self, ennemis):
         return super().tire(ennemis)
@@ -156,6 +159,7 @@ class Tour4(Tour):
         img = Image.open(self.projectile_image_path)
         img = img.resize((10, 10))
         self.projectile_photo = ImageTk.PhotoImage(img)
+        self.effet = "critique"
 
     def tire(self, ennemis):
         return super().tire(ennemis)
@@ -169,6 +173,7 @@ class TourProf(Tour):
         img = Image.open(self.projectile_image_path)
         img = img.resize((10, 10))
         self.projectile_photo = ImageTk.PhotoImage(img)
+        self.effet = "vol"
 
     def tire(self, ennemis):
         return super().tire(ennemis)
@@ -186,6 +191,7 @@ class Projectiles():
         self.ennemi = ennemi
         self.type = "tracing"
         self.TTL = tour.TTL
+        self.effet = getattr(tour, "effet", None)
         
         try:
             self.tk_image = tour.projectile_photo
@@ -459,6 +465,17 @@ class Partie():
 
     def deplacer_ennemis(self):
         for ennemi in self.ennemis:
+            if ennemi.ralentissement_timer > 0:
+                ennemi.ralentissement_timer -= 1
+                if ennemi.ralentissement_timer == 0:
+                    ennemi.vitesse = ennemi.vitesse_base
+            if ennemi.knockback_timer > 0:
+                ennemi.knockback_timer -= 1
+                # Applique un mouvement inverse à l’angle pour reculer
+                ennemi.x -= math.cos(ennemi.angle) * ennemi.vitesse
+                ennemi.y -= math.sin(ennemi.angle) * ennemi.vitesse
+                continue  # NE PAS déplacer normalement ce tour-ci
+
             ennemi_arrive = ennemi.deplacer()
             if not ennemi_arrive:
                 ennemi.life = 0
@@ -473,7 +490,26 @@ class Partie():
             for projectile in self.projectiles:
                 if abs(int(ennemi.x) - projectile.x) <= tolerance and abs(int(ennemi.y) - projectile.y) <= tolerance:
                     ennemi.life -= projectile.damage
+
+                    # Appliquer effets spéciaux
+                    if projectile.effet == "ralenti":
+                        ennemi.vitesse = max(0.5, ennemi.vitesse_base * 0.5)
+                        ennemi.ralentissement_timer = 120
+                    elif projectile.effet == "dot":
+                        ennemi.life -= 1
+                    elif projectile.effet == "critique":
+                        if random.random() < 0.2:
+                            ennemi.life -= projectile.damage
+                    elif projectile.effet == "repousse":
+                        ennemi.knockback_timer = 10
+                        ennemi.x -= math.cos(ennemi.angle) * 10
+                        ennemi.y -= math.sin(ennemi.angle) * 10
+                    elif projectile.effet == "vol":
+                        self.argent += 2
+
                     self.projectiles.remove(projectile)
+
+
                     
                 if ennemi.life <= 0:
                     self.mort_ennemi()
@@ -512,6 +548,9 @@ class Ennemi():
         self.angle = 0
         self.type = type
         self.tolerance = 30
+        self.ralentissement_timer = 0
+        self.vitesse_base = vitesse
+        self.knockback_timer = 0
 
     def set_life(self, life):
         self.life = life
