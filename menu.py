@@ -4,14 +4,6 @@ from PIL import ImageTk,Image
 
 
 
-# class controleur():
-#     def __init__(self):
-#         self.root = Tk.Tk()
-#         self.root.title("Jeu de Samuel Bergeron (BS)")
-#         self.modele = Modele(1000, 800)
-#         self.vue = Menu(self, self.modele, self.modele.largeur, self.modele.hauteur, self.root)
-#         self.root.mainloop()
-
 class Menu():
     def __init__(self, controleur,root, largeur, hauteur):
         self.controleur = controleur
@@ -312,10 +304,3 @@ class Menu():
     
     
 
-class Modele():
-    def __init__(self, largeur, hauteur):
-        self.largeur = largeur
-        self.hauteur = hauteur
-
-if __name__ == "__main__":
-    c = controleur()

@@ -469,7 +469,7 @@ class Partie():
                 
     def vie_restante_ennemi(self):
         for ennemi in self.ennemis:
-            tolerance = 3
+            tolerance = ennemi.tolerance
             for projectile in self.projectiles:
                 if abs(int(ennemi.x) - projectile.x) <= tolerance and abs(int(ennemi.y) - projectile.y) <= tolerance:
                     ennemi.life -= projectile.damage
@@ -511,6 +511,7 @@ class Ennemi():
         self.score = score
         self.angle = 0
         self.type = type
+        self.tolerance = 30
 
     def set_life(self, life):
         self.life = life
@@ -557,6 +558,7 @@ class Ennemi_glace(Ennemi):
     def __init__(self, x, y, path):
         super().__init__(x, y, path=path, type="glace", life=3, vitesse=2, score=20)
         self.link_img = "assets/char_silver1.png"
+        
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 50))
         self.image_base = base_image
