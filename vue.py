@@ -85,9 +85,9 @@ class Vue():
         self.vie.pack_forget
         self.nbennemis.pack_forget
         self.label_Round_nbr.pack_forget
-        self.score.config(text=(f"Vie {self.info[1]}"))
+        self.score.config(text=(f"Vie {self.info[0]}"))
 
-        self.vie.config(text=(f"score {self.info[0]}"))
+        self.vie.config(text=(f"score {self.info[1]}"))
 
         self.Argent.config(text=(f"Argent {self.info[2]}"))
         
