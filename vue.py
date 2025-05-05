@@ -91,7 +91,22 @@ class Vue():
             self.dessiner_chemin(self.controleur.modele.path, "gray")
         if hasattr(self.controleur.modele, 'path2'):
             self.dessiner_chemin(self.controleur.modele.path2, "blue")
-    
+
+
+    #def afficherParametre(self):
+    #    self.root.title("Tower Defense - Paramètre")
+    #    self.root.geometry(f"{self.largeur + 200}x{self.hauteur}")
+
+    #    self.cadrePrincipal.grid(column=0, row=0)
+    #    self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
+
+
+
+
+
+
+
+
     def cacher(self):
         # Cacher les frames principales
         self.cadrePrincipal.grid_remove()

@@ -9,9 +9,12 @@ class Menu():
     def __init__(self, controleur,root, largeur, hauteur):
         self.controleur = controleur
         self.root = root
-        self.root.title("Jeu de Samuel Bergeron (BS)")
+        self.root.title("Tower Defense")
         self.root.geometry(f"{largeur}x{hauteur}")
         self.root.minsize(largeur, hauteur)
+        ico = Image.open("assets/Machine_Gun.png")
+        photo = ImageTk.PhotoImage(ico)
+        self.root.wm_iconphoto(False, photo)
         # self.controleur = controleur
         # self.modele = modele
         self.largeur = largeur
@@ -141,6 +144,7 @@ class Menu():
                 print("Accéder au profil !")
             case 2:
                 print("Accéder aux paramètres !")
+                self.controleur.clic_parametre()
             case 3:
                 print("Accéder au Map Maker !")
             case 4:
