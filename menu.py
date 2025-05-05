@@ -4,13 +4,6 @@ from PIL import ImageTk,Image
 
 
 
-# class controleur():
-#     def __init__(self):
-#         self.root = Tk.Tk()
-#         self.root.title("Jeu de Samuel Bergeron (BS)")
-#         self.modele = Modele(1000, 800)
-#         self.vue = Menu(self, self.modele, self.modele.largeur, self.modele.hauteur, self.root)
-#         self.root.mainloop()
 
 class Menu():
     def __init__(self, controleur,root, largeur, hauteur):
@@ -97,7 +90,7 @@ class Menu():
         self.main_frame.pack(expand=True, fill="both")
     
     def create_menu_frame(self):
-        self.menu_frame = Tk.Canvas(self.main_frame, bg="green", width=self.largeur, height=self.hauteur, relief="flat")
+        self.menu_frame = Tk.Canvas(self.main_frame, bg="green", width=self.largeur, height=self.hauteur, relief="flat", bd=0, highlightthickness=0)
         self.menu_frame.pack(expand=True)
         self.menu_frame.pack_propagate(False)
     
@@ -310,12 +303,3 @@ class Menu():
         # Redessiner les nœuds
         self.draw_nodes()
     
-    
-
-class Modele():
-    def __init__(self, largeur, hauteur):
-        self.largeur = largeur
-        self.hauteur = hauteur
-
-if __name__ == "__main__":
-    c = controleur()
