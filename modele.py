@@ -202,6 +202,7 @@ class Partie():
         self.default_score = score
         self.default_argent = argent
         self.default_life_joueur = life_joueur
+        self.default_life_joueur = 1
         self.reset()
         self.countEnnemie = 0
         self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
