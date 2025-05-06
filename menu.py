@@ -89,7 +89,7 @@ class Menu():
         
     
     def create_mainFrame(self):
-        self.main_frame = Tk.Frame(self.root, bg="blue")
+        self.main_frame = Tk.Frame(self.root, width=self.largeur, height=self.hauteur, bg="blue")
         self.main_frame.pack(expand=True, fill="both")
     
     def create_menu_frame(self):
@@ -157,6 +157,7 @@ class Menu():
                 print("Accéder aux crédits !")
             case 7:
                 print("Accéder au tutoriel !")
+                self.controleur.clic_tutoriel()
                 
                 
     def validation_exit(self):

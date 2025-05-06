@@ -10,7 +10,7 @@ class Parametre():
         self.root = root
         self.root.title("Tower Defense")
         self.root.geometry(f"{largeur}x{hauteur}")
-        self.root.minsize(largeur + 200, hauteur)
+        self.root.minsize(largeur, hauteur)
         # self.controleur = controleur
         # self.modele = modele
         self.largeur = largeur
@@ -20,10 +20,9 @@ class Parametre():
         #self.create_mainFrame()
         #self.create_parameter_frame()
         # Création du canvas principal
-        self.canvas = tk.Canvas(self.root, width=largeur, height=hauteur, bg="black")
 
         # Création du frame pour les widgets des paramètres
-        self.frame_parametres = tk.Frame(self.root, width=200, bg="lightgray")
+        self.frame_parametres = tk.Frame(self.root, width=largeur, height=hauteur, bg="lightgray")
 
         # Bouton pour retourner au menu
         self.btn_retour = tk.Button(self.frame_parametres, text="Retour au menu",
@@ -34,7 +33,6 @@ class Parametre():
     def afficherParametre(self):
         """Initialise et affiche tous les éléments de la vue paramètres"""
         # Placement du canvas principal
-        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         # Placement du frame latéral avec les paramètres
         self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
@@ -68,12 +66,10 @@ class Parametre():
 
     def afficher(self):
         """Réaffiche la vue des paramètres si elle a été cachée"""
-        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
 
     def cacher(self):
         """Cache la vue des paramètres"""
-        self.canvas.pack_forget()
         self.frame_parametres.pack_forget()
 
     def retour_menu(self):
@@ -83,5 +79,7 @@ class Parametre():
 
     def appliquer_parametres(self):
         """Applique les paramètres sélectionnés"""
+
+        self.controleur.application_nouveau_parametre()
         # Ici vous pourriez récupérer les valeurs des widgets et les appliquer au modèle
         print("Paramètres appliqués")

@@ -1,4 +1,5 @@
 from modele import *
+from tutoriel import Tutoriel
 from vue import Vue
 from menu import Menu
 from parametre import Parametre
@@ -17,6 +18,8 @@ class Controleur():
         self.vue_jeu = None
 
         self.vue_parametre = None
+
+        self.vue_tutoriel = None
         
         self.demarrerRound = False
 
@@ -25,7 +28,7 @@ class Controleur():
 
         if self.vue_parametre is None:
             self.vue_parametre = Parametre(self, self.root, self.modele.largeur, self.modele.hauteur)
-            self.root.geometry(f"{self.modele.largeur + 200}x{self.modele.hauteur}")
+            self.root.geometry(f"{self.modele.largeur}x{self.modele.hauteur}")
 
             # Décommenter cette ligne pour afficher la vue des paramètres
             self.vue_parametre.afficherParametre()
@@ -33,6 +36,22 @@ class Controleur():
             # Ajouter cette condition pour réafficher la vue si elle existe déjà
             self.vue_parametre.afficher()
 
+    def application_nouveau_parametre(self, difficulte, taille):
+        self.modele.nb_ennemis = self.modele.nb_ennemis * difficulte
+        #self.modele.
+
+    def clic_tutoriel(self):
+        self.vue.cacher()
+
+        if self.vue_tutoriel is None:
+            self.vue_tutoriel = Tutoriel(self, self.root, self.modele.largeur, self.modele.hauteur)
+            self.root.geometry(f"{self.modele.largeur}x{self.modele.hauteur}")
+
+            # Décommenter cette ligne pour afficher la vue des paramètres
+            self.vue_tutoriel.afficherTutoriel()
+        else:
+            # Ajouter cette condition pour réafficher la vue si elle existe déjà
+            self.vue_tutoriel.afficher()
 
     def clic_start(self):
         # Cacher le menu
