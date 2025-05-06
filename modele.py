@@ -208,6 +208,7 @@ class Partie():
         self.default_score = score
         self.default_argent = argent
         self.default_life_joueur = life_joueur
+        self.default_life_joueur = 100
         self.reset()
         self.countEnnemie = 0
         self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
@@ -511,11 +512,29 @@ class Partie():
 
 
                     
-                if ennemi.life <= 0:
-                    self.mort_ennemi()
-        
+                if (ennemi.life <= 0 and ennemi.is_alive):
+                    ennemi.is_alive = False
+                    ennemi.death_time = time.time()
+                    ennemi.is_alive = False
+                    ennemi.link_img = "assets/fire-explosion.png"
+                    base_image = Image.open(ennemi.link_img)
+                    base_image = base_image.resize((75, 50))
+                    ennemi.image_base = base_image
+                    ennemi.tk_image = ImageTk.PhotoImage(ennemi.image_base)
+                    
                 
     def mort_ennemi(self):
+        
+        now = time.time()
+        
+        for ennemi in self.ennemis:
+            if (ennemi.is_alive == False):
+                if (now - ennemi.death_time >= 0.5):
+                    self.supprimer_ennemi()
+                    
+                       
+    
+    def supprimer_ennemi(self):    
         for ennemi in self.ennemis:
             if (ennemi.life < 0): #si l'ennemi est vaincu
                 self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
@@ -535,7 +554,7 @@ class Partie():
             
 
 class Ennemi():
-    def __init__(self, x, y, taille=1, type="normal", life=1, vitesse=1, path=0, index_path=0, score=15):
+    def __init__(self, x, y, taille=1, type="normal", life=1, vitesse=1, path=0, index_path=0, score=15, is_alive=True, death_time = None):
         self.x = x
         self.y = y
         self.taille = taille
@@ -551,6 +570,8 @@ class Ennemi():
         self.ralentissement_timer = 0
         self.vitesse_base = vitesse
         self.knockback_timer = 0
+        self.is_alive = is_alive
+        self.death_time = None
 
     def set_life(self, life):
         self.life = life
@@ -593,11 +614,15 @@ class Ennemi():
             print(f"erreur: {e}")
             return False
         
+
 class Ennemi_glace(Ennemi):
     def __init__(self, x, y, path):
-        super().__init__(x, y, path=path, type="glace", life=3, vitesse=2, score=20)
-        self.link_img = "assets/char_silver1.png"
+        super().__init__(x, y, path=path, type="glace", life=3, vitesse=2, score=20, is_alive=True, death_time = None)
         
+        if (self.is_alive == True):
+            self.link_img = "assets/char_silver1.png"
+        else:
+            self.link_img = "assets/fire-explosion.png"
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 50))
         self.image_base = base_image
@@ -607,8 +632,13 @@ class Ennemi_glace(Ennemi):
 class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
     def __init__(self,x,y, path):
        
-        super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25)
-        self.link_img = "assets/tank_vert1.png"
+        super().__init__(x, y, path=path, type="feu", life=4, vitesse=3, score=25, is_alive=True, death_time = None)
+        
+        if (self.is_alive == True):
+            self.link_img = "assets/tank_vert1.png"
+        else:
+            self.link_img = "assets/fire-explosion.png"
+            
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 50))  
         self.image_base = base_image
@@ -619,8 +649,13 @@ class Ennemi_feu(Ennemi): #est immunisé contre les attaques de la tour de glace
 class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
     def __init__(self,x,y, path):
       
-        super().__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18)           
-        self.link_img = "assets/char_silver1.png"
+        super().__init__(x, y, path=path, type="gaz", life=2, vitesse=1, score=18, is_alive=True, death_time = None)           
+        
+        if (self.is_alive == True):
+            self.link_img = "assets/char_silver1.png"
+        else:
+            self.link_img = "assets/fire-explosion.png"
+            
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 50))  
         self.image_base = base_image
@@ -630,8 +665,13 @@ class Ennemi_gaz(Ennemi): #diminue la visibilité du joueur sur la carte de jeu
 class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
     def __init__(self,x,y, path):
        
-        super().__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30) 
-        self.link_img = "assets/avion.png"
+        super().__init__(x, y, path=path, type="avion", life=5, vitesse=5, score=30, is_alive=True, death_time = None) 
+        
+        if (self.is_alive == True):
+            self.link_img = "assets/avion.png"
+        else:
+            self.link_img = "assets/fire-explosion.png"
+            
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 50))   
         self.image_base = base_image
@@ -642,8 +682,13 @@ class Ennemi_avion(Ennemi): #déplacement logique sur la carte de jeu
 class Ennemi_tank(Ennemi): #déplacement logique sur la surface de jeu
     def __init__(self,x,y, path):
        
-        super().__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35)  
-        self.link_img = "assets/tank.png"
+        super().__init__(x, y, path=path, type="tank", life=7, vitesse=2, score=35, is_alive=True, death_time = None)  
+        
+        if (self.is_alive == True):
+            self.link_img = "assets/tank.png"
+        else:
+            self.link_img = "assets/fire-explosion.png"
+            
         base_image = Image.open(self.link_img)
         base_image = base_image.resize((75, 50)) 
         self.image_base = base_image
