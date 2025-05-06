@@ -12,26 +12,49 @@ class Vue():
     def __init__(self, controleur, largeur, hauteur, root):
         self.controleur = controleur
         self.root = root
+        self.root.title("Tower Defense")
         self.largeur = largeur
         self.hauteur = hauteur
-        
-        # Utiliser controleur.modele au lieu de self.modele
-        # Ou ajouter cette ligne si vous préférez accéder directement au modèle
-        self.modele = self.controleur.modele
-        
-        self.root.geometry(f"{largeur + 200}x{hauteur}")  # +200 pour la barre latérale
-        self.root.title("Tower Defense")
-        self.mode_actif = "placement"
+
+        self.root.minsize(largeur + 168, hauteur)
+        self.switch = True;
+
         ico = Image.open("assets/Machine_Gun.png")
         photo = ImageTk.PhotoImage(ico)
         self.root.wm_iconphoto(False, photo)
+
+        self.mode_actif = "placement"
         self.info = []
+
+        # Utiliser controleur.modele au lieu de self.modele
+        # Ou ajouter cette ligne si vous préférez accéder directement au modèle
+        self.modele = self.controleur.modele
+
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        x = (screen_width // 2) - (largeur // 2)
+        y = (screen_height // 2) - (hauteur // 2)
+        self.root.geometry(f"{largeur}x{hauteur}+{x}+{y}")
+
+        self.background_frame = tk.Frame(self.root, width=largeur + 168, height=hauteur)
+        self.background_frame.pack(fill="both", expand=True)
+
+        bg_img = Image.open("assets/couleur-fond.png")
+        bg_img = bg_img.resize((screen_width, screen_height))  # Ajuster à la taille de la fenêtre
+        self.bg = ImageTk.PhotoImage(bg_img)
+
+        self.bg_canvas = tk.Canvas(self.background_frame, width=largeur + 168, height=hauteur, highlightthickness=0)
+        self.bg_canvas.place(x=0, y=0, relwidth=1, relheight=1)
+        self.bg_canvas.create_image(0, 0, image=self.bg, anchor="nw", tags="background")
+
+
         self.creer_cadre_jeu(largeur, hauteur, self.info)
-        self.switch = True; 
+
         
         
         
-        self.placement_mode = False
+
 
         self.dessiner_chemin(self.modele.path, "gray")
         self.dessiner_chemin(self.modele.path2, "blue")
@@ -52,6 +75,8 @@ class Vue():
         self.tour_image4 = self.tour_image4.resize((40,40))
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
+        self.placement_mode = False
+
     def afficher(self):
         # Configurer la fenêtre
         self.root.title("Tower Defense - Jeu")
@@ -66,7 +91,22 @@ class Vue():
             self.dessiner_chemin(self.controleur.modele.path, "gray")
         if hasattr(self.controleur.modele, 'path2'):
             self.dessiner_chemin(self.controleur.modele.path2, "blue")
-    
+
+
+    #def afficherParametre(self):
+    #    self.root.title("Tower Defense - Paramètre")
+    #    self.root.geometry(f"{self.largeur + 200}x{self.hauteur}")
+
+    #    self.cadrePrincipal.grid(column=0, row=0)
+    #    self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
+
+
+
+
+
+
+
+
     def cacher(self):
         # Cacher les frames principales
         self.cadrePrincipal.grid_remove()
@@ -114,19 +154,23 @@ class Vue():
 
     def creer_cadre_jeu(self, largeur, hauteur, info):
 
-        self.cadrePrincipal = tk.Frame(self.root, width=largeur, height=hauteur)
-        self.cadrePrincipal.grid(column=0, row=0)
+        self.cadrePrincipal = tk.Frame(self.background_frame, width=largeur, height=hauteur, bd=0, highlightthickness=0)
+        self.cadrePrincipal.pack(side="left", expand=True, padx=0, pady=0)
+
         self.map = Image.open("assets/map.png")
         self.map = self.map.resize((largeur, hauteur))
         self.map_photo = ImageTk.PhotoImage(self.map)
-        self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur)
+
+        self.canevas = tk.Canvas(self.cadrePrincipal, width=largeur, height=hauteur, highlightthickness=0, bd=0)
         self.canevas.bind("<Button-1>", self.afficher_coordonnees)
-        self.canevas.pack()
+        self.canevas.pack(expand=True,fill="both", padx=0, pady=0)
         self.canevas.create_image(0, 0, anchor=tk.NW, image=self.map_photo)
+
         self.placeholder = 0
 
-        self.cadreSecondaire = tk.Frame(self.root, width=largeur * 0.2, height=hauteur, bg="orange")
-        self.cadreSecondaire.grid(column=1, row=0, rowspan=2)
+        self.cadreSecondaire = tk.Frame(self.background_frame, width=largeur * 0.2, height=hauteur, bg="orange", bd=0, highlightthickness=0)
+        self.cadreSecondaire.pack(side="right", fill="y", padx=0, pady=0)
+
         self.UIinfo = tk.Canvas(self.cadreSecondaire, width=largeur * 0.2, height=hauteur, bg="orange", relief="ridge",highlightthickness=0)
         self.UIinfo.pack_propagate(False)
         self.UIinfo.pack(padx=2)

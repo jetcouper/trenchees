@@ -1,6 +1,7 @@
 from modele import *
 from vue import Vue
 from menu import Menu
+from parametre import Parametre
 import tkinter as tk
 
 class Controleur():
@@ -9,18 +10,34 @@ class Controleur():
         self.root = tk.Tk()
         
         self.modele = Partie(1000, 800)  # Ajustez la largeur pour inclure le panneau latéral
-        
         # Création du menu avec la référence au root
         self.vue = Menu(self, self.root, self.modele.largeur, self.modele.hauteur)
         
         # Initialisation de la variable pour stocker la vue du jeu plus tard
         self.vue_jeu = None
+
+        self.vue_parametre = None
         
         self.demarrerRound = False
+
+    def clic_parametre(self):
+        self.vue.cacher()
+
+        if self.vue_parametre is None:
+            self.vue_parametre = Parametre(self, self.root, self.modele.largeur, self.modele.hauteur)
+            self.root.geometry(f"{self.modele.largeur + 200}x{self.modele.hauteur}")
+
+            # Décommenter cette ligne pour afficher la vue des paramètres
+            self.vue_parametre.afficherParametre()
+        else:
+            # Ajouter cette condition pour réafficher la vue si elle existe déjà
+            self.vue_parametre.afficher()
+
 
     def clic_start(self):
         # Cacher le menu
         self.vue.cacher()
+
         
         # Initialiser la vue du jeu si ce n'est pas déjà fait
         if self.vue_jeu is None:
