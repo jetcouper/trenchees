@@ -5,275 +5,6 @@ import math
 from PIL import Image, ImageTk
 
 
-class TutorialArrow:
-    def __init__(self, canvas, from_x, from_y, to_x, to_y, text, color="#FF6600", arrow_width=2):
-        self.canvas = canvas
-        self.from_x = from_x
-        self.from_y = from_y
-        self.to_x = to_x
-        self.to_y = to_y
-        self.text = text
-        self.color = color
-        self.arrow_width = arrow_width
-        self.arrow_id = None
-        self.text_box_id = None
-        self.text_id = None
-
-    def draw(self):
-        # Dessiner la flèche
-        self.arrow_id = self.canvas.create_line(
-            self.from_x, self.from_y, self.to_x, self.to_y,
-            arrow=tk.LAST, width=self.arrow_width, fill=self.color
-        )
-
-        # Calculer la position de la boîte de texte (au milieu de la flèche)
-        text_x = (self.from_x + self.to_x) / 2
-        text_y = (self.from_y + self.to_y) / 2
-
-        # Décaler légèrement pour éviter que la boîte ne couvre la flèche
-        angle = math.atan2(self.to_y - self.from_y, self.to_x - self.from_x)
-        offset = 20
-        text_x += math.sin(angle) * offset
-        text_y -= math.cos(angle) * offset
-
-        # Créer un rectangle pour la boîte de texte
-        text_width = len(self.text) * 6 + 10  # Estimation approximative de la largeur
-        text_height = 25
-
-        self.text_box_id = self.canvas.create_rectangle(
-            text_x - text_width / 2, text_y - text_height / 2,
-            text_x + text_width / 2, text_y + text_height / 2,
-            fill="white", outline=self.color, width=2
-        )
-
-        # Ajouter le texte
-        self.text_id = self.canvas.create_text(
-            text_x, text_y, text=self.text,
-            font=("Stencil", 10), fill="black"
-        )
-
-        # Assurer que la boîte de texte et le texte sont au-dessus de la flèche
-        self.canvas.tag_raise(self.text_box_id, self.arrow_id)
-        self.canvas.tag_raise(self.text_id, self.text_box_id)
-
-    def hide(self):
-        if self.arrow_id:
-            self.canvas.delete(self.arrow_id)
-            self.arrow_id = None
-        if self.text_box_id:
-            self.canvas.delete(self.text_box_id)
-            self.text_box_id = None
-        if self.text_id:
-            self.canvas.delete(self.text_id)
-            self.text_id = None
-
-    def show(self):
-        if not self.arrow_id:
-            self.draw()
-
-
-# Modification de la classe Tutoriel pour intégrer les flèches et boîtes de texte
-def add_to_Tutoriel_class():
-    """
-    Cette fonction contient le code à ajouter à la classe Tutoriel
-    """
-
-    def initialiser_tutoriel(self):
-        """
-        Initialise les flèches et boîtes de texte pour le tutoriel
-        À ajouter comme méthode à la classe Tutoriel
-        """
-        self.tutorial_arrows = []
-        self.tutorial_active = False
-
-        # Créer des flèches pour chaque bouton important
-        # Pour Machine Gun
-        btn_coords = self.get_widget_coords(self.btn_machinegun)
-        arrow = TutorialArrow(
-            self.canevas,
-            self.largeur - 40, self.hauteur // 4,  # Point de départ de la flèche
-            btn_coords[0], btn_coords[1],  # Point d'arrivée (bouton)
-            "Machine Gun: Attaque rapide"
-        )
-        self.tutorial_arrows.append(arrow)
-
-        # Pour Mortar
-        btn_coords = self.get_widget_coords(self.btn_mortar)
-        arrow = TutorialArrow(
-            self.canevas,
-            self.largeur - 40, self.hauteur // 4 + 50,
-            btn_coords[0], btn_coords[1],
-            "Mortar: Dégâts de zone"
-        )
-        self.tutorial_arrows.append(arrow)
-
-        # Pour Anti-Tank
-        btn_coords = self.get_widget_coords(self.btn_antitank)
-        arrow = TutorialArrow(
-            self.canevas,
-            self.largeur - 40, self.hauteur // 4 + 100,
-            btn_coords[0], btn_coords[1],
-            "Anti-Tank: Contre blindés"
-        )
-        self.tutorial_arrows.append(arrow)
-
-        # Pour Anti-Air
-        btn_coords = self.get_widget_coords(self.btn_antiair)
-        arrow = TutorialArrow(
-            self.canevas,
-            self.largeur - 40, self.hauteur // 4 + 150,
-            btn_coords[0], btn_coords[1],
-            "Anti-Air: Contre aériens"
-        )
-        self.tutorial_arrows.append(arrow)
-
-        # Pour Artillery
-        btn_coords = self.get_widget_coords(self.btn_artillery)
-        arrow = TutorialArrow(
-            self.canevas,
-            self.largeur - 40, self.hauteur // 4 + 200,
-            btn_coords[0], btn_coords[1],
-            "Artillery: Longue portée"
-        )
-        self.tutorial_arrows.append(arrow)
-
-        # Pour le bouton Vendre Tour
-        btn_coords = self.get_widget_coords(self.cadreBoutonBtnVendre)
-        arrow = TutorialArrow(
-            self.canevas,
-            self.largeur - 40, self.hauteur // 2 + 50,
-            btn_coords[0], btn_coords[1],
-            "Vendre une tour"
-        )
-        self.tutorial_arrows.append(arrow)
-
-        # Pour le bouton Start Round
-        btn_coords = self.get_widget_coords(self.button)
-        arrow = TutorialArrow(
-            self.canevas,
-            self.largeur - 40, self.hauteur - 100,
-            btn_coords[0], btn_coords[1],
-            "Démarrer la vague"
-        )
-        self.tutorial_arrows.append(arrow)
-
-        # Pour les boutons d'amélioration
-        upgrades = [
-            (self.btn_speed, "Vitesse de tir"),
-            (self.btn_range, "Portée de tir"),
-            (self.btn_damage, "Dégâts"),
-            (self.btn_cooldown, "Temps de recharge")
-        ]
-
-        for i, (btn, text) in enumerate(upgrades):
-            btn_coords = self.get_widget_coords(btn)
-            arrow = TutorialArrow(
-                self.canevas,
-                self.largeur - 40, self.hauteur // 2 + 120 + i * 30,
-                btn_coords[0], btn_coords[1],
-                f"Améliorer: {text}"
-            )
-            self.tutorial_arrows.append(arrow)
-
-    def get_widget_coords(self, widget):
-        """
-        Obtient les coordonnées globales d'un widget
-        À ajouter comme méthode à la classe Tutoriel
-        """
-        widget.update_idletasks()  # Assure que la géométrie est à jour
-        x = widget.winfo_rootx() - self.root.winfo_rootx()
-        y = widget.winfo_rooty() - self.root.winfo_rooty()
-        width = widget.winfo_width()
-        height = widget.winfo_height()
-
-        # Retourne le centre du widget
-        return (x + width // 2, y + height // 2)
-
-    def show_tutorial(self):
-        """
-        Affiche toutes les flèches du tutoriel
-        À ajouter comme méthode à la classe Tutoriel
-        """
-        self.tutorial_active = True
-        for arrow in self.tutorial_arrows:
-            arrow.draw()
-
-        # Ajouter un bouton pour fermer le tutoriel
-        self.close_tutorial_btn = tk.Button(
-            self.canevas,
-            text="Fermer le tutoriel",
-            command=self.hide_tutorial,
-            bg="#FF6600",
-            fg="white",
-            font=("Stencil", 12, "bold")
-        )
-        self.close_tutorial_btn.place(x=20, y=20)
-
-    def hide_tutorial(self):
-        """
-        Cache toutes les flèches du tutoriel
-        À ajouter comme méthode à la classe Tutoriel
-        """
-        self.tutorial_active = False
-        for arrow in self.tutorial_arrows:
-            arrow.hide()
-
-        if hasattr(self, 'close_tutorial_btn'):
-            self.close_tutorial_btn.destroy()
-
-    def toggle_tutorial(self):
-        """
-        Bascule l'affichage du tutoriel
-        À ajouter comme méthode à la classe Tutoriel
-        """
-        if self.tutorial_active:
-            self.hide_tutorial()
-        else:
-            self.show_tutorial()
-
-
-# Modification de afficherTutoriel pour intégrer notre tutoriel
-def modified_afficherTutoriel(self):
-    # Configurer la fenêtre
-    self.root.title("Tower Defense - Jeu")
-    self.root.geometry(f"{self.largeur + 200}x{self.hauteur}")  # +200 pour la barre latérale
-
-    # S'assurer que les frames sont visibles
-    self.cadrePrincipal.pack_propagate(False)
-    self.cadreSecondaire.pack(side=tk.RIGHT, fill=tk.Y)
-
-    # Redessiner les chemins au cas où
-    if hasattr(self.controleur.modele, 'path'):
-        self.dessiner_chemin(self.controleur.modele.path, "gray")
-    if hasattr(self.controleur.modele, 'path2'):
-        self.dessiner_chemin(self.controleur.modele.path2, "blue")
-
-    # Initialiser et afficher le tutoriel si pas déjà fait
-    if not hasattr(self, 'tutorial_arrows'):
-        self.initialiser_tutoriel()
-
-    # Ajouter un bouton pour afficher/masquer le tutoriel dans l'interface principale
-    self.tutorial_toggle_btn = tk.Button(
-        self.UIinfo,
-        text="Afficher tutoriel",
-        bg="#FF6600",
-        fg="white",
-        font=("Stencil", 12, "bold"),
-        command=self.toggle_tutorial
-    )
-    self.tutorial_toggle_btn.pack(pady=10, before=self.label_score)
-
-
-# Modification de la méthode __init__ pour intégrer le tutoriel
-def modified_init(self, controleur, root, largeur, hauteur):
-    # Le code existant reste inchangé
-    # ...
-
-    # À la fin de la méthode __init__, ajouter:
-    self.tutorial_arrows = []
-    self.tutorial_active = False
-
-
 
 class Tutoriel():
 
@@ -295,7 +26,6 @@ class Tutoriel():
         self.info = []
 
         # Utiliser controleur.modele au lieu de self.modele
-        # Ou ajouter cette ligne si vous préférez accéder directement au modèle
         self.modele = self.controleur.modele
 
         self.root.update_idletasks()
@@ -338,9 +68,26 @@ class Tutoriel():
         self.tour_photo4 = ImageTk.PhotoImage(self.tour_image4)
 
         self.placement_mode = False
+        self.init_info_panel()
 
-        self.tutorial_arrows = []
-        self.tutorial_active = False
+
+    def retour_menu(self):
+        """Retourne au menu principal"""
+        self.cacher()
+        self.controleur.vue.afficher()
+
+    def cacher(self):
+        """Cache la vue des paramètres"""
+        self.background_frame.pack_forget()
+        self.cadrePrincipal.pack_forget()
+        self.cadreSecondaire.pack_forget()
+
+    def afficher(self):
+        """Réaffiche la vue des paramètres si elle a été cachée"""
+        self.background_frame.pack(fill="both", expand=True)
+        self.cadrePrincipal.pack(side="left", expand=True, padx=0, pady=0)
+        self.cadreSecondaire.pack(side=tk.RIGHT, fill=tk.Y)
+        #self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
 
     def afficherTutoriel(self):
         # Configurer la fenêtre
@@ -357,6 +104,166 @@ class Tutoriel():
         if hasattr(self.controleur.modele, 'path2'):
             self.dessiner_chemin(self.controleur.modele.path2, "blue")
 
+
+        self.hide_info_panel()
+
+    def creer_info_panel(self):
+        """Crée un panneau d'informations qui sera affiché par-dessus le canvas principal."""
+        # Créer un cadre pour les informations qui sera initialement caché
+        # Maintenant on place le panneau dans le canevas principal
+        self.info_panel = tk.Frame(self.canevas, bg="#FFD580", bd=2, relief="raised",
+                                   highlightbackground="black", highlightthickness=1)
+
+        # On ne le positionne pas encore, on le fera avec place() dans la méthode show_info_panel
+
+        # Titre du panneau
+        self.info_title = tk.Label(self.info_panel, text="Informations", font=("Stencil", 12, "bold"), bg="#FFD580")
+        self.info_title.pack(pady=5)
+
+        # Description
+        self.info_desc = tk.Label(self.info_panel, text="", wraplength=180, justify="left", bg="#FFD580")
+        self.info_desc.pack(pady=5, padx=5)
+
+        # Stats (si besoin)
+        self.info_stats = tk.Label(self.info_panel, text="", justify="left", bg="#FFD580")
+        self.info_stats.pack(pady=5)
+
+        # Bouton de fermeture
+        self.info_close_btn = tk.Button(self.info_panel, text="Fermer", command=self.hide_info_panel)
+        self.info_close_btn.pack(pady=5)
+
+    def show_info_panel(self, title, description, stats=""):
+        """Affiche le panneau d'information avec les détails fournis par-dessus le canvas."""
+        # Mise à jour du contenu
+        self.info_title.config(text=title)
+        self.info_desc.config(text=description)
+        self.info_stats.config(text=stats)
+
+        # Positionnement du panneau sur le canvas
+        # Position centrée mais légèrement décalée vers la droite
+        panel_width = 400  # Largeur approximative du panneau
+        panel_height = 400  # Hauteur approximative du panneau
+
+        # Calcul de la position pour centrer le panneau
+        canvas_width = self.canevas.winfo_width()
+        canvas_height = self.canevas.winfo_height()
+
+        # Si le canvas n'a pas encore de taille (première utilisation), utiliser les dimensions par défaut
+        if canvas_width == 1:  # Le canvas retourne 1 s'il n'est pas encore rendu
+            canvas_width = self.largeur
+            canvas_height = self.hauteur
+
+        # Position le panneau à droite du centre
+        x_pos = (canvas_width // 2) - 100
+        y_pos = (canvas_height // 2) - 100
+
+        # Place le panneau sur le canvas
+        self.info_panel.place(x=x_pos, y=y_pos, width=panel_width, height=panel_height)
+
+    def hide_info_panel(self):
+        """Cache le panneau d'information."""
+        self.info_panel.place_forget()
+
+    def setup_button_info(self):
+        """Configure les informations pour chaque bouton."""
+        # Dictionnaire des informations pour chaque tour
+        self.tower_info = {
+            "machinegun": {
+                "title": "Machine Gun",
+                "description": "Tour rapide à cadence de tir élevée. Efficace contre les ennemis légers.",
+                "stats": "Dégâts: 10\nPortée: 150\nVitesse: Rapide\nCoût: 100"
+            },
+            "mortar": {
+                "title": "Mortar",
+                "description": "Attaque de zone qui inflige des dégâts aux ennemis groupés.",
+                "stats": "Dégâts: 25\nPortée: 200\nVitesse: Lente\nCoût: 200"
+            },
+            "antitank": {
+                "title": "Anti-Tank",
+                "description": "Spécialisée contre les ennemis blindés avec une forte pénétration d'armure.",
+                "stats": "Dégâts: 50\nPortée: 175\nVitesse: Moyenne\nCoût: 250"
+            },
+            "antiair": {
+                "title": "Anti-Air",
+                "description": "Cible les ennemis aériens avec précision.",
+                "stats": "Dégâts: 15\nPortée: 200\nVitesse: Rapide\nCoût: 200"
+            },
+            "artillery": {
+                "title": "Artillery",
+                "description": "Longue portée avec dégâts importants mais lente.",
+                "stats": "Dégâts: 40\nPortée: 300\nVitesse: Très lente\nCoût: 300"
+            }
+        }
+
+        # Informations pour les améliorations
+        self.upgrade_info = {
+            "speed": {
+                "title": "Amélioration: Vitesse",
+                "description": "Augmente la vitesse d'attaque de la tour sélectionnée.",
+                "stats": "Coût: 50\nBonus: +20% de vitesse"
+            },
+            "range": {
+                "title": "Amélioration: Portée",
+                "description": "Augmente la portée d'attaque de la tour sélectionnée.",
+                "stats": "Coût: 75\nBonus: +15% de portée"
+            },
+            "damage": {
+                "title": "Amélioration: Dégâts",
+                "description": "Augmente les dégâts infligés par la tour sélectionnée.",
+                "stats": "Coût: 100\nBonus: +25% de dégâts"
+            },
+            "cooldown": {
+                "title": "Amélioration: Cooldown",
+                "description": "Réduit le temps entre chaque attaque de la tour sélectionnée.",
+                "stats": "Coût: 125\nBonus: -15% de temps de recharge"
+            }
+        }
+
+    def configure_button_interactions(self):
+        """Configure les interactions pour tous les boutons."""
+        # Tours
+        self.btn_machinegun.config(command=lambda: self.show_tower_info("machinegun"))
+        self.btn_mortar.config(command=lambda: self.show_tower_info("mortar"))
+        self.btn_antitank.config(command=lambda: self.show_tower_info("antitank"))
+        self.btn_antiair.config(command=lambda: self.show_tower_info("antiair"))
+        self.btn_artillery.config(command=lambda: self.show_tower_info("artillery"))
+
+        # Améliorations
+        self.btn_speed.config(command=lambda: self.show_upgrade_info("speed"))
+        self.btn_range.config(command=lambda: self.show_upgrade_info("range"))
+        self.btn_damage.config(command=lambda: self.show_upgrade_info("damage"))
+        self.btn_cooldown.config(command=lambda: self.show_upgrade_info("cooldown"))
+
+        # Vendre
+        self.cadreBoutonBtnVendre.config(command=self.show_sell_info)
+        self.button.config(command=self.show_start_info)
+
+    def show_tower_info(self, tower_type):
+        """Affiche les informations pour le type de tour spécifié et active le mode de sélection."""
+        info = self.tower_info.get(tower_type, {})
+        self.show_info_panel(info.get("title", ""), info.get("description", ""), info.get("stats", ""))
+
+    def show_upgrade_info(self, upgrade_type):
+        """Affiche les informations pour le type d'amélioration spécifié."""
+        info = self.upgrade_info.get(upgrade_type, {})
+        self.show_info_panel(info.get("title", ""), info.get("description", ""), info.get("stats", ""))
+
+    def show_sell_info(self):
+        """Affiche les informations pour la vente de tour."""
+        self.show_info_panel("Vendre Tour",
+                             "Cliquez sur une tour placée pour la vendre et récupérer une partie de son coût.",
+                             "Remboursement: 75% du coût")
+    def show_start_info(self):
+        """Affiche les informations pour la vente de tour."""
+        self.show_info_panel("Star Round",
+                             "Cliquez pour démarrer le round. Durant celui-ci vous pourrez ajouter des tours ou les vendre",
+                             "Démarrage de la partie.")
+
+    def init_info_panel(self):
+        self.creer_info_panel()
+        self.setup_button_info()
+        self.configure_button_interactions()
+
     def creer_cadre_jeu(self, largeur, hauteur, info):
 
         self.cadrePrincipal = tk.Frame(self.background_frame, width=largeur, height=hauteur, bd=0, highlightthickness=0)
@@ -370,6 +277,15 @@ class Tutoriel():
         #self.canevas.bind("<Button-1>", self.afficher_coordonnees)
         self.canevas.pack(expand=True, fill="both", padx=0, pady=0)
         self.canevas.create_image(0, 0, anchor=tk.NW, image=self.map_photo)
+        self.labelTutoriel = tk.Label(self.canevas, text="Tutoriel")
+        self.labelTutoriel.config(font=("Stencil" , 30, "bold"), bg="green")
+        self.labelTutoriel.pack(side="top", padx=10)
+        self.labelTutorielInstruction = tk.Label(self.canevas, text="Appuyer sur les boutons pour voir les informations")
+        self.labelTutorielInstruction.config(font=("Stencil", 20, "bold"), bg="green")
+        self.labelTutorielInstruction.pack(side="top", padx=10)
+
+
+
 
         self.placeholder = 0
 
@@ -382,9 +298,13 @@ class Tutoriel():
         self.UIinfo.pack_propagate(False)
         self.UIinfo.pack(padx=2)
         ## ajouter le stock et les bouttons ici
+        self.boutonQuitter = tk.Button(self.UIinfo, text="Quitter",command=self.retour_menu)
+        self.boutonQuitter.config(font=("Stencil", 10, "bold"))
+        self.boutonQuitter.pack(side="top")
+
 
         self.label_score = tk.Label(self.UIinfo, text=("Info"), fg="black", font=("Stencil", 40), bg="orange", padx=2)
-        self.label_score.pack(pady=50)
+        self.label_score.pack(pady=10)
 
         self.vie = tk.Label(self.UIinfo, text=(f"Vie 100"), fg="black", font=("Stencil", 13, "bold"), bg="orange")
         self.vie.pack()
@@ -407,8 +327,6 @@ class Tutoriel():
         Rframe = tk.Frame(self.UIinfo, width=largeur * 0.2, height=hauteur * 0.2, bg="orange")
         Rframe.pack(side="bottom", fill="x", padx=5, pady=5)
 
-        # self.cadreBoutonBtnTour = tk.Button(self.UIinfo, text="Poser Tour", height=5, width=12, bg="red", command=self.selection_tour)
-        # self.cadreBoutonBtnTour.pack(padx=20, pady=10)
 
         # Dans la méthode creer_cadre_jeu() de votre classe Vue, après la création de self.UIinfo
         self.tower_selection_frame = tk.Frame(self.UIinfo, bg="orange")
@@ -417,8 +335,8 @@ class Tutoriel():
         self.btn_machinegun = tk.Button(self.tower_selection_frame,
                                         text="Machine Gun",
                                         width=12
-                                        ,
-                                        command=lambda: self.afficherTutoriel()
+                                        #,
+                                        #command=lambda: self.afficherTutoriel()
                                         )
         self.btn_machinegun.pack(pady=5)
 
