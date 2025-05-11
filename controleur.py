@@ -36,8 +36,8 @@ class Controleur():
             # Ajouter cette condition pour réafficher la vue si elle existe déjà
             self.vue_parametre.afficher()
 
-    def application_nouveau_parametre(self, difficulte, taille):
-        self.modele.nb_ennemis = self.modele.nb_ennemis * difficulte
+    def application_nouveau_parametre(self, difficulte):
+        self.modele.difficulte = difficulte
         #self.modele.
 
     def clic_tutoriel(self):

@@ -206,6 +206,7 @@ class Partie():
         self.reset()
         self.countEnnemie = 0
         self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
+        self.difficulte = 1
     
        
         self.path = [
@@ -309,6 +310,7 @@ class Partie():
         else:
             #self.round_count+=1
             self.nb_ennemis = self.calculer_nbEnnemis()
+            self.nb_ennemis = self.nb_ennemis * self.difficulte
             self.countEnnemie = self.nb_ennemis
             print("nb ennemis : " + str(self.nb_ennemis))
             
