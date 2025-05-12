@@ -290,7 +290,6 @@ class Vue():
         
         self.canevas.create_image(ennemi.x, ennemi.y, image=tk_image, tags="ennemi")
 
-
         self.afficher_vie(ennemi)
         
         
@@ -300,8 +299,10 @@ class Vue():
         largeur_actuelle = largeur_totale * pourcentage_vie
         largeurtemp = largeur_totale - largeur_actuelle
         
-        self.canevas.create_rectangle(ennemi.x-20, ennemi.y-25, ennemi.x+20, ennemi.y-20, fill='gray', tag="vie_max")
-        self.canevas.create_rectangle(ennemi.x-20, ennemi.y-25, ennemi.x+20-largeurtemp, ennemi.y-20, fill='green', tag="vie")
+        
+        if ennemi.life >= 1:
+            self.canevas.create_rectangle(ennemi.x-20, ennemi.y-25, ennemi.x+20, ennemi.y-20, fill='gray', tag="vie_max")
+            self.canevas.create_rectangle(ennemi.x-20, ennemi.y-25, ennemi.x+20-largeurtemp, ennemi.y-20, fill='green', tag="vie")
         
         #self.canvas.coords(self.barre_vie, ennemi.x-20, ennemi.y-25, ennemi.x-20, self.y-20)
         
