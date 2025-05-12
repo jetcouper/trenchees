@@ -399,7 +399,7 @@ class Partie():
         for x in range(self.nb_ennemis):
 
             if len(self.ennemis) > 0:
-                rnd_delay = random.random() * (x + 4)
+                rnd_delay = random.random() * (x + 1)
                 time.sleep(rnd_delay)
                 # self.apparition_ennemis("glace")
                 # self.apparition_ennemis("feu")
