@@ -84,6 +84,8 @@ class Tutoriel():
         self.background_frame.pack(fill="both", expand=True)
         self.cadrePrincipal.pack(side="left", expand=True, padx=0, pady=0)
         self.cadreSecondaire.pack(side=tk.RIGHT, fill=tk.Y)
+        self.cadrePrincipal.pack_propagate(False)
+        self.cadreSecondaire.pack_propagate(False)
         #self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
 
     def afficherTutoriel(self):

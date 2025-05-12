@@ -82,10 +82,13 @@ class Menu():
     def afficher(self):
         # Afficher le frame principal
         self.main_frame.pack(expand=True, fill="both")
+        self.menu_frame.pack(expand=True)
+        self.menu_frame.pack_propagate(False)
         
     def cacher(self):
         # Cacher le frame principal
         self.main_frame.pack_forget()
+        self.menu_frame.pack_forget()
         
     
     def create_mainFrame(self):

@@ -76,6 +76,7 @@ class Parametre():
 
     def afficher(self):
         self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
+        self.frame_parametres.pack_propagate(False)
 
     def cacher(self):
         self.frame_parametres.pack_forget()
