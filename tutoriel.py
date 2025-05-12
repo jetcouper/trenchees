@@ -72,18 +72,15 @@ class Tutoriel():
 
 
     def retour_menu(self):
-        """Retourne au menu principal"""
         self.cacher()
         self.controleur.vue.afficher()
 
     def cacher(self):
-        """Cache la vue des paramètres"""
         self.background_frame.pack_forget()
         self.cadrePrincipal.pack_forget()
         self.cadreSecondaire.pack_forget()
 
     def afficher(self):
-        """Réaffiche la vue des paramètres si elle a été cachée"""
         self.background_frame.pack(fill="both", expand=True)
         self.cadrePrincipal.pack(side="left", expand=True, padx=0, pady=0)
         self.cadreSecondaire.pack(side=tk.RIGHT, fill=tk.Y)
@@ -108,13 +105,8 @@ class Tutoriel():
         self.hide_info_panel()
 
     def creer_info_panel(self):
-        """Crée un panneau d'informations qui sera affiché par-dessus le canvas principal."""
-        # Créer un cadre pour les informations qui sera initialement caché
-        # Maintenant on place le panneau dans le canevas principal
         self.info_panel = tk.Frame(self.canevas, bg="#FFD580", bd=2, relief="raised",
                                    highlightbackground="black", highlightthickness=1)
-
-        # On ne le positionne pas encore, on le fera avec place() dans la méthode show_info_panel
 
         # Titre du panneau
         self.info_title = tk.Label(self.info_panel, text="Informations", font=("Stencil", 12, "bold"), bg="#FFD580")
@@ -124,7 +116,7 @@ class Tutoriel():
         self.info_desc = tk.Label(self.info_panel, text="", wraplength=180, justify="left", bg="#FFD580")
         self.info_desc.pack(pady=5, padx=5)
 
-        # Stats (si besoin)
+        # Stats (au besoin)
         self.info_stats = tk.Label(self.info_panel, text="", justify="left", bg="#FFD580")
         self.info_stats.pack(pady=5)
 
@@ -133,16 +125,13 @@ class Tutoriel():
         self.info_close_btn.pack(pady=5)
 
     def show_info_panel(self, title, description, stats=""):
-        """Affiche le panneau d'information avec les détails fournis par-dessus le canvas."""
-        # Mise à jour du contenu
         self.info_title.config(text=title)
         self.info_desc.config(text=description)
         self.info_stats.config(text=stats)
 
-        # Positionnement du panneau sur le canvas
-        # Position centrée mais légèrement décalée vers la droite
-        panel_width = 400  # Largeur approximative du panneau
-        panel_height = 400  # Hauteur approximative du panneau
+        # Position du panneau centrée mais légèrement décalée vers la droite
+        panel_width = 400  # Largeur
+        panel_height = 400  # Hauteur
 
         # Calcul de la position pour centrer le panneau
         canvas_width = self.canevas.winfo_width()
@@ -161,12 +150,10 @@ class Tutoriel():
         self.info_panel.place(x=x_pos, y=y_pos, width=panel_width, height=panel_height)
 
     def hide_info_panel(self):
-        """Cache le panneau d'information."""
         self.info_panel.place_forget()
 
     def setup_button_info(self):
-        """Configure les informations pour chaque bouton."""
-        # Dictionnaire des informations pour chaque tour
+        # Dictionnaire des informations
         self.tower_info = {
             "machinegun": {
                 "title": "Machine Gun",
@@ -195,7 +182,7 @@ class Tutoriel():
             }
         }
 
-        # Informations pour les améliorations
+        # Informations pour améliorations
         self.upgrade_info = {
             "speed": {
                 "title": "Amélioration: Vitesse",
@@ -220,7 +207,6 @@ class Tutoriel():
         }
 
     def configure_button_interactions(self):
-        """Configure les interactions pour tous les boutons."""
         # Tours
         self.btn_machinegun.config(command=lambda: self.show_tower_info("machinegun"))
         self.btn_mortar.config(command=lambda: self.show_tower_info("mortar"))
@@ -236,25 +222,22 @@ class Tutoriel():
 
         # Vendre
         self.cadreBoutonBtnVendre.config(command=self.show_sell_info)
+        # Start
         self.button.config(command=self.show_start_info)
 
     def show_tower_info(self, tower_type):
-        """Affiche les informations pour le type de tour spécifié et active le mode de sélection."""
         info = self.tower_info.get(tower_type, {})
         self.show_info_panel(info.get("title", ""), info.get("description", ""), info.get("stats", ""))
 
     def show_upgrade_info(self, upgrade_type):
-        """Affiche les informations pour le type d'amélioration spécifié."""
         info = self.upgrade_info.get(upgrade_type, {})
         self.show_info_panel(info.get("title", ""), info.get("description", ""), info.get("stats", ""))
 
     def show_sell_info(self):
-        """Affiche les informations pour la vente de tour."""
         self.show_info_panel("Vendre Tour",
                              "Cliquez sur une tour placée pour la vendre et récupérer une partie de son coût.",
                              "Remboursement: 75% du coût")
     def show_start_info(self):
-        """Affiche les informations pour la vente de tour."""
         self.show_info_panel("Star Round",
                              "Cliquez pour démarrer le round. Durant celui-ci vous pourrez ajouter des tours ou les vendre",
                              "Démarrage de la partie.")
@@ -334,78 +317,52 @@ class Tutoriel():
 
         self.btn_machinegun = tk.Button(self.tower_selection_frame,
                                         text="Machine Gun",
-                                        width=12
-                                        #,
-                                        #command=lambda: self.afficherTutoriel()
-                                        )
+                                        width=12)
         self.btn_machinegun.pack(pady=5)
 
         self.btn_mortar = tk.Button(self.tower_selection_frame,
                                     text="Mortar",
-                                    width=12
-                                    #,
-                                    #command=lambda: self.selection_tower("mortar")
-                                    )
+                                    width=12)
         self.btn_mortar.pack(pady=5)
 
         self.btn_antitank = tk.Button(self.tower_selection_frame,
                                       text="Anti-Tank",
-                                      width=12
-                                      #,
-                                      #command=lambda: self.selection_tower("antitank")
-                                      )
+                                      width=12)
         self.btn_antitank.pack(pady=5)
 
         self.btn_antiair = tk.Button(self.tower_selection_frame,
                                      text="Anti-Air",
                                      width=12
-                                     #,
-                                     #command=lambda: self.selection_tower("antiair")
                                      )
         self.btn_antiair.pack(pady=5)
 
         self.btn_artillery = tk.Button(self.tower_selection_frame,
                                        text="Artillery",
                                        width=12
-                                       #,
-                                       #command=lambda: self.selection_tower("artillery")
                                        )
         self.btn_artillery.pack(pady=5)
 
         self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=5, width=12, bg="green"
-                                              #,
-                                              #command=self.selection_sell
                                               )
         self.cadreBoutonBtnVendre.pack(padx=20, pady=10)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black"
-                                #,
-                                #=self.controleur.start_Round
                                 )
         self.button.pack()
 
         self.upgrade_frame = tk.Frame(self.UIinfo, bg="orange")
         self.upgrade_frame.pack(pady=10)
 
-        self.btn_speed = tk.Button(self.upgrade_frame, text="Speed", width=8
-                                   #, command=self.selection_upgrade_speed
-                                   )
+        self.btn_speed = tk.Button(self.upgrade_frame, text="Speed", width=8)
         self.btn_speed.pack(pady=3)  # par défaut, pack les widgets verticalement
 
-        self.btn_range = tk.Button(self.upgrade_frame, text="Range", width=8
-                                   #, command=self.selection_upgrade_range
-                                   )
+        self.btn_range = tk.Button(self.upgrade_frame, text="Range", width=8)
         self.btn_range.pack(pady=3)
 
-        self.btn_damage = tk.Button(self.upgrade_frame, text="Damage", width=8
-                                    #, command=self.selection_upgrade_damage
-                                    )
+        self.btn_damage = tk.Button(self.upgrade_frame, text="Damage", width=8)
         self.btn_damage.pack(pady=3)
 
-        self.btn_cooldown = tk.Button(self.upgrade_frame, text="Cooldown", width=8
-                                      #,
-                                      #command=self.selection_upgrade_cooldown
-                                      )
+        self.btn_cooldown = tk.Button(self.upgrade_frame, text="Cooldown", width=8)
         self.btn_cooldown.pack(pady=3)
 
         self.label_Round_nbr = tk.Label(Rframe, text="Round : 1", fg="black", font=("Stencil", 20), bg="orange")

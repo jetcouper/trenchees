@@ -29,7 +29,6 @@ class Parametre():
         # Ces éléments ne sont pas encore placés dans la fenêtre
 
     def afficherParametre(self):
-        """Initialise et affiche tous les éléments de la vue paramètres"""
         # Placement du canvas principal
 
         # Placement du frame latéral avec les paramètres
@@ -76,20 +75,16 @@ class Parametre():
         self.btn_retour.pack(side="right",pady=10, padx=75)
 
     def afficher(self):
-        """Réaffiche la vue des paramètres si elle a été cachée"""
         self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
 
     def cacher(self):
-        """Cache la vue des paramètres"""
         self.frame_parametres.pack_forget()
 
     def retour_menu(self):
-        """Retourne au menu principal"""
         self.cacher()
         self.controleur.vue.afficher()
 
     def appliquer_parametres(self):
-        """Applique les paramètres sélectionnés"""
         difficulte = self.var_difficulte.get()
         print("Difficulté choisie :", difficulte)
         self.controleur.application_nouveau_parametre(difficulte)
