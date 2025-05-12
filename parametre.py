@@ -32,7 +32,6 @@ class Parametre():
         # Ces éléments ne sont pas encore placés dans la fenêtre
 
     def afficherParametre(self):
-        """Initialise et affiche tous les éléments de la vue paramètres"""
         # Placement du canvas principal
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
@@ -67,21 +66,17 @@ class Parametre():
         tk.Button(self.frame_parametres, text="Appliquer", command=self.appliquer_parametres).pack(pady=10)
 
     def afficher(self):
-        """Réaffiche la vue des paramètres si elle a été cachée"""
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
 
     def cacher(self):
-        """Cache la vue des paramètres"""
         self.canvas.pack_forget()
         self.frame_parametres.pack_forget()
 
     def retour_menu(self):
-        """Retourne au menu principal"""
         self.cacher()
         self.controleur.vue.afficher()
 
     def appliquer_parametres(self):
-        """Applique les paramètres sélectionnés"""
         # Ici vous pourriez récupérer les valeurs des widgets et les appliquer au modèle
         print("Paramètres appliqués")
