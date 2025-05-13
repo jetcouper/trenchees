@@ -82,14 +82,17 @@ class Menu():
     def afficher(self):
         # Afficher le frame principal
         self.main_frame.pack(expand=True, fill="both")
+        self.menu_frame.pack(expand=True)
+        self.menu_frame.pack_propagate(False)
         
     def cacher(self):
         # Cacher le frame principal
         self.main_frame.pack_forget()
+        self.menu_frame.pack_forget()
         
     
     def create_mainFrame(self):
-        self.main_frame = Tk.Frame(self.root, bg="blue")
+        self.main_frame = Tk.Frame(self.root, width=self.largeur, height=self.hauteur, bg="blue")
         self.main_frame.pack(expand=True, fill="both")
     
     def create_menu_frame(self):
@@ -157,6 +160,7 @@ class Menu():
                 print("Accéder aux crédits !")
             case 7:
                 print("Accéder au tutoriel !")
+                self.controleur.clic_tutoriel()
                 
                 
     def validation_exit(self):

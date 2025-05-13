@@ -10,20 +10,17 @@ class Parametre():
         self.root = root
         self.root.title("Tower Defense")
         self.root.geometry(f"{largeur}x{hauteur}")
-        self.root.minsize(largeur + 200, hauteur)
+        self.root.minsize(largeur, hauteur)
         # self.controleur = controleur
         # self.modele = modele
         self.largeur = largeur
         self.hauteur = hauteur
+        self.difficulte = 0
 
-        # Configuration initiale
-        #self.create_mainFrame()
-        #self.create_parameter_frame()
-        # Création du canvas principal
-        self.canvas = tk.Canvas(self.root, width=largeur, height=hauteur, bg="black")
+
 
         # Création du frame pour les widgets des paramètres
-        self.frame_parametres = tk.Frame(self.root, width=200, bg="lightgray")
+        self.frame_parametres = tk.Frame(self.root, width=largeur, height=hauteur, bg="#81392a")
 
         # Bouton pour retourner au menu
         self.btn_retour = tk.Button(self.frame_parametres, text="Retour au menu",
@@ -33,44 +30,55 @@ class Parametre():
 
     def afficherParametre(self):
         # Placement du canvas principal
-        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         # Placement du frame latéral avec les paramètres
-        self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
+        self.frame_parametres.pack(fill="both", expand=True)
+        self.frame_parametres.config(bg="#81392a")
         self.frame_parametres.pack_propagate(False)  # Empêche le redimensionnement du frame
 
         # Ajout des widgets de paramètres
-        self.btn_retour.pack(pady=10)
+
 
         # Ajout d'autres widgets pour les paramètres du jeu
-        tk.Label(self.frame_parametres, text="Paramètres du jeu", bg="lightgray", font=("Arial", 12, "bold")).pack(
+        tk.Label(self.frame_parametres, text="Paramètres du jeu", bg="#81392a", font=("Stencil", 40, "bold")).pack(
             pady=10)
 
+        self.fontCustomiserRadio = ("Stencil", 40 ,"bold")
+        self.fontCustomiserButton = ("Stencil", 30, "bold")
         # Exemple: Difficulté
-        tk.Label(self.frame_parametres, text="Difficulté:", bg="lightgray").pack(anchor="w", padx=5, pady=5)
-        difficulte = tk.StringVar(value="normale")
-        tk.Radiobutton(self.frame_parametres, text="Facile", variable=difficulte, value="facile", bg="lightgray").pack(
+        tk.Label(self.frame_parametres, text="Difficulté:", bg="#81392a", font=self.fontCustomiserRadio).pack(anchor="w", padx=5, pady=5)
+
+        self.var_difficulte = tk.IntVar(value=self.controleur.modele.difficulte)
+
+        tk.Radiobutton(self.frame_parametres, text="Facile", variable=self.var_difficulte, value=1, bg="#81392a", font=self.fontCustomiserRadio).pack(
             anchor="w", padx=15)
-        tk.Radiobutton(self.frame_parametres, text="Normale", variable=difficulte, value="normale",
-                       bg="lightgray").pack(anchor="w", padx=15)
-        tk.Radiobutton(self.frame_parametres, text="Difficile", variable=difficulte, value="difficile",
-                       bg="lightgray").pack(anchor="w", padx=15)
+        tk.Radiobutton(self.frame_parametres, text="Normale", variable=self.var_difficulte, value=2,
+                       bg="#81392a", font=self.fontCustomiserRadio).pack(anchor="w", padx=15)
+        tk.Radiobutton(self.frame_parametres, text="Difficile", variable=self.var_difficulte, value=3,
+                       bg="#81392a", font=self.fontCustomiserRadio).pack(anchor="w", padx=15)
 
         # Exemple: Volume sonore
-        tk.Label(self.frame_parametres, text="Volume:", bg="lightgray").pack(anchor="w", padx=5, pady=5)
-        volume_scale = tk.Scale(self.frame_parametres, from_=0, to=100, orient=tk.HORIZONTAL, bg="lightgray")
+        tk.Label(self.frame_parametres, text="Volume:", bg="#81392a").pack(anchor="w", padx=5, pady=5)
+        volume_scale = tk.Scale(self.frame_parametres, from_=0, to=100, orient=tk.HORIZONTAL, bg="#81392a")
         volume_scale.set(50)
+        volume_scale.config(state="disabled")
         volume_scale.pack(fill=tk.X, padx=15)
 
         # Bouton pour appliquer les changements
-        tk.Button(self.frame_parametres, text="Appliquer", command=self.appliquer_parametres).pack(pady=10)
+        self.btn_appliquer = tk.Button(self.frame_parametres, text="Appliquer", command=self.appliquer_parametres, font=self.fontCustomiserButton)
+
+
+        self.btn_appliquer.pack(side="left",pady=10, padx=75)
+
+        self.btn_retour = tk.Button(self.frame_parametres, text="Retour au menu",
+                                    command=self.retour_menu, font=self.fontCustomiserButton)
+        self.btn_retour.pack(side="right",pady=10, padx=75)
 
     def afficher(self):
-        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.frame_parametres.pack(side=tk.RIGHT, fill=tk.Y)
+        self.frame_parametres.pack_propagate(False)
 
     def cacher(self):
-        self.canvas.pack_forget()
         self.frame_parametres.pack_forget()
 
     def retour_menu(self):
@@ -78,5 +86,7 @@ class Parametre():
         self.controleur.vue.afficher()
 
     def appliquer_parametres(self):
+        difficulte = self.var_difficulte.get()
+        print("Difficulté choisie :", difficulte)
+        self.controleur.application_nouveau_parametre(difficulte)
         # Ici vous pourriez récupérer les valeurs des widgets et les appliquer au modèle
-        print("Paramètres appliqués")
