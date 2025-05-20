@@ -113,13 +113,15 @@ class Controleur():
         self.vue_jeu.verifier_emplacement()
 
     def loop_jeu(self):
+        self.vue_jeu.canevas.delete("chemin")
+        self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
+        self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
         self.modele.valider_tirs()
         self.modele.mouvement_projectiles()
         self.vue_jeu.dessiner_ennemi(self.modele.ennemis)
         self.vue_jeu.dessiner_tours(self.modele.tours)
         self.vue_jeu.dessiner_projectiles(self.modele.projectiles)
         self.vue_jeu.update_vue(self.modele.life_joueur, self.modele.score, self.modele.argent, self.modele.round_count, len(self.modele.ennemis))
-
         self.modele.deplacer_ennemis()
         self.modele.vie_restante_ennemi()
         self.modele.mort_ennemi()
@@ -139,6 +141,16 @@ class Controleur():
         if self.vue_jeu:
             self.vue_jeu.reset()
         self.loop_jeu()
+        
+    def redessiner_chemins(self):
+        if self.vue_jeu:
+            self.vue_jeu.canevas.delete("chemin")
+            self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
+            self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+            
+    # git blame
+    # antoine
+
 
 if __name__ == "__main__":
     c = Controleur()

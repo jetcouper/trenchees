@@ -17,7 +17,7 @@ class Vue():
         self.hauteur = hauteur
 
         self.root.minsize(largeur + 168, hauteur)
-        self.switch = True;
+        self.switch = True
 
         ico = Image.open("assets/Machine_Gun.png")
         photo = ImageTk.PhotoImage(ico)
@@ -115,6 +115,9 @@ class Vue():
         
     def reset(self):
         self.canevas.delete("popup")
+        self.canevas.delete("chemin")
+        self.dessiner_chemin(self.modele.path, "gray")
+        self.dessiner_chemin(self.modele.path2, "blue")
         self.button.config(state="normal")
         print("Message de Reset")
 

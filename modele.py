@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 import threading
 import time
 
+from paths import path1niv1, path1niv2, path1niv3, path2niv1, path2niv2, path2niv3
 
 
 class Helper(object):
@@ -204,6 +205,8 @@ class Partie():
     def __init__(self, largeur, hauteur, score=0, argent=500, life_joueur=100):
         self.largeur = largeur
         self.hauteur = hauteur
+        self.niveau = 1
+        self.mettre_paths_par_niveau()
         
         self.default_score = score
         self.default_argent = argent
@@ -215,79 +218,21 @@ class Partie():
         self.difficulte = 1
     
        
-        self.path = [
-            (0.0, 100.0),
-            (80.0, 100.0),
-            (80.0, 100.0),
-            (89.63388347648319, 100.88388347648319),
-            (98.53553390593274, 103.53553390593274),
-            (106.70495128834867, 107.95495128834867),
-            (114.14213562373095, 114.14213562373095),
-            (185.85786437626905, 185.85786437626905),
-            (185.85786437626905, 185.85786437626905),
-            (192.04504871165133, 193.29504871165133),
-            (196.46446609406726, 201.46446609406726),
-            (199.1161165235168, 210.3661165235168),
-            (200.0, 220.0),
-            (200.0, 380.0),
-            (200.0, 380.0),
-            (201.25, 388.75),
-            (205.0, 395.0),
-            (211.25, 398.75),
-            (220.0, 400.0),
-            (280.0, 400.0),
-            (280.0, 400.0),
-            (288.75, 398.75),
-            (295.0, 395.0),
-            (298.75, 388.75),
-            (300.0, 380.0),
-            (300.0, 320.0),
-            (300.0, 320.0),
-            (301.25, 311.25),
-            (305.0, 305.0),
-            (311.25, 301.25),
-            (320.0, 300.0),
-            (380.0, 300.0),
-            (380.0, 300.0),
-            (388.75, 301.25),
-            (395.0, 305.0),
-            (398.75, 311.25),
-            (400.0, 320.0),
-            (400.0, 380.0),
-            (400.0, 380.0),
-            (400.88388347648316, 389.63388347648316),
-            (403.53553390593277, 398.53553390593277),
-            (407.95495128834864, 406.70495128834864),
-            (414.14213562373095, 414.14213562373095),
-            (414.14213562373095, 414.14213562373095),
-            (800.0, 800.0)
-        ]
-
+       
+        self.path = path1niv1
+        self.path2 = path2niv1
         
-        self.path2 = [
-            (0,0),
-            (75, -20),
-            (75.0, 205.0),
-            (75.0, 205.0),
-            (76.07186615714068, 214.3931196942844),
-            (79.28746462856272, 222.57247877713763),
-            (84.64679541426612, 229.53807724855966),
-            (92.14985851425088, 235.28991510855053),
-            (707.8501414857491, 604.7100848914495),
-            (707.8501414857491, 604.7100848914495),
-            (714.1032045857339, 609.2119227514404),
-            (715.7125353714373, 612.4275212228624),
-            (712.6781338428593, 614.3568803057155),
-            (705.0, 615.0),
-            (170.0, 615.0),
-            (170.0, 615.0),
-            (161.25, 616.25),
-            (155.0, 620.0),
-            (151.25, 626.25),
-            (150.0, 635.0),
-            (150.0, 635.0),
-            (150, 800),
-        ]
+    def mettre_paths_par_niveau(self):
+        if self.niveau == 1:
+            self.path = path1niv1
+            self.path2 = path2niv1
+        elif self.niveau == 2:
+            self.path = path1niv2
+            self.path2 = path2niv2
+        elif self.niveau == 3:
+            self.path = path1niv3
+            self.path2 = path2niv3
+
 
 
         
@@ -591,13 +536,24 @@ class Partie():
                     
                        
     
-    def supprimer_ennemi(self):    
+    def supprimer_ennemi(self):
         for ennemi in self.ennemis:
-            if (ennemi.life < 0): #si l'ennemi est vaincu
-                self.score += ennemi.score # le joueur augmente son score selon le nb de points donnés par l'ennemi 
+            if (ennemi.life < 0):
+                self.score += ennemi.score
                 self.argent += ennemi.score
                 self.ennemis.remove(ennemi)
                 self.countEnnemie = self.countEnnemie -1
+    
+        if self.countEnnemie <= 0 and len(self.ennemis) == 0 and self.player_alive:
+            if self.round_count >= 1:
+                print(f"Fin du niveau {self.niveau}")
+                if self.niveau < 3:
+                    self.niveau += 1
+                    self.mettre_paths_par_niveau()
+                    print(f"Début du niveau {self.niveau}")
+                    self.reset()
+                else:
+                    print("Jeu terminé ! Tous les niveaux sont complétés.")
     
     def victoire_ennemi(self):
         self.life_joueur -=1 
