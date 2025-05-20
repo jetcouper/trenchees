@@ -17,7 +17,7 @@ class Vue():
         self.hauteur = hauteur
 
         self.root.minsize(largeur + 168, hauteur)
-        self.switch = True;
+        self.switch = True
 
         ico = Image.open("assets/Machine_Gun.png")
         photo = ImageTk.PhotoImage(ico)
@@ -25,6 +25,8 @@ class Vue():
 
         self.mode_actif = "placement"
         self.info = []
+        
+        self.show_tour = (0,0,0)
         
         self.show_distance = True
 
@@ -153,6 +155,9 @@ class Vue():
             self.controleur.demarrerRound = True
         elif self.info[4] == 0 and self.controleur.demarrerRound == False:
             self.button.config(state="normal")
+
+        ## boucle pour garde à jour le rayon des tours
+        self.afficher_distance_tour(self.show_tour)
 
     def creer_cadre_jeu(self, largeur, hauteur, info):
 
@@ -375,7 +380,7 @@ class Vue():
                 print("Aucune tour présente pour vente.")
         elif self.mode_actif == "upgrade":
             if self.verifier_tour(event):
-                self.controleur.clic_dans_vue_upgrade(x, y)
+                self.show_tour = self.controleur.clic_dans_vue_upgrade(x, y)
             else:
                 print("Aucune tour présente pour upgrade.")
         else:
@@ -383,8 +388,8 @@ class Vue():
             
             ## Temporaire pour tester le draw circle
             if self.verifier_tour(event):
-                tour = self.controleur.clic_dans_vue(x, y)
-                self.afficher_distance_tour(tour)
+                self.show_tour = self.controleur.clic_dans_vue(x, y)
+                # self.afficher_distance_tour(tour)
     
     def verifier_tour(self, event):
         items = self.canevas.find_overlapping(event.x - 10, event.y - 10, event.x + 10, event.y + 10)
@@ -429,6 +434,7 @@ class Vue():
         if(self.show_distance):
             self.show_distance = False
             self.btndistance.config(text=(f"Range OFF"),fg="red")
+            self.canevas.delete("cercle_tour")
         else:
             self.show_distance = True
             self.btndistance.config(text=(f"Range ON"),fg="green")
@@ -437,15 +443,17 @@ class Vue():
         print(f"Show distance est à {self.show_distance}")
         
     def afficher_distance_tour(self, tour):
-        self.canevas.delete("cercle_tour")
-        x,y,rayon = tour
-        
-        x1 = x-rayon
-        y1 = y-rayon
-        x2 = x+rayon
-        y2 = y+rayon
-        
-        self.canevas.create_oval(x1,y1,x2,y2,outline="red",width=2,tags="cercle_tour")
+        if(self.show_distance):
+            self.canevas.delete("cercle_tour")
+            print(tour)
+            x,y,rayon = tour
+            
+            x1 = x-rayon
+            y1 = y-rayon
+            x2 = x+rayon
+            y2 = y+rayon
+            
+            self.canevas.create_oval(x1,y1,x2,y2,outline="red",width=2,tags="cercle_tour")
         
 
 

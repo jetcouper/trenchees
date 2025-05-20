@@ -107,7 +107,7 @@ class Controleur():
         self.modele.vendre_tour(x, y)
         
     def clic_dans_vue_upgrade(self, x, y):
-        self.modele.upgrade_tour(x, y, self.vue_jeu.upgrade_type)
+        return self.modele.upgrade_tour(x, y, self.vue_jeu.upgrade_type)
 
     def start_Round(self):
         self.modele.start_round()
@@ -126,6 +126,7 @@ class Controleur():
         self.modele.deplacer_ennemis()
         self.modele.vie_restante_ennemi()
         self.modele.mort_ennemi()
+        
         
         if(self.modele.player_alive):
             self.root.after(16, self.loop_jeu)  # 16 pour 60 fps

@@ -355,7 +355,7 @@ class Partie():
                     self.argent -= cost
                     tour.upgrade(upgrade_type)
                     print(f"Tour améliorée ({upgrade_type}). Coût: {cost} - Argent restant: {self.argent}")
-                    return
+                    return (tour.x,tour.y,tour.rayon)
                 else:
                     print("Argent insuffisant pour cet upgrade.")
                     return
