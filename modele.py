@@ -361,6 +361,11 @@ class Partie():
                     return
         print("Aucune tour trouvée à cet emplacement pour upgrade.")
 
+    def donner_tour(self,x,y):
+        seuil = 20  # seuil de détection du clic sur la tour
+        for tour in self.tours:
+            if abs(tour.x - x) < seuil and abs(tour.y - y) < seuil:
+                return (tour.x,tour.y,tour.rayon)
 
     def start_round(self):
         rnd_delay = 0

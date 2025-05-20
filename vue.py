@@ -25,6 +25,8 @@ class Vue():
 
         self.mode_actif = "placement"
         self.info = []
+        
+        self.show_distance = True
 
         # Utiliser controleur.modele au lieu de self.modele
         # Ou ajouter cette ligne si vous préférez accéder directement au modèle
@@ -193,6 +195,9 @@ class Vue():
         self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Italic", 13, "bold"),bg="orange")
         self.nbennemis.pack()
         
+        # Boutton pour afficher ou ne pas afficher les cercles des distances des tours
+        self.btndistance = tk.Button(self.UIinfo,text=(f"Rayon ON"),fg="green",font=("Italic0", 13, "bold") ,command=self.selection_show_distance)
+        self.btndistance.pack()
         
         ### Initialisation de la frame Popup
         self.popup = tk.Frame(self.canevas, bg="gray", bd=2, relief="raised")
@@ -375,6 +380,11 @@ class Vue():
                 print("Aucune tour présente pour upgrade.")
         else:
             print("Mode non défini.")
+            
+            ## Temporaire pour tester le draw circle
+            if self.verifier_tour(event):
+                tour = self.controleur.clic_dans_vue(x, y)
+                self.afficher_distance_tour(tour)
     
     def verifier_tour(self, event):
         items = self.canevas.find_overlapping(event.x - 10, event.y - 10, event.x + 10, event.y + 10)
@@ -411,6 +421,32 @@ class Vue():
         self.mode_actif = "upgrade"
         self.upgrade_type = "cooldown"
         print("Mode upgrade activé: cooldown réduit de 5%")
+        
+        
+    def selection_show_distance(self):
+        self.mode_actif = "NOT_SET"
+        
+        if(self.show_distance):
+            self.show_distance = False
+            self.btndistance.config(text=(f"Range OFF"),fg="red")
+        else:
+            self.show_distance = True
+            self.btndistance.config(text=(f"Range ON"),fg="green")
+            
+        
+        print(f"Show distance est à {self.show_distance}")
+        
+    def afficher_distance_tour(self, tour):
+        self.canevas.delete("cercle_tour")
+        x,y,rayon = tour
+        
+        x1 = x-rayon
+        y1 = y-rayon
+        x2 = x+rayon
+        y2 = y+rayon
+        
+        self.canevas.create_oval(x1,y1,x2,y2,outline="red",width=2,tags="cercle_tour")
+        
 
 
         

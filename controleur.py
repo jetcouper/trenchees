@@ -99,6 +99,9 @@ class Controleur():
             self.clic_dans_vue_vendre(x, y)
         elif self.vue_jeu.mode_actif == "upgrade":
             self.clic_dans_vue_upgrade(x, y)
+        else:
+            ## Pour l'affichage du cercle
+            return self.modele.donner_tour(x,y)
             
     def clic_dans_vue_vendre(self, x, y):
         self.modele.vendre_tour(x, y)
