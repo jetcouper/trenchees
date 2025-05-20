@@ -13,7 +13,7 @@ class Credit():
         self.root.title("Tower Defense")
         self.largeur = 1200
         self.hauteur = 800
-
+        self.root.minsize(self.largeur, self.hauteur)
         ico = Image.open("assets/Machine_Gun.png")
         photo = ImageTk.PhotoImage(ico)
         self.root.wm_iconphoto(False, photo)
@@ -54,6 +54,13 @@ class Credit():
         self.background_frame.pack(fill="both", expand=True)
 
     def creer_cadre_credit(self, largeur, hauteur):
-        self.bg_canvas.config(highlightbackground = "red", highlightcolor= "red", highlightthickness=2)
-        self.titre = tk.Label(self.bg_canvas, text="TOWER DEFENSE", font=("Stencil", 20, "bold"), anchor="center")
+        self.credit_frame = tk.Frame(self.background_frame, width=self.largeur, height=self.hauteur)
+        self.credit_frame.config(highlightbackground = "red", highlightcolor= "red", highlightthickness=2)
+        self.credit_frame.pack()
+        self.titre = tk.Label(self.credit_frame, text="TOWER DEFENSE", font=("Stencil", 20, "bold"), anchor="center")
+        self.par = tk.Label(self.credit_frame, text="PAR", font=("Stencil", 20, "bold"),anchor="center")
+
+
         self.titre.pack(side="top")
+        self.par.pack(side="top")
+
