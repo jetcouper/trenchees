@@ -158,6 +158,7 @@ class Menu():
                 print("Accéder aux réalisations !")
             case 6:
                 print("Accéder aux crédits !")
+                self.controleur.clic_credit()
             case 7:
                 print("Accéder au tutoriel !")
                 self.controleur.clic_tutoriel()

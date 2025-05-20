@@ -1,3 +1,4 @@
+from credit import Credit
 from modele import *
 from tutoriel import Tutoriel
 from vue import Vue
@@ -20,6 +21,8 @@ class Controleur():
         self.vue_parametre = None
 
         self.vue_tutoriel = None
+
+        self.vue_credit = None
         
         self.demarrerRound = False
 
@@ -52,6 +55,19 @@ class Controleur():
         else:
             # Ajouter cette condition pour réafficher la vue si elle existe déjà
             self.vue_tutoriel.afficher()
+
+    def clic_credit(self):
+        self.vue.cacher()
+
+        if self.vue_credit is None:
+            self.vue_credit = Credit(self, self.root)
+            self.root.geometry(f"{self.modele.largeur}x{self.modele.hauteur}")
+
+            # Décommenter cette ligne pour afficher la vue des paramètres
+            self.vue_credit.afficherCredit()
+        else:
+            # Ajouter cette condition pour réafficher la vue si elle existe déjà
+            self.vue_credit.afficher()
 
     def clic_start(self):
         # Cacher le menu
