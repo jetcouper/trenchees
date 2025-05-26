@@ -57,7 +57,7 @@ class Vue():
 
 
         self.dessiner_chemin(self.modele.path, "gray")
-        self.dessiner_chemin(self.modele.path2, "blue")
+        self.dessiner_chemin(self.modele.path2, "gray")
         
         self.tour_image1 = Image.open("assets/tour1.png")
         self.tour_image1 = self.tour_image1.resize((40,40))
@@ -90,7 +90,7 @@ class Vue():
         if hasattr(self.controleur.modele, 'path'):
             self.dessiner_chemin(self.controleur.modele.path, "gray")
         if hasattr(self.controleur.modele, 'path2'):
-            self.dessiner_chemin(self.controleur.modele.path2, "blue")
+            self.dessiner_chemin(self.controleur.modele.path2, "gray")
 
 
     #def afficherParametre(self):
@@ -117,7 +117,7 @@ class Vue():
         self.canevas.delete("popup")
         self.canevas.delete("chemin")
         self.dessiner_chemin(self.modele.path, "gray")
-        self.dessiner_chemin(self.modele.path2, "blue")
+        self.dessiner_chemin(self.modele.path2, "gray")
         self.button.config(state="normal")
         print("Message de Reset")
 

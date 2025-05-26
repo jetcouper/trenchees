@@ -92,7 +92,7 @@ class Menu():
         
     
     def create_mainFrame(self):
-        self.main_frame = Tk.Frame(self.root, width=self.largeur, height=self.hauteur, bg="blue")
+        self.main_frame = Tk.Frame(self.root, width=self.largeur, height=self.hauteur, bg="gray")
         self.main_frame.pack(expand=True, fill="both")
     
     def create_menu_frame(self):

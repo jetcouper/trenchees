@@ -49,7 +49,7 @@ class Tutoriel():
         self.creer_cadre_jeu(largeur, hauteur, self.info)
 
         self.dessiner_chemin(self.modele.path, "gray")
-        self.dessiner_chemin(self.modele.path2, "blue")
+        self.dessiner_chemin(self.modele.path2, "gray")
 
         self.tour_image1 = Image.open("assets/tour1.png")
         self.tour_image1 = self.tour_image1.resize((40, 40))
@@ -101,7 +101,7 @@ class Tutoriel():
         if hasattr(self.controleur.modele, 'path'):
             self.dessiner_chemin(self.controleur.modele.path, "gray")
         if hasattr(self.controleur.modele, 'path2'):
-            self.dessiner_chemin(self.controleur.modele.path2, "blue")
+            self.dessiner_chemin(self.controleur.modele.path2, "gray")
 
 
         self.hide_info_panel()

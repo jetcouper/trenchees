@@ -74,12 +74,12 @@ class Controleur():
             
             # Maintenant dessiner les chemins avec les paths du modèle
             self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-            self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+            self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
         else:
             # Sinon, juste afficher la vue existante et redessiner les chemins
             self.vue_jeu.afficher()
             self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-            self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+            self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
         
         # Démarrer la boucle de jeu
         self.loop_jeu()
@@ -115,7 +115,7 @@ class Controleur():
     def loop_jeu(self):
         self.vue_jeu.canevas.delete("chemin")
         self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-        self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+        self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
         self.modele.valider_tirs()
         self.modele.mouvement_projectiles()
         self.vue_jeu.dessiner_ennemi(self.modele.ennemis)
@@ -146,7 +146,7 @@ class Controleur():
         if self.vue_jeu:
             self.vue_jeu.canevas.delete("chemin")
             self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-            self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+            self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
             
     # git blame
     # antoine
