@@ -125,14 +125,15 @@ class Vue():
         self.button.config(state="normal")
         print("Message de Reset")
 
-    def update_vue(self, vie, score, argent, round, nbennemis):
-        self.info = [vie, score, argent, round, nbennemis]
+    def update_vue(self, vie, score, argent, round, nbennemis, message):
+        self.info = [vie, score, argent, round, nbennemis, message]
         self.label_score.pack_forget
         self.score.pack_forget
         self.vie.pack_forget
         self.nbennemis.pack_forget
         self.label_Round_nbr.pack_forget
         self.score.config(text=(f"Vie {self.info[0]}"))
+        self.message.pack_forget
 
         self.vie.config(text=(f"score {self.info[1]}"))
 
@@ -141,8 +142,10 @@ class Vue():
         self.label_Round_nbr.config(text=(f"Round: {self.info[3]}"))
 
         self.nbennemis.config(text=(f"Ennemis restant: {self.info[4]}"))
+        
+        self.message.config(text=(f"Message:\n\n{self.info[5]}"))
 
-        self.label_score.pack(pady=50)
+        self.label_score.pack(pady=10)
 
         self.vie.pack(anchor="w")
 
@@ -151,6 +154,8 @@ class Vue():
         self.Argent.pack(anchor="w")
         
         self.nbennemis.pack(anchor="w")
+        
+        self.message.pack(anchor="w")
         
         self.label_Round_nbr.pack()
         if self.info[4] > 0:
@@ -186,31 +191,35 @@ class Vue():
         self.UIinfo.pack(padx=2)
         ## ajouter le stock et les bouttons ici
         
+        self.frame_parametres = tk.Frame(self.UIinfo, width=200, height=200, bg="orange")
+        self.frame_parametres.pack(expand=True,side=tk.TOP,anchor="center")
         
-        
-        self.label_score = tk.Label(self.UIinfo, text=("Info"), fg="black", font=("Italic", 40), bg="orange", padx=2)
-        self.label_score.pack(pady=50)
+        self.label_score = tk.Label(self.frame_parametres, text=(f"Info"), fg="black", font=("Stencil", 10), bg="orange", padx=2)
+        self.label_score.pack(anchor="center")
 
-        self.vie = tk.Label(self.UIinfo, text=(f"Vie 0"), fg="black", font=("Italic", 13, "bold" ), bg="orange")
+        self.vie = tk.Label(self.UIinfo, text=(f"Vie 0"), fg="black", font=("Stencil", 10, "bold" ), bg="orange")
         self.vie.pack()
 
-        self.score = tk.Label(self.UIinfo, text=(f"score 0"), fg="black", font=("Italic", 13, "bold"), bg="orange")
+        self.score = tk.Label(self.UIinfo, text=(f"score 0"), fg="black", font=("Stencil", 10, "bold"), bg="orange")
         self.score.pack()
 
-        self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black", font=("Italic", 13, "bold"), bg="orange")
+        self.Argent = tk.Label(self.UIinfo, text=(f"Argent 0"), fg="black", font=("Stencil", 10, "bold"), bg="orange")
         self.Argent.pack()
         
-        self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Italic", 13, "bold"),bg="orange")
+        self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Stencil", 10, "bold"),bg="orange")
         self.nbennemis.pack()
         
+        self.message = self.label_score
+        self.message.pack()
+        
         # Boutton pour afficher ou ne pas afficher les cercles des distances des tours
-        self.btndistance = tk.Button(self.UIinfo,text=(f"Rayon ON"),fg="green",font=("Italic0", 13, "bold") ,command=self.selection_show_distance)
+        self.btndistance = tk.Button(self.UIinfo,text=(f"Rayon ON"),fg="green",font=("Italic0", 10, "bold") ,command=self.selection_show_distance)
         self.btndistance.pack()
         
         ### Initialisation de la frame Popup
         self.popup = tk.Frame(self.canevas, bg="gray", bd=2, relief="raised")
-        tk.Label(self.popup, text="Game-OVER", font=("Arial", 14), bg="gray").pack(pady=10)
-        tk.Button(self.popup, text="Réessayer", command=lambda: self.controleur.init_game_values()).pack(pady=10)
+        tk.Label(self.popup, text="Game-OVER", font=("Stencil", 14), bg="gray").pack(pady=5)
+        tk.Button(self.popup, text="Réessayer", font=("Stencil", 14), command=lambda: self.controleur.init_game_values()).pack(pady=5)
 
         
 
@@ -222,64 +231,69 @@ class Vue():
         
         # Dans la méthode creer_cadre_jeu() de votre classe Vue, après la création de self.UIinfo
         self.tower_selection_frame = tk.Frame(self.UIinfo, bg="orange")
-        self.tower_selection_frame.pack(pady=10)
+        self.tower_selection_frame.pack(pady=5)
 
         self.btn_machinegun = tk.Button(self.tower_selection_frame,
+                                        font=("Stencil"),
                                         text="Machine Gun",
-                                        width=12,
+                                        width=8,
                                         command=lambda: self.selection_tower("machinegun"))
         self.btn_machinegun.pack(pady=5)
 
         self.btn_mortar = tk.Button(self.tower_selection_frame,
+                                    font=("Stencil"),
                                     text="Mortar",
-                                    width=12,
+                                    width=8,
                                     command=lambda: self.selection_tower("mortar"))
-        self.btn_mortar.pack(pady=5)
+        self.btn_mortar.pack(pady=2)
 
         self.btn_antitank = tk.Button(self.tower_selection_frame,
+                                    font=("Stencil"),
                                     text="Anti-Tank",
-                                    width=12,
+                                    width=8,
                                     command=lambda: self.selection_tower("antitank"))
-        self.btn_antitank.pack(pady=5)
+        self.btn_antitank.pack(pady=2)
 
         self.btn_antiair = tk.Button(self.tower_selection_frame,
+                                    font=("Stencil"),
                                     text="Anti-Air",
-                                    width=12,
+                                    width=8,
                                     command=lambda: self.selection_tower("antiair"))
-        self.btn_antiair.pack(pady=5)
+        self.btn_antiair.pack(pady=2)
 
         self.btn_artillery = tk.Button(self.tower_selection_frame,
+                                    font=("Stencil"),
                                     text="Artillery",
-                                    width=12,
+                                    width=8,
                                     command=lambda: self.selection_tower("artillery"))
-        self.btn_artillery.pack(pady=5)
+        self.btn_artillery.pack(pady=2)
 
 
-        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=1, width=12, bg="green", command=self.selection_sell)
-        self.cadreBoutonBtnVendre.pack(padx=20, pady=10)
+        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", font=("Stencil"), height=1, width=12, bg="green", command=self.selection_sell)
+        self.cadreBoutonBtnVendre.pack(padx=20, pady=2)
 
-        self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
+        self.button = tk.Button(Rframe, text="Start Round", font=("Stencil"), activeforeground="black",
                                 command=self.controleur.start_Round)
         self.button.pack()
         
         self.upgrade_frame = tk.Frame(self.UIinfo, bg="orange")
-        self.upgrade_frame.pack(pady=10)
+        self.upgrade_frame.pack(pady=5)
 
-        self.btn_speed = tk.Button(self.upgrade_frame, text="Speed", width=8, command=self.selection_upgrade_speed)
-        self.btn_speed.pack(pady=5)  # par défaut, pack les widgets verticalement
+        self.btn_speed = tk.Button(self.upgrade_frame, text="Speed", font=("Stencil"), width=8, command=self.selection_upgrade_speed)
+        self.btn_speed.pack(pady=2)  # par défaut, pack les widgets verticalement
 
-        self.btn_range = tk.Button(self.upgrade_frame, text="Range", width=8, command=self.selection_upgrade_range)
-        self.btn_range.pack(pady=5)
+        self.btn_range = tk.Button(self.upgrade_frame, text="Range", font=("Stencil"), width=8, command=self.selection_upgrade_range)
+        self.btn_range.pack(pady=2)
 
-        self.btn_damage = tk.Button(self.upgrade_frame, text="Damage", width=8, command=self.selection_upgrade_damage)
-        self.btn_damage.pack(pady=5)
+        self.btn_damage = tk.Button(self.upgrade_frame, text="Damage", font=("Stencil"), width=8, command=self.selection_upgrade_damage)
+        self.btn_damage.pack(pady=2)
         
-        self.btn_cooldown = tk.Button(self.upgrade_frame, text="Cooldown", width=8, command=self.selection_upgrade_cooldown)
-        self.btn_cooldown.pack(pady=5)
+        self.btn_cooldown = tk.Button(self.upgrade_frame, text="Cooldown", font=("Stencil"), width=8, command=self.selection_upgrade_cooldown)
+        self.btn_cooldown.pack(pady=2)
 
 
 
-        self.label_Round_nbr = tk.Label(Rframe, text="Round : 0", fg="black", font=("Italic", 20), bg="orange")
+        self.label_Round_nbr = tk.Label(Rframe, text="Round : 0", fg="black", font=("Stencil"), bg="orange")
         self.label_Round_nbr.pack()
 
     def dessiner_ennemi(self, liste):
@@ -351,7 +365,7 @@ class Vue():
             for i in range(len(path) - 1):
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
-                self.canevas.create_line(x1, y1, x2, y2, fill=couleur, width=5, tags=("chemin",))
+                self.canevas.create_line(x1, y1, x2, y2, fill="brown", width=25, tags=("chemin"), smooth=True , joinstyle=tk.BEVEL,capstyle=tk.ROUND)
 
                 
     def selection_tour(self):
@@ -481,9 +495,6 @@ class Vue():
             if "tour" in tags or "chemin" in tags:
                 
                 return False
-
-        
-       
 
         if "tour" in tags:
             

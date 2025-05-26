@@ -202,7 +202,7 @@ class Projectiles():
 
 
 class Partie():
-    def __init__(self, largeur, hauteur, score=0, argent=500, life_joueur=100):
+    def __init__(self, largeur, hauteur, score=0, argent=500, life_joueur=100, message="à vous\nde jouer"):
         self.largeur = largeur
         self.hauteur = hauteur
         self.niveau = 1
@@ -212,6 +212,7 @@ class Partie():
         self.default_argent = argent
         self.default_life_joueur = life_joueur
         self.default_life_joueur = 100
+        self.default_message = message
         self.reset()
         self.countEnnemie = 0
         self.liste_ennemis = ["glace", "feu", "gaz", "avion", "tank" ]
@@ -222,6 +223,8 @@ class Partie():
         self.path = path1niv1
         self.path2 = path2niv1
         
+    # TODO REGLER CA LES TI CHUMS
+    
     def mettre_paths_par_niveau(self):
         if self.niveau == 1:
             self.path = path1niv1
@@ -247,6 +250,7 @@ class Partie():
         self.score = self.default_score
         self.argent = self.default_argent
         self.life_joueur = self.default_life_joueur
+        self.message = self.default_message
         
     def placer_tour(self, x, y, type_tour="machinegun"):
         
@@ -264,10 +268,12 @@ class Partie():
             t = Tour(x, y, 5, 2, 150, 25, False, 0, 50)
         if t.price > self.argent:
             print("Pas assez d'argent")
+            self.message = "Pas assez d'argent!"
         else:
             self.argent -= t.price
             self.tours.append(t)
             print(self.argent)
+            self.message = f"{self.argent} $"
                 
     def vendre_tour(self, x, y):
         seuil = 20  
@@ -277,6 +283,7 @@ class Partie():
                 remboursement = int(tour.price * 0.75)
                 self.argent += remboursement
                 print(f"Tour vendue pour {remboursement} !")
+                self.message = (f"Tour vendue \npour {remboursement} !")
                 return
         print("AAAAAAAAAAAAAAAAAAAAAAAH")
         
@@ -294,17 +301,21 @@ class Partie():
                     cost = 40
                 else:
                     print("Type d'upgrade pas possible")
+                    self.message = "Type d'upgrade\n pas possible!"
                     return
 
                 if self.argent >= cost:
                     self.argent -= cost
                     tour.upgrade(upgrade_type)
                     print(f"Tour améliorée ({upgrade_type}). Coût: {cost} - Argent restant: {self.argent}")
+                    self.message = f"Tour améliorée \n({upgrade_type}). \nCoût: {cost} - \nArgent restant: {self.argent}"
                     return (tour.x,tour.y,tour.rayon)
                 else:
                     print("Argent insuffisant pour cet upgrade.")
+                    self.message = "Argent insuffisant\n pour cet upgrade."
                     return
         print("Aucune tour trouvée à cet emplacement pour upgrade.")
+        self.message = "Aucune tour trouvée à cet emplacement pour upgrade."
 
     def donner_tour(self,x,y):
         seuil = 20  # seuil de détection du clic sur la tour
@@ -318,6 +329,7 @@ class Partie():
 
         if len(self.ennemis) > 0:
             print("Round Can not start")
+            self.message = "Round Can not start!"
             return
         else:
             #self.round_count+=1
@@ -325,6 +337,7 @@ class Partie():
             self.nb_ennemis = self.nb_ennemis * self.difficulte
             self.countEnnemie = self.nb_ennemis
             print("nb ennemis : " + str(self.nb_ennemis))
+            self.message = f"{self.nb_ennemis} ennemis \n pour ce round!"
             
             thread = threading.Thread(target=self.ajout_ennemi)
             thread.daemon = True  # Permet au thread de se terminer quand le programme principal se termine
@@ -539,6 +552,7 @@ class Partie():
             if (ennemi.is_alive == False):
                 if (now - ennemi.death_time >= 0.5):
                     self.supprimer_ennemi()
+                    self.message = "Ennemi éliminé!"
                     
                        
     
