@@ -167,11 +167,14 @@ class Menu():
         popup = Tk.Frame(self.main_frame, bg="gray", bd=2, relief="raised")
         Tk.Label(popup, text="Êtes vous sûr de vouloir quitter", font=("Arial", 14), bg="gray").pack(pady=10)
         Tk.Button(popup, text="NON", command= self.validation_exit2 ).pack(pady=10)
-        Tk.Button(popup,text= "Je suis pas trop sûr",command= self.validation_exit2).pack(pady=10)
+        Tk.Button(popup,text= "OUI",command= self.on_exit).pack(pady=10)
         popup_window = self.menu_frame.create_window(self.largeur/2, self.hauteur/2, window=popup, tags="popup")
         
     def validation_exit2(self):
         self.menu_frame.delete("popup")
+        
+    def on_exit(self):
+        self.controleur.root.quit()
         
     
             
