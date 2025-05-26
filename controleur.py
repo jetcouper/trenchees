@@ -142,6 +142,7 @@ class Controleur():
         self.vue_jeu.dessiner_ennemi(self.modele.ennemis)
         self.vue_jeu.dessiner_tours(self.modele.tours)
         self.vue_jeu.dessiner_projectiles(self.modele.projectiles)
+        self.vue_jeu.update_vue(self.modele.life_joueur, self.modele.score, self.modele.argent, self.modele.round_count, len(self.modele.ennemis), self.modele.message)
         self.vue_jeu.update_vue(self.modele.life_joueur, self.modele.score, self.modele.argent, self.modele.round_count, len(self.modele.ennemis))
         self.modele.deplacer_ennemis()
         self.modele.vie_restante_ennemi()
