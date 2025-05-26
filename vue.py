@@ -326,6 +326,7 @@ class Vue():
                 image = image.resize((40, 40))
                 tour.photo_image = ImageTk.PhotoImage(image)
             self.canevas.create_image(tour.x, tour.y, image=tour.photo_image, anchor="center", tags=("tour"))
+        
 
     def dessiner_projectiles(self, projectiles):
         self.canevas.delete("projectile")
@@ -445,7 +446,7 @@ class Vue():
     def afficher_distance_tour(self, tour):
         if(self.show_distance):
             self.canevas.delete("cercle_tour")
-            print(tour)
+            #print(tour)
             x,y,rayon = tour
             
             x1 = x-rayon

@@ -102,6 +102,8 @@ class Controleur():
         else:
             ## Pour l'affichage du cercle
             return self.modele.donner_tour(x,y)
+        self.vue_jeu.mode_actif = ""
+        
             
     def clic_dans_vue_vendre(self, x, y):
         self.modele.vendre_tour(x, y)

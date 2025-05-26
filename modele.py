@@ -366,6 +366,7 @@ class Partie():
         for tour in self.tours:
             if abs(tour.x - x) < seuil and abs(tour.y - y) < seuil:
                 return (tour.x,tour.y,tour.rayon)
+            
 
     def start_round(self):
         rnd_delay = 0
