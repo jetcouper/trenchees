@@ -464,15 +464,16 @@ class Vue():
         if(self.show_distance):
             self.canevas.delete("cercle_tour")
             #print(tour)
-            x,y,rayon = tour
+            if(tour != None):
+                x,y,rayon = tour
+                
+                x1 = x-rayon
+                y1 = y-rayon
+                x2 = x+rayon
+                y2 = y+rayon
+                
+                self.canevas.create_oval(x1,y1,x2,y2,outline="red",width=2,tags="cercle_tour")
             
-            x1 = x-rayon
-            y1 = y-rayon
-            x2 = x+rayon
-            y2 = y+rayon
-            
-            self.canevas.create_oval(x1,y1,x2,y2,outline="red",width=2,tags="cercle_tour")
-        
 
 
         
