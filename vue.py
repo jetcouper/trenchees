@@ -255,7 +255,7 @@ class Vue():
         self.btn_artillery.pack(pady=5)
 
 
-        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=5, width=12, bg="green", command=self.selection_sell)
+        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=1, width=12, bg="green", command=self.selection_sell)
         self.cadreBoutonBtnVendre.pack(padx=20, pady=10)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
