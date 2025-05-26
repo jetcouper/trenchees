@@ -8,6 +8,42 @@
 Ce document explique comment ce projet est fait, par qui et avec quels moyens utilisés. 
 Ce jeu est basé sur un style Tower Defense dont le but du joueur est d'empêcher l'ennemi d'atteindre la fin du chemin en placant des tours sur la carte.
 
+## Mise à jour V0.3
+- ### **Interface**
+  - Possibilité de cliquer sur les tours pour afficher leur rayon d'attaque
+  - Bouton pour activé ou désactivé la visibilité du rayon d'attaque
+  - Ajout d'une police dans la thématique
+  - Modification de l'apparence visuelle du GUI
+  - Ajout d'un menu
+      - Ajout de la page Tutorial
+          - Possibilité de cliqué sur les éléments visible pour savoir comment jouer.
+      - Ajout de la page Crédits
+          - Possibilité de cliqué sur les noms des devs
+      - Ajout de la page parametre
+          - Possibilité de modifier la difficulté du jeu.
+      Ajout de la fonction exit depuis le menu
+- ### **Mécanique de jeu**
+  - Réctification de la hitbox des ennemis
+  - Effets des tours sur les ennemis.
+  - Diminution du temps d'attente entre chaque spawn d'ennemi pendant un vague
+
+
+- ### **Tours**
+  Effets des tours
+
+  ##### **Machine Gun**
+    - **Ralentit les ennemis**
+  ##### **Mortar**
+    - **Coups critiques**
+  ##### **Anti-Tank**
+    - **Fait reculer les ennemis**
+  ##### **Anti-Air**
+    - **Plus de dégats sur le temps**
+  ##### **Artillery**
+    - **Gagne 2$ par coups porté**
+
+
+
 ## Mise à jour V0.2
 - ### **Interface**
     Boutons de tours pour séléctionner les nouvelles tours ajoutées.\
