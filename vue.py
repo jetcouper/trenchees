@@ -365,7 +365,7 @@ class Vue():
             for i in range(len(path) - 1):
                 x1, y1 = path[i]
                 x2, y2 = path[i + 1]
-                self.canevas.create_line(x1, y1, x2, y2, fill=couleur, width=5, tags=("chemin",))
+                self.canevas.create_line(x1, y1, x2, y2, fill="brown", width=25, tags=("chemin"), smooth=True , joinstyle=tk.BEVEL,capstyle=tk.ROUND)
 
                 
     def selection_tour(self):
