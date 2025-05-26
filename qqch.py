@@ -40,12 +40,16 @@ def round_corners(path, radius=20, steps=5):
     return new_path
 
 original_path = [
-            (75, -20),
-            (75, 225),
-            (725, 615),
-            (150, 615),
-            (150, 800)
-        ]
+    (0.0, 100.0),
+    (100.0, 100.0),
+    (200, 200),
+    (200, 400),
+    (300, 400),
+    (300, 300),
+    (400, 300),
+    (400, 400),
+    (800.0, 800.0),
+]
 
 smoothed_path = round_corners(original_path, radius=20, steps=5)
 

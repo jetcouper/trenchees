@@ -25,6 +25,10 @@ class Vue():
 
         self.mode_actif = "placement"
         self.info = []
+        
+        self.show_tour = (0,0,0)
+        
+        self.show_distance = True
 
         # Utiliser controleur.modele au lieu de self.modele
         # Ou ajouter cette ligne si vous préférez accéder directement au modèle
@@ -57,7 +61,7 @@ class Vue():
 
 
         self.dessiner_chemin(self.modele.path, "gray")
-        self.dessiner_chemin(self.modele.path2, "blue")
+        self.dessiner_chemin(self.modele.path2, "gray")
         
         self.tour_image1 = Image.open("assets/tour1.png")
         self.tour_image1 = self.tour_image1.resize((40,40))
@@ -90,7 +94,7 @@ class Vue():
         if hasattr(self.controleur.modele, 'path'):
             self.dessiner_chemin(self.controleur.modele.path, "gray")
         if hasattr(self.controleur.modele, 'path2'):
-            self.dessiner_chemin(self.controleur.modele.path2, "blue")
+            self.dessiner_chemin(self.controleur.modele.path2, "gray")
 
 
     #def afficherParametre(self):
@@ -117,7 +121,7 @@ class Vue():
         self.canevas.delete("popup")
         self.canevas.delete("chemin")
         self.dessiner_chemin(self.modele.path, "gray")
-        self.dessiner_chemin(self.modele.path2, "blue")
+        self.dessiner_chemin(self.modele.path2, "gray")
         self.button.config(state="normal")
         print("Message de Reset")
 
@@ -154,6 +158,9 @@ class Vue():
             self.controleur.demarrerRound = True
         elif self.info[4] == 0 and self.controleur.demarrerRound == False:
             self.button.config(state="normal")
+
+        ## boucle pour garde à jour le rayon des tours
+        self.afficher_distance_tour(self.show_tour)
 
     def creer_cadre_jeu(self, largeur, hauteur, info):
 
@@ -196,6 +203,9 @@ class Vue():
         self.nbennemis = tk.Label(self.UIinfo, text=(f"Ennemis restant 0"), fg="black", font=("Italic", 13, "bold"),bg="orange")
         self.nbennemis.pack()
         
+        # Boutton pour afficher ou ne pas afficher les cercles des distances des tours
+        self.btndistance = tk.Button(self.UIinfo,text=(f"Rayon ON"),fg="green",font=("Italic0", 13, "bold") ,command=self.selection_show_distance)
+        self.btndistance.pack()
         
         ### Initialisation de la frame Popup
         self.popup = tk.Frame(self.canevas, bg="gray", bd=2, relief="raised")
@@ -245,7 +255,7 @@ class Vue():
         self.btn_artillery.pack(pady=5)
 
 
-        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=5, width=12, bg="green", command=self.selection_sell)
+        self.cadreBoutonBtnVendre = tk.Button(self.UIinfo, text="Vendre Tour", height=1, width=12, bg="green", command=self.selection_sell)
         self.cadreBoutonBtnVendre.pack(padx=20, pady=10)
 
         self.button = tk.Button(Rframe, text="Start Round", activeforeground="black",
@@ -319,6 +329,7 @@ class Vue():
                 image = image.resize((40, 40))
                 tour.photo_image = ImageTk.PhotoImage(image)
             self.canevas.create_image(tour.x, tour.y, image=tour.photo_image, anchor="center", tags=("tour"))
+        
 
     def dessiner_projectiles(self, projectiles):
         self.canevas.delete("projectile")
@@ -373,11 +384,16 @@ class Vue():
                 print("Aucune tour présente pour vente.")
         elif self.mode_actif == "upgrade":
             if self.verifier_tour(event):
-                self.controleur.clic_dans_vue_upgrade(x, y)
+                self.show_tour = self.controleur.clic_dans_vue_upgrade(x, y)
             else:
                 print("Aucune tour présente pour upgrade.")
         else:
             print("Mode non défini.")
+            
+            ## Temporaire pour tester le draw circle
+            if self.verifier_tour(event):
+                self.show_tour = self.controleur.clic_dans_vue(x, y)
+                # self.afficher_distance_tour(tour)
     
     def verifier_tour(self, event):
         items = self.canevas.find_overlapping(event.x - 10, event.y - 10, event.x + 10, event.y + 10)
@@ -414,6 +430,35 @@ class Vue():
         self.mode_actif = "upgrade"
         self.upgrade_type = "cooldown"
         print("Mode upgrade activé: cooldown réduit de 5%")
+        
+        
+    def selection_show_distance(self):
+        self.mode_actif = "NOT_SET"
+        
+        if(self.show_distance):
+            self.show_distance = False
+            self.btndistance.config(text=(f"Range OFF"),fg="red")
+            self.canevas.delete("cercle_tour")
+        else:
+            self.show_distance = True
+            self.btndistance.config(text=(f"Range ON"),fg="green")
+            
+        
+        print(f"Show distance est à {self.show_distance}")
+        
+    def afficher_distance_tour(self, tour):
+        if(self.show_distance):
+            self.canevas.delete("cercle_tour")
+            #print(tour)
+            x,y,rayon = tour
+            
+            x1 = x-rayon
+            y1 = y-rayon
+            x2 = x+rayon
+            y2 = y+rayon
+            
+            self.canevas.create_oval(x1,y1,x2,y2,outline="red",width=2,tags="cercle_tour")
+        
 
 
         

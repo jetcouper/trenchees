@@ -1,3 +1,4 @@
+from credit import Credit
 from modele import *
 from tutoriel import Tutoriel
 from vue import Vue
@@ -20,6 +21,8 @@ class Controleur():
         self.vue_parametre = None
 
         self.vue_tutoriel = None
+
+        self.vue_credit = None
         
         self.demarrerRound = False
 
@@ -53,6 +56,19 @@ class Controleur():
             # Ajouter cette condition pour réafficher la vue si elle existe déjà
             self.vue_tutoriel.afficher()
 
+    def clic_credit(self):
+        self.vue.cacher()
+
+        if self.vue_credit is None:
+            self.vue_credit = Credit(self, self.root)
+            self.root.geometry(f"{self.modele.largeur}x{self.modele.hauteur}")
+
+            # Décommenter cette ligne pour afficher la vue des paramètres
+            self.vue_credit.afficherCredit()
+        else:
+            # Ajouter cette condition pour réafficher la vue si elle existe déjà
+            self.vue_credit.afficher()
+
     def clic_start(self):
         # Cacher le menu
         self.vue.cacher()
@@ -74,12 +90,12 @@ class Controleur():
             
             # Maintenant dessiner les chemins avec les paths du modèle
             self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-            self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+            self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
         else:
             # Sinon, juste afficher la vue existante et redessiner les chemins
             self.vue_jeu.afficher()
             self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-            self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+            self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
         
         # Démarrer la boucle de jeu
         self.loop_jeu()
@@ -99,12 +115,17 @@ class Controleur():
             self.clic_dans_vue_vendre(x, y)
         elif self.vue_jeu.mode_actif == "upgrade":
             self.clic_dans_vue_upgrade(x, y)
+        else:
+            ## Pour l'affichage du cercle
+            return self.modele.donner_tour(x,y)
+        self.vue_jeu.mode_actif = ""
+        
             
     def clic_dans_vue_vendre(self, x, y):
         self.modele.vendre_tour(x, y)
         
     def clic_dans_vue_upgrade(self, x, y):
-        self.modele.upgrade_tour(x, y, self.vue_jeu.upgrade_type)
+        return self.modele.upgrade_tour(x, y, self.vue_jeu.upgrade_type)
 
     def start_Round(self):
         self.modele.start_round()
@@ -115,7 +136,7 @@ class Controleur():
     def loop_jeu(self):
         self.vue_jeu.canevas.delete("chemin")
         self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-        self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+        self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
         self.modele.valider_tirs()
         self.modele.mouvement_projectiles()
         self.vue_jeu.dessiner_ennemi(self.modele.ennemis)
@@ -125,6 +146,7 @@ class Controleur():
         self.modele.deplacer_ennemis()
         self.modele.vie_restante_ennemi()
         self.modele.mort_ennemi()
+        
         
         if(self.modele.player_alive):
             self.root.after(16, self.loop_jeu)  # 16 pour 60 fps
@@ -146,7 +168,7 @@ class Controleur():
         if self.vue_jeu:
             self.vue_jeu.canevas.delete("chemin")
             self.vue_jeu.dessiner_chemin(self.modele.path, "gray")
-            self.vue_jeu.dessiner_chemin(self.modele.path2, "blue")
+            self.vue_jeu.dessiner_chemin(self.modele.path2, "gray")
             
     # git blame
     # antoine
@@ -155,3 +177,6 @@ class Controleur():
 if __name__ == "__main__":
     c = Controleur()
     c.root.mainloop()
+
+
+# ANTOINE
