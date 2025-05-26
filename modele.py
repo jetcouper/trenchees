@@ -229,10 +229,10 @@ class Partie():
         if self.niveau == 1:
             self.path = path1niv1
             self.path2 = path2niv1
-        elif self.niveau == 2:
+        elif self.niveau == 10:
             self.path = path1niv2
             self.path2 = path2niv2
-        elif self.niveau == 3:
+        elif self.niveau == 20:
             self.path = path1niv3
             self.path2 = path2niv3
 
